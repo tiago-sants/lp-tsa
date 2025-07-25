@@ -342,148 +342,186 @@ p {
     align-items: center;
 }
 
+/* Hero Visual com efeito neon e animação */
 .hero-visual {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* Gráfico de crescimento */
-.chart-container {
-    padding: 15px;
-    text-align: center;
+.hero-visual.slide-in-right {
+    animation: slideInRight 1s ease forwards;
 }
 
-.growth-chart {
-    width: 100%;
-    max-width: 300px;
-    height: auto;
-}
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
 
-.chart-line {
-    stroke-linecap: round;
-    filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.5));
-}
-
-.chart-area {
-    opacity: 0.6;
-}
-
-.chart-point {
-    filter: drop-shadow(0 0 4px rgba(0, 212, 255, 0.7));
-    transition: transform 0.3s ease;
-}
-
-.chart-point:hover {
-    transform: scale(1.2);
-}
-
-/* Estatísticas */
-.stats-bar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
-    background-color: #2d2d2d;
-    border-bottom: 1px solid #404040;
-}
-
-.stat-item {
-    text-align: center;
-    color: #fff;
-}
-
-.stat-label {
-    font-size: 0.85rem;
-    color: #ccc;
-    display: block;
-}
-
-.stat-value {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #00d4ff;
-}
-
-/* Indicadores */
-.campaign-metrics {
-    padding: 10px;
-    background-color: #1a1a1a;
-    text-align: center;
-}
-
-.metric-icon {
-    font-size: 1.2rem;
-    margin-right: 5px;
-}
-
-/* Stats Bar */
-.stats-bar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 15px 10px;
-    background-color: #2d2d2d;
-    border-bottom: 1px solid #404040;
-}
-
-.stat-item {
-    text-align: center;
-    color: #fff;
-}
-
-.stat-label {
-    font-size: 0.85rem;
-    color: #ccc;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.stat-value {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #00d4ff;
-}
-
-.chart-container {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 10px;
-    padding: 20px;
-}
-
-.growth-chart {
-    width: 100%;
-    height: auto;
-}
-
-.chart-line {
-    stroke-dasharray: 500;
-    stroke-dashoffset: 500;
-    animation: drawLine 3s ease-in-out forwards;
-}
-
-.chart-point {
-    opacity: 0;
-    animation: fadeInPoint 0.5s ease-in-out forwards;
-}
-
-.chart-point:nth-child(2) {
-    animation-delay: 1s;
-}
-
-.chart-point:nth-child(3) {
-    animation-delay: 2s;
-}
-
-@keyframes drawLine {
     to {
-        stroke-dashoffset: 0;
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
-@keyframes fadeInPoint {
-    to {
+/* Dashboard Mockup estilo neon glow */
+.dashboard-mockup {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 25px 30px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(58, 133, 237, 0.5);
+    width: 100%;
+    max-width: 450px;
+    box-shadow:
+        0 0 1px #00d4ff88,
+        0 0 1px #7c3aedcc,
+        0 0 10px #00d4ff;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dots no topo estilo macOS */
+.mockup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.mockup-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.mockup-dots span {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    opacity: 0.7;
+    animation: pulse 2s infinite;
+}
+
+.mockup-dots span:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+.mockup-dots span:nth-child(3) {
+    animation-delay: 1s;
+}
+
+.mockup-title {
+    font-size: 1rem;
+    color: var(--white);
+    opacity: 0.8;
+    font-weight: 600;
+}
+
+/* Chart container */
+.chart-container {
+    background: rgba(124, 58, 237, 0.05);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* SVG Chart */
+.growth-chart {
+    width: 100%;
+    height: auto;
+}
+
+/* Linha do gráfico */
+.chart-line {
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.8));
+    stroke-width: 3;
+}
+
+/* Pontos no gráfico */
+.chart-point {
+    filter: drop-shadow(0 0 6px rgba(0, 212, 255, 0.9));
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.chart-point:hover {
+    transform: scale(1.3);
+}
+
+/* Labels dos meses */
+.chart-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.chart-labels .label {
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+    opacity: 0.8;
+}
+
+/* Linha de gradiente */
+linearGradient#gradient stop:first-child {
+    stop-color: #00d4ff;
+}
+
+linearGradient#gradient stop:last-child {
+    stop-color: #7c3aed;
+}
+
+/* Row de métricas */
+.metrics-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.metric {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.metric:hover {
+    background: rgba(0, 212, 255, 0.25);
+}
+
+.metric-value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 6px;
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+    opacity: 0.9;
+}
+
+/* Pulse animation para os pontos */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+
+    50% {
         opacity: 1;
+        transform: scale(1.3);
     }
 }
 

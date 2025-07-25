@@ -104,77 +104,62 @@
                         </a>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div class="dashboard-mockup">
-                        <!-- Header da Dashboard -->
+
+                <!-- Novo dashboard visual -->
+                <div class="hero-visual slide-in-right">
+                    <div class="dashboard-mockup neon-glow-soft">
                         <div class="mockup-header">
                             <div class="mockup-dots">
-                                <span class="dot red"></span>
-                                <span class="dot yellow"></span>
-                                <span class="dot green"></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
                             </div>
-                            <div class="mockup-title">Dashboard Ads</div>
+                            <div class="mockup-title">Dashboard de Resultados</div>
                         </div>
 
-                        <!-- Conteúdo da Dashboard -->
-                        <div class="mockup-content">
-                            <!-- Estatísticas Rápidas -->
-                            <div class="stats-bar">
-                                <div class="stat-item">
-                                    <span class="stat-label">Cliques</span>
-                                    <span class="stat-value">12.3k</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">Conversões</span>
-                                    <span class="stat-value">$8.4k</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-label">ROI</span>
-                                    <span class="stat-value">320%</span>
-                                </div>
+                        <div class="chart-container">
+                            <svg class="growth-chart" viewBox="0 0 300 150">
+                                <polyline class="chart-line" fill="none" stroke="url(#gradient)" stroke-width="3"
+                                    points="20,120 80,80 140,60 200,40 260,20" />
+                                <circle class="chart-point" cx="20" cy="120" r="4" fill="#00d4ff" />
+                                <circle class="chart-point" cx="80" cy="80" r="4" fill="#00d4ff" />
+                                <circle class="chart-point" cx="140" cy="60" r="4" fill="#00d4ff" />
+                                <circle class="chart-point" cx="200" cy="40" r="4" fill="#00d4ff" />
+                                <circle class="chart-point" cx="260" cy="20" r="4" fill="#00d4ff" />
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#00d4ff" />
+                                        <stop offset="100%" style="stop-color:#7c3aed" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="chart-labels">
+                                <span class="label">Jan</span>
+                                <span class="label">Fev</span>
+                                <span class="label">Mar</span>
+                                <span class="label">Abr</span>
+                                <span class="label">Mai</span>
                             </div>
+                        </div>
 
-                            <!-- Gráfico de Crescimento -->
-                            <div class="chart-container">
-                                <svg class="growth-chart" viewBox="0 0 300 200">
-                                    <defs>
-                                        <!-- Gradiente de preenchimento -->
-                                        <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stop-color="#00D4FF" stop-opacity="0.3" />
-                                            <stop offset="100%" stop-color="#7C3AED" stop-opacity="0" />
-                                        </linearGradient>
-                                        <!-- Gradiente da linha -->
-                                        <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
-                                            <stop offset="0%" stop-color="#00D4FF" />
-                                            <stop offset="100%" stop-color="#7C3AED" />
-                                        </linearGradient>
-                                    </defs>
-
-                                    <!-- Área sob a linha -->
-                                    <path class="chart-area" d="M20,180 Q80,130 140,100 T260,40 L260,200 L20,200 Z"
-                                        fill="url(#areaGradient)" />
-
-                                    <!-- Linha de crescimento -->
-                                    <path class="chart-line" d="M20,180 Q80,130 140,100 T260,40"
-                                        stroke="url(#lineGradient)" stroke-width="3" fill="none" />
-
-                                    <!-- Pontos de destaque -->
-                                    <circle class="chart-point" cx="20" cy="180" r="5" fill="#00D4FF" />
-                                    <circle class="chart-point" cx="140" cy="100" r="5" fill="#7C3AED" />
-                                    <circle class="chart-point" cx="260" cy="40" r="5" fill="#FF6B35" />
-                                </svg>
+                        <div class="metrics-row">
+                            <div class="metric">
+                                <div class="metric-value">847</div>
+                                <div class="metric-label">Leads</div>
                             </div>
-
-                            <!-- Indicador de Campanha -->
-                            <div class="campaign-metrics">
-                                <div class="metric">
-                                    <span class="metric-icon">🚀</span>
-                                    <span class="metric-text">Campanha Instagram em alta!</span>
-                                </div>
+                            <div class="metric">
+                                <div class="metric-value">3.2x</div>
+                                <div class="metric-label">ROI</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">15%</div>
+                                <div class="metric-label">Conv.</div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Fim novo dashboard -->
+
             </div>
         </div>
     </section>
@@ -541,7 +526,7 @@
                 <div class="footer-social">
                     <h4>Redes Sociais</h4>
                     <div class="social-links">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a href="https://instagram.com/tsasolucoes" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-instagram"></i>
                         </a>
                         <a href="#" target="_blank" rel="noopener noreferrer">
@@ -550,7 +535,8 @@
                         <a href="#" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
+                            target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                     </div>
