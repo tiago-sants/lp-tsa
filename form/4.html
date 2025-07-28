@@ -4,32 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSA Soluções - Tráfego Pago</title>
+    <title>TSA Soluções - E-mail</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '770576805400900');
+        fbq('track', 'PageView', {}, { eventID: 'pageview-form-whatsapp' });
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=770576805400900&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
 
 <body>
     <div class="form-container">
         <div class="screen-content">
-            <p>Imagine a sua empresa todos os dias recebendo novos clientes, lucrando mais, batendo as metas e crescendo
-                todos os meses, <strong style="color: #f77f00;">tudo no automático</strong>, ou seja, facilitando muito
-                a sua vida.</p>
-            <p>Parece um sonho? Pode ser a sua nova realidade a partir de agora...</p>
-            <p>A verdade é que milhões de empresas já estão usando a ferramenta mais poderosa da atualidade para
-                acelerar resultados, driblar crises e crescer todos os dias.</p>
-            <p style="font-size: 1.3em; font-weight: 600;"><span class="emoji">👉</span> O nome dessa ferramenta é:
-                <strong style="color: #f77f00;">Tráfego Pago!</strong>
-            </p>
-            <button onclick="window.location.href='5.html'">ENTENDI TUDO <span class="emoji">✅</span></button>
+            <div class="question-number">1 <span class="emoji">➔</span> Qual o seu número do whatsapp?*</div>
+            <input type="text" id="whatsapp" placeholder="Seu whatsapp" autofocus>
+            <button onclick="saveAndNext()">OK</button>
             <div class="small-text">carrega em Enter <span class="emoji">↩</span></div>
         </div>
     </div>
     <script src="/form/form.js"></script>
     <script>
+        function saveAndNext() {
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+            if (whatsapp) {
+                sessionStorage.setItem('whatsapp', whatsapp);
+                window.location.href = '5.html';
+            } else {
+                alert('Por favor, digite seu e-mail.');
+                document.getElementById('whatsapp').focus();
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            setupEnterKeyListener('5.html');
+            const whatsapp = sessionStorage.getItem('whatsapp');
+            if (whatsapp) {
+                document.getElementById('whatsapp').value = whatsapp;
+            }
+            document.getElementById('whatsapp').focus(); // Ensure input is focused
+            setupEnterKeyListener(saveAndNext); // Pass the function to call on Enter
         });
     </script>
 </body>
