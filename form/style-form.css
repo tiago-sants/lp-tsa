@@ -195,13 +195,10 @@ input[type="text"]::placeholder {
 
 .info-box ul li .check-icon {
     color: #4CAF50;
-    /* Green checkmark */
     font-size: 1.3em;
     margin-right: 10px;
     flex-shrink: 0;
-    /* Prevent checkmark from shrinking */
     line-height: 1.5;
-    /* Align with text */
 }
 
 .price-section {
@@ -270,10 +267,8 @@ input[type="text"]::placeholder {
     margin-top: 20px;
     padding: 15px;
     background-color: #2a2a2a;
-    /* Cor de fundo para a caixa */
     border-radius: 8px;
     display: none;
-    /* Escondido por padrão */
 }
 
 .other-input-container label {
@@ -283,32 +278,21 @@ input[type="text"]::placeholder {
     font-size: 1.1em;
 }
 
-/* Ajustes para o TEXTAREA */
 .other-input-container textarea {
-    /* Mudança aqui: de input[type="text"] para textarea */
     width: 100%;
-    /* Ocupa a largura total do contêiner pai */
     padding: 15px;
-    /* Aumenta o espaçamento interno */
     box-sizing: border-box;
-    /* Inclui padding na largura total */
     border: 1px solid #555;
     border-radius: 5px;
     background-color: #333;
     color: #fff;
     font-size: 1.2em;
-    /* Tamanho da fonte */
     outline: none;
     resize: vertical;
-    /* Permite ao usuário redimensionar a altura (opcional) */
     min-height: 100px;
-    /* Altura mínima para o textarea, você pode ajustar */
     line-height: 1.5;
-    /* Espaçamento entre as linhas */
 }
 
-/* Ajustes para o placeholder do TEXTAREA */
 .other-input-container textarea::placeholder {
-    /* Mudança aqui: de input para textarea */
     color: #aaa;
 }
