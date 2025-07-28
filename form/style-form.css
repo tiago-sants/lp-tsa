@@ -1,0 +1,314 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Align to top for better spacing */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
+}
+
+.form-container {
+    width: 100%;
+    max-width: 800px;
+    /* Adjust as needed */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.screen-content {
+    padding: 40px 20px;
+    min-height: 60vh;
+    /* Ensure some vertical space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    margin-bottom: 50px;
+}
+
+.logo img {
+    max-width: 250px;
+    height: auto;
+}
+
+h1 {
+    font-size: 2.8em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 30px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 700px;
+}
+
+.small-text {
+    font-size: 0.9em;
+    color: #aaa;
+    margin-top: 30px;
+}
+
+.button,
+button {
+    background-color: #f77f00;
+    /* Orange */
+    color: #fff;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+    text-decoration: none;
+    /* For anchor tags if used as buttons */
+    display: inline-block;
+}
+
+.button:hover,
+button:hover {
+    background-color: #e07400;
+}
+
+input[type="text"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    font-size: 2.5em;
+    padding: 10px 0;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 50px;
+    outline: none;
+}
+
+input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+.question-number {
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 40px;
+    align-self: flex-start;
+    /* Align to left */
+    padding-left: 0;
+}
+
+.option-button {
+    background-color: #333;
+    /* Darker gray for options */
+    color: #fff;
+    padding: 18px 25px;
+    border: 2px solid #555;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 400;
+    cursor: pointer;
+    width: 100%;
+    max-width: 650px;
+    text-align: left;
+    margin-bottom: 15px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.option-button:hover {
+    background-color: #444;
+    border-color: #f77f00;
+}
+
+.option-button.selected {
+    background-color: #f77f00;
+    border-color: #f77f00;
+}
+
+.option-button span.letter {
+    display: inline-block;
+    background-color: #555;
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-right: 15px;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.option-button.selected span.letter {
+    background-color: #fff;
+    color: #f77f00;
+}
+
+.info-box {
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 40px;
+    text-align: left;
+    width: 100%;
+    max-width: 700px;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-box ul li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+.info-box ul li:last-child {
+    margin-bottom: 0;
+}
+
+.info-box ul li .check-icon {
+    color: #4CAF50;
+    /* Green checkmark */
+    font-size: 1.3em;
+    margin-right: 10px;
+    flex-shrink: 0;
+    /* Prevent checkmark from shrinking */
+    line-height: 1.5;
+    /* Align with text */
+}
+
+.price-section {
+    background-color: #1a1a1a;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 40px;
+    text-align: left;
+    width: 100%;
+    max-width: 700px;
+}
+
+.price-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.price-item .icon {
+    font-size: 1.5em;
+    margin-right: 15px;
+    color: #f77f00;
+}
+
+.price-item .text {
+    flex-grow: 1;
+}
+
+.price-item .value {
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.total-investment {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    display: flex;
+    align-items: center;
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #4CAF50;
+}
+
+.total-investment .icon {
+    font-size: 1.6em;
+    margin-right: 15px;
+    color: #4CAF50;
+}
+
+.total-investment span {
+    flex-grow: 1;
+}
+
+.emoji {
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+
+.other-input-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #2a2a2a;
+    /* Cor de fundo para a caixa */
+    border-radius: 8px;
+    display: none;
+    /* Escondido por padrão */
+}
+
+.other-input-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+/* Ajustes para o TEXTAREA */
+.other-input-container textarea {
+    /* Mudança aqui: de input[type="text"] para textarea */
+    width: 100%;
+    /* Ocupa a largura total do contêiner pai */
+    padding: 15px;
+    /* Aumenta o espaçamento interno */
+    box-sizing: border-box;
+    /* Inclui padding na largura total */
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.2em;
+    /* Tamanho da fonte */
+    outline: none;
+    resize: vertical;
+    /* Permite ao usuário redimensionar a altura (opcional) */
+    min-height: 100px;
+    /* Altura mínima para o textarea, você pode ajustar */
+    line-height: 1.5;
+    /* Espaçamento entre as linhas */
+}
+
+/* Ajustes para o placeholder do TEXTAREA */
+.other-input-container textarea::placeholder {
+    /* Mudança aqui: de input para textarea */
+    color: #aaa;
+}
