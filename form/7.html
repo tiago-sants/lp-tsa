@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Soluções Digitais - Parabéns!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+
+    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="screen-content">
+            <h2 class="center-text"><span class="emoji">🎉</span> PARABÉNS! Já enviamos para a nossa equipe o seu atual
+                cenário e seus objetivos, agora vamos para a melhor parte...</h2>
+            <p style="margin-top: 40px; font-size: 1.2em; line-height: 1.6;">O nosso próximo passo é te mostrar
+                exatamente o que iremos implementar no seu negócio para captar mais clientes e aumentar as vendas de
+                maneira segura e lucrativa.</p>
+            <p style="margin-top: 30px; font-size: 1.2em; line-height: 1.6;">Você irá se surpreender com o que receberá
+                sem nenhum custo, clique agora no botão abaixo para reservar o seu horário:</p>
+
+            <button id="scheduleButton">AGENDAR REUNIÃO</button>
+
+            <div class="small-text">carrega em Cmd <span style="font-weight: bold;">⌘</span> + Enter <span
+                    class="emoji">↩</span></div>
+        </div>
+    </div>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        (function () {
+            emailjs.init('dhB3bhOrW8iqajEc0');
+        })();
+    </script>
+
+    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+    <script src="/form/form.js"></script>
+    <script>
+
+        // --- NOVA FUNÇÃO PARA ENVIAR E-MAIL E ABRIR CALENDLY ---
+        function sendEmailAndOpenCalendly(userName, email, whatsapp, selectedOptions, calendlyOptions) {
+            // Substitua 'YOUR_SERVICE_ID' e 'YOUR_TEMPLATE_ID' pelos IDs do seu EmailJS
+            const serviceID = 'service_8h2no1d'; // Ex: 'default_service'
+            const templateID = 'template_6fprcip'; // Ex: 'template_abcdef'
+
+            const templateParams = {
+                userName: userName,
+                email: email,
+                whatsapp: whatsapp,
+                selectedOptions: selectedOptions.join('; ')
+            };
+
+            emailjs.send(serviceID, templateID, templateParams)
+                .then(function (response) {
+                    console.log('E-mail enviado com sucesso!', response.status, response.text);
+                    // Somente após o sucesso do envio do e-mail, abre o Calendly
+                    Calendly.initPopupWidget(calendlyOptions);
+                }, function (error) {
+                    console.error('Falha ao enviar e-mail:', error);
+                    alert('Houve um erro ao enviar suas informações. Por favor, tente novamente.');
+                    // Em caso de erro, você pode decidir se ainda quer abrir o Calendly ou não
+                    Calendly.initPopupWidget(calendlyOptions); // Opcional: abre mesmo com erro
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userName = sessionStorage.getItem('userName') || '';
+            const email = sessionStorage.getItem('email') || '';
+            const whatsapp = sessionStorage.getItem('whatsapp') || '';
+            const selectedOptions = JSON.parse(sessionStorage.getItem('selectedOptions') || '[]');
+
+            // Em uma aplicação real, você enviaria esses dados para um backend
+            console.log(`Dados coletados para ${userName}:`);
+            console.log(`Email: ${email}`);
+            console.log(`WhatsApp: ${whatsapp}`);
+            console.log(`Necessidades: ${selectedOptions.join('; ')}`);
+
+            const prefillData = {
+                name: userName,
+                email: email,
+                customAnswers: {
+                    'a1': '+55' + whatsapp,
+                    'a2': `Necessidades identificadas: ${selectedOptions.join('; ')}`
+                }
+            };
+
+            const calendlyWidgetOptions = {
+                url: 'https://calendly.com/tsasolucoes-tiago/reuniao',
+                prefill: prefillData,
+                // Você pode adicionar outras opções aqui, como 'utm' parameters, etc.
+            };
+
+            // Evento de clique no botão "AGENDAR REUNIÃO"
+            document.getElementById('scheduleButton').addEventListener('click', () => {
+                // Passa as variáveis para a função sendEmailAndOpenCalendly
+                sendEmailAndOpenCalendly(userName, email, whatsapp, selectedOptions, calendlyWidgetOptions);
+                return false;
+            });
+
+            // Lidar com a tecla Enter (Cmd + Enter para o último botão)
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+                    event.preventDefault();
+                    // Passa as variáveis para a função sendEmailAndOpenCalendly
+                    sendEmailAndOpenCalendly(userName, email, whatsapp, selectedOptions, calendlyWidgetOptions);
+                }
+            });
+
+
+        });
+
+
+    </script>
+</body>
+
+</html>

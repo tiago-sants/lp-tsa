@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSA Soluções - Nome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="screen-content">
+            <div class="question-number">1 <span class="emoji">➔</span> Qual o seu nome?*</div>
+            <input type="text" id="userName" placeholder="Seu nome" autofocus>
+            <button onclick="saveAndNext()">OK</button>
+            <div class="small-text">carrega em Enter <span class="emoji">↩</span></div>
+        </div>
+    </div>
+    <script src="/form/form.js"></script>
+    <script>
+        function saveAndNext() {
+            const userName = document.getElementById('userName').value.trim();
+            if (userName) {
+                sessionStorage.setItem('userName', userName);
+                window.location.href = '2-1.html';
+            } else {
+                alert('Por favor, digite seu nome.');
+                document.getElementById('userName').focus();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userName = sessionStorage.getItem('userName');
+            if (userName) {
+                document.getElementById('userName').value = userName;
+            }
+            document.getElementById('userName').focus(); // Ensure input is focused
+            setupEnterKeyListener(saveAndNext); // Pass the function to call on Enter
+        });
+    </script>
+</body>
+
+</html>

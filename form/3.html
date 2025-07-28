@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSA Soluções - Necessidade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="screen-content">
+            <div class="question-number">2 <span class="emoji">➔</span> O que o seu negócio mais precisa nesse momento?*
+            </div>
+            <p class="small-text" style="font-size: 1em; margin-bottom: 30px;">Podes selecionar várias opções</p>
+
+            <div class="option-button" data-value="Vender todos os dias de forma previsível e com alta margem de lucro."
+                onclick="toggleOption(this)">
+                <span class="letter">A</span> Vender todos os dias de forma previsível e com alta margem de lucro.
+            </div>
+            <div class="option-button" data-value="Captação constante de novos clientes." onclick="toggleOption(this)">
+                <span class="letter">B</span> Captação constante de novos clientes.
+            </div>
+            <div class="option-button" data-value="Retenção de clientes e recompra." onclick="toggleOption(this)">
+                <span class="letter">C</span> Retenção de clientes e recompra.
+            </div>
+            <div class="option-button" data-value="Acelerar meus resultados." onclick="toggleOption(this)">
+                <span class="letter">D</span> Acelerar meus resultados.
+            </div>
+            <div class="option-button" data-value="Aumento de seguidores no instagram." onclick="toggleOption(this)">
+                <span class="letter">E</span> Aumento de seguidores no instagram.
+            </div>
+            <div class="option-button" data-value="Mais engajamento no instagram." onclick="toggleOption(this)">
+                <span class="letter">F</span> Mais engajamento no instagram.
+            </div>
+            <div class="option-button" data-value="Fortalecimento de nome/marca." onclick="toggleOption(this)">
+                <span class="letter">G</span> Fortalecimento de nome/marca.
+            </div>
+            <div class="option-button" data-value="Outros." onclick="toggleOption(this)">
+                <span class="letter">H</span> Outros.
+            </div>
+            <div class="other-input-container" id="otherInputContainer">
+                <label for="otherOptionText">Por favor, especifique:</label>
+                <textarea id="otherOptionText" placeholder="Ex: Preciso de um novo site, preciso de ajuda com SEO, etc."
+                    rows="4"></textarea>
+            </div>
+
+            <button onclick="saveAndNext()">OK</button>
+            <div class="small-text">carrega em Enter <span class="emoji">↩</span></div>
+        </div>
+    </div>
+    <script src="/form/form.js"></script>
+    <!-- <script>
+        let selectedOptions = [];
+        const otherOptionValue = "Outros."; // O valor exato do data-value da opção H
+        const otherInputContainer = document.getElementById('otherInputContainer');
+        const otherOptionTextInput = document.getElementById('otherOptionText');
+        const optionHButton = document.getElementById('optionH'); // Referência ao botão "Outros"
+
+        function toggleOption(element) {
+            element.classList.toggle('selected');
+            const value = element.dataset.value;
+            const index = selectedOptions.indexOf(value);
+            if (index > -1) {
+                selectedOptions.splice(index, 1); // Remove if already selected
+            } else {
+                selectedOptions.push(value); // Add if not selected
+            }
+            console.log("Selected Options:", selectedOptions); // For debugging
+        }
+
+        function saveAndNext() {
+            if (selectedOptions.length > 0) {
+                sessionStorage.setItem('selectedOptions', JSON.stringify(selectedOptions));
+                window.location.href = '4.html';
+            } else {
+                alert('Por favor, selecione pelo menos uma opção.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedOptions = sessionStorage.getItem('selectedOptions');
+            if (storedOptions) {
+                selectedOptions = JSON.parse(storedOptions);
+                selectedOptions.forEach(value => {
+                    const button = document.querySelector(`.option-button[data-value="${value}"]`);
+                    if (button) {
+                        button.classList.add('selected');
+                    }
+                });
+            }
+            setupEnterKeyListener(saveAndNext);
+        });
+    </script> -->
+
+    <script>
+        let selectedOptions = [];
+        const otherOptionValue = "Outros."; // O valor exato do data-value da opção H
+        const otherInputContainer = document.getElementById('otherInputContainer');
+        const otherOptionTextInput = document.getElementById('otherOptionText');
+        const optionHButton = document.getElementById('optionH'); // Referência ao botão "Outros"
+
+        function toggleOption(element) {
+            const value = element.dataset.value;
+            const index = selectedOptions.indexOf(value);
+
+            if (index > -1) {
+                // Se já estava selecionado, remove
+                element.classList.remove('selected');
+                selectedOptions.splice(index, 1);
+
+                // Se "Outros" foi deselecionado, esconde o campo de texto e limpa seu valor
+                if (value === otherOptionValue) {
+                    otherInputContainer.style.display = 'none';
+                    otherOptionTextInput.value = ''; // Limpa o campo
+                }
+            } else {
+                // Se não estava selecionado, adiciona
+                element.classList.add('selected');
+                selectedOptions.push(value);
+
+                // Se "Outros" foi selecionado, mostra o campo de texto e foca nele
+                if (value === otherOptionValue) {
+                    otherInputContainer.style.display = 'block';
+                    otherOptionTextInput.focus();
+                }
+            }
+            console.log("Selected Options:", selectedOptions);
+        }
+
+        function saveAndNext() {
+            // Se "Outros" está selecionado e o campo de texto está visível
+            if (selectedOptions.includes(otherOptionValue) && otherOptionTextInput.value.trim() === '') {
+                alert('Por favor, especifique o que você precisa na caixa "Outros".');
+                otherOptionTextInput.focus();
+                return; // Impede o avanço do formulário
+            }
+
+            let finalSelectedOptions = selectedOptions.filter(option => option !== otherOptionValue);
+            if (otherOptionTextInput.value.trim() !== '') {
+                finalSelectedOptions.push(`Outros: ${otherOptionTextInput.value.trim()}`);
+            }
+
+            if (finalSelectedOptions.length > 0) {
+                sessionStorage.setItem('selectedOptions', JSON.stringify(finalSelectedOptions));
+                window.location.href = '4.html'; // Ajuste o redirecionamento conforme seu fluxo
+            } else {
+                alert('Por favor, selecione pelo menos uma opção.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedOptions = sessionStorage.getItem('selectedOptions');
+            if (storedOptions) {
+                selectedOptions = JSON.parse(storedOptions);
+                selectedOptions.forEach(value => {
+                    // Verifica se a opção é "Outros:" e foi preenchida anteriormente
+                    if (value.startsWith('Outros:')) {
+                        optionHButton.classList.add('selected');
+                        otherInputContainer.style.display = 'block';
+                        otherOptionTextInput.value = value.replace('Outros: ', ''); // Preenche o campo de texto
+                        selectedOptions = selectedOptions.filter(opt => !opt.startsWith('Outros:')); // Remove a entrada "Outros:" formatada para não duplicar
+                        selectedOptions.push(otherOptionValue); // Adiciona "Outros." de volta para a lógica do toggleOption
+                    } else {
+                        const button = document.querySelector(`.option-button[data-value="${value}"]`);
+                        if (button) {
+                            button.classList.add('selected');
+                        }
+                    }
+                });
+            }
+            setupEnterKeyListener(saveAndNext);
+        });
+    </script>
+</body>
+
+</html>
