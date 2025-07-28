@@ -1942,7 +1942,6 @@ section {
         0 0 1px var(--accent-color),
         0 0 19px var(--accent-color);
 }
-}
 
 /* Footer */
 .footer-content {
@@ -1952,7 +1951,6 @@ section {
 
 .social-links {
     justify-content: center;
-}
 }
 
 @media (max-width: 480px) {
