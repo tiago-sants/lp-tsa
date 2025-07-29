@@ -34,30 +34,87 @@
         <div class="screen-content">
             <div class="question-number">1 <span class="emoji">➔</span> Qual o seu melhor e-mail?*</div>
             <input type="text" id="email" placeholder="Seu email" autofocus>
+            <div id="email-error" class="error-message"></div>
             <button onclick="saveAndNext()">OK</button>
             <div class="small-text">carrega em Enter <span class="emoji">↩</span></div>
         </div>
     </div>
     <script src="/form/form.js"></script>
     <script>
+
+        // Função para validar o formato do e-mail
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function updateEmailInputFeedback() {
+            const emailInput = document.getElementById('email');
+            const errorMessage = document.getElementById('email-error');
+            const email = emailInput.value.trim();
+
+            if (email === '') {
+                emailInput.classList.remove('invalid', 'valid');
+                errorMessage.textContent = '';
+                errorMessage.classList.remove('show');
+            } else if (!isValidEmail(email)) {
+                emailInput.classList.add('invalid');
+                emailInput.classList.remove('valid');
+                errorMessage.textContent = 'Por favor, digite um e-mail válido.';
+                errorMessage.classList.add('show');
+            } else {
+                emailInput.classList.remove('invalid');
+                emailInput.classList.add('valid');
+                errorMessage.textContent = ''; // Limpa a mensagem de erro
+                errorMessage.classList.remove('show');
+            }
+        }
+
+        // Função principal para salvar e avançar
         function saveAndNext() {
-            const email = document.getElementById('email').value.trim();
-            if (email) {
+            const emailInput = document.getElementById('email');
+            const email = emailInput.value.trim();
+            const errorMessage = document.getElementById('email-error');
+
+            if (isValidEmail(email)) {
                 sessionStorage.setItem('email', email);
                 window.location.href = '4.html';
             } else {
-                alert('Por favor, digite seu e-mail.');
-                document.getElementById('email').focus();
+                // Se o e-mail não for válido ao clicar em OK
+                emailInput.classList.add('invalid'); // Garante que a borda vermelha apareça
+                errorMessage.textContent = 'Por favor, digite um e-mail válido para continuar.';
+                errorMessage.classList.add('show');
+                emailInput.focus();
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const email = sessionStorage.getItem('email');
-            if (email) {
-                document.getElementById('email').value = email;
+            const emailInput = document.getElementById('email');
+            const storedEmail = sessionStorage.getItem('email');
+
+            if (storedEmail) {
+                emailInput.value = storedEmail;
+                updateEmailInputFeedback(); // Atualiza o feedback se já houver e-mail
             }
-            document.getElementById('email').focus(); // Ensure input is focused
-            setupEnterKeyListener(saveAndNext); // Pass the function to call on Enter
+
+            emailInput.focus();
+
+            // Adiciona listener para validar enquanto o usuário digita (ou ao sair do campo)
+            emailInput.addEventListener('input', updateEmailInputFeedback);
+            emailInput.addEventListener('blur', updateEmailInputFeedback); // Valida ao perder o foco
+
+            // Garante que setupEnterKeyListener funcione com a nova saveAndNext
+            // Verifique se setupEnterKeyListener está definido em /form/form.js
+            if (typeof setupEnterKeyListener === 'function') {
+                setupEnterKeyListener(saveAndNext);
+            } else {
+                // Fallback caso form.js não esteja carregado ou a função não exista
+                document.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        saveAndNext();
+                    }
+                });
+            }
         });
     </script>
 </body>

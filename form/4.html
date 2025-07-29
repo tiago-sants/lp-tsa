@@ -34,30 +34,103 @@
         <div class="screen-content">
             <div class="question-number">1 <span class="emoji">➔</span> Qual o seu número do whatsapp?*</div>
             <input type="text" id="whatsapp" placeholder="Seu whatsapp" autofocus>
+            <div id="whatsapp-error" class="error-message"></div>
             <button onclick="saveAndNext()">OK</button>
             <div class="small-text">carrega em Enter <span class="emoji">↩</span></div>
         </div>
     </div>
     <script src="/form/form.js"></script>
     <script>
+        // Função para formatar o número de telefone enquanto digita
+        function formatPhoneNumber(value) {
+            value = value.replace(/\D/g, "");
+
+            if (value.length > 0) {
+                value = "(" + value;
+            }
+            if (value.length > 2) {
+                value = value.substring(0, 3) + ") " + value.substring(3);
+            }
+            if (value.length > 9) {
+                value = value.substring(0, value.length - 4) + "-" + value.substring(value.length - 4);
+            }
+            return value;
+        }
+        function isValidPhoneNumber(phoneNumber) {
+            const cleaned = phoneNumber.replace(/\D/g, '');
+
+            const phoneRegex = /^(\d{2})?(\d{8,9})$/;
+
+            return cleaned.length >= 10 && cleaned.length <= 11 && phoneRegex.test(cleaned);
+        }
+
+        // Função para atualizar o feedback visual do input
+        function updateWhatsappInputFeedback() {
+            const whatsappInput = document.getElementById('whatsapp');
+            const errorMessage = document.getElementById('whatsapp-error');
+            let whatsapp = whatsappInput.value.trim();
+
+            whatsappInput.value = formatPhoneNumber(whatsapp);
+            whatsapp = whatsappInput.value.trim();
+
+            if (whatsapp === '') {
+                whatsappInput.classList.remove('invalid', 'valid');
+                errorMessage.textContent = '';
+                errorMessage.classList.remove('show');
+            } else if (!isValidPhoneNumber(whatsapp)) {
+                whatsappInput.classList.add('invalid');
+                whatsappInput.classList.remove('valid');
+                errorMessage.textContent = 'Por favor, digite um número de WhatsApp válido (DDD + 8 ou 9 dígitos).';
+                errorMessage.classList.add('show');
+            } else {
+                whatsappInput.classList.remove('invalid');
+                whatsappInput.classList.add('valid');
+                errorMessage.textContent = ''; // Limpa a mensagem de erro
+                errorMessage.classList.remove('show');
+            }
+        }
+
+        // Função principal para salvar e avançar
         function saveAndNext() {
-            const whatsapp = document.getElementById('whatsapp').value.trim();
-            if (whatsapp) {
-                sessionStorage.setItem('whatsapp', whatsapp);
+            const whatsappInput = document.getElementById('whatsapp');
+            const whatsapp = whatsappInput.value.trim();
+            const errorMessage = document.getElementById('whatsapp-error');
+
+            if (isValidPhoneNumber(whatsapp)) {
+                sessionStorage.setItem('whatsapp', whatsapp.replace(/\D/g, ''));
                 window.location.href = '5.html';
             } else {
-                alert('Por favor, digite seu e-mail.');
-                document.getElementById('whatsapp').focus();
+                whatsappInput.classList.add('invalid');
+                errorMessage.textContent = 'Por favor, digite um número de WhatsApp válido para continuar.';
+                errorMessage.classList.add('show');
+                whatsappInput.focus();
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const whatsapp = sessionStorage.getItem('whatsapp');
-            if (whatsapp) {
-                document.getElementById('whatsapp').value = whatsapp;
+            const whatsappInput = document.getElementById('whatsapp');
+            const storedWhatsapp = sessionStorage.getItem('whatsapp');
+
+            if (storedWhatsapp) {
+                whatsappInput.value = formatPhoneNumber(storedWhatsapp);
+                updateWhatsappInputFeedback();
             }
-            document.getElementById('whatsapp').focus(); // Ensure input is focused
-            setupEnterKeyListener(saveAndNext); // Pass the function to call on Enter
+
+            whatsappInput.focus();
+
+            whatsappInput.addEventListener('input', updateWhatsappInputFeedback);
+            whatsappInput.addEventListener('blur', updateWhatsappInputFeedback);
+            whatsappInput.setAttribute('inputmode', 'numeric');
+
+            if (typeof setupEnterKeyListener === 'function') {
+                setupEnterKeyListener(saveAndNext);
+            } else {
+                document.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        saveAndNext();
+                    }
+                });
+            }
         });
     </script>
 </body>
