@@ -1355,11 +1355,28 @@ section {
     color: var(--white);
     margin-bottom: 1rem;
     font-size: 1.8rem;
+    align-items: center;
 }
 
 .footer-brand p {
     color: rgba(255, 255, 255, 0.8);
     margin: 0;
+    display: block;
+    margin: 0 auto;
+}
+
+.footer-details {
+    display: flex;
+    justify-content: center;
+    /* Centraliza o conteúdo */
+    gap: 80px;
+    /* Distância fixa entre as colunas */
+    max-width: 800px;
+    /* Largura máxima para o conteúdo */
+    margin: 0 auto 2rem auto;
+    /* Centraliza e dá espaçamento inferior */
+    flex-wrap: wrap;
+    /* Permite quebra em telas pequenas */
 }
 
 .footer-links h4,
@@ -2123,6 +2140,26 @@ section {
 
 }
 
+
+
+.form-container input[type="text"] {
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #fff;
+    color: #fff;
+    font-size: 2.5em;
+    padding: 10px 0;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    margin-top: 50px;
+    outline: none;
+}
+
+.form-container input[type="text"]::placeholder {
+    color: #aaa;
+}
+
 .screen-content {
     padding: 40px 20px;
     min-height: 60vh;
@@ -2191,24 +2228,6 @@ button {
 .button:hover,
 button:hover {
     background-color: #e07400;
-}
-
-input[type="text"] {
-    background-color: transparent;
-    border: none;
-    border-bottom: 2px solid #fff;
-    color: #fff;
-    font-size: 2.5em;
-    padding: 10px 0;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    margin-top: 50px;
-    outline: none;
-}
-
-input[type="text"]::placeholder {
-    color: #aaa;
 }
 
 .question-number {
