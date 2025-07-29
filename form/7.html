@@ -22,7 +22,10 @@
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '770576805400900');
-        fbq('track', 'PageView', {}, { eventID: 'pageview-form-ver-valores' });
+        fbq('trackCustom', 'FormInfoServico-7', {
+            etapa: 'infoServico',
+            page_type: 'form'
+        });
     </script>
     <noscript><img height="1" width="1" style="display:none"
             src="https://www.facebook.com/tr?id=770576805400900&ev=PageView&noscript=1" /></noscript>
@@ -37,7 +40,7 @@
                 <ul>
                     <li><span class="check-icon">✔</span> Plano de Ação completo com tudo que o seu negócio precisa para
                         atingir as metas desejadas de forma acelerada;</li>
-                    <li><span class="check-icon">✔</span> 3 vezes por semana mostraremos por meio de relatórios o seu
+                    <li><span class="check-icon">✔</span> 1 vez por semana mostraremos por meio de relatórios o seu
                         crescimento e o aumento nas suas vendas;</li>
                     <li><span class="check-icon">✔</span> Estrutura de anúncios com foco em <strong
                             style="color: #f77f00;">captação constante de novos clientes</strong>;</li>
