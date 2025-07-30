@@ -330,6 +330,11 @@
         .then(() => console.log("Servidor ativado - Render."))
         .catch((err) => console.warn("Erro ao ativar Render:", err));
 
+    // Buscar Loc
+    fetch("https://backend-lp-tsa.onrender.com/track-access-whatsapp")
+        .then(() => console.log("Loc on."))
+        .catch(() => console.error("Loc off."));
+
 </script>
 
 </html>
