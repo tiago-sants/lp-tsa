@@ -324,6 +324,12 @@
 
         particleContainer.appendChild(particle);
     }
+
+    //Ativar o Render
+    fetch("https://backend-lp-tsa.onrender.com")
+        .then(() => console.log("Servidor ativado - Render."))
+        .catch((err) => console.warn("Erro ao ativar Render:", err));
+
 </script>
 
 </html>
