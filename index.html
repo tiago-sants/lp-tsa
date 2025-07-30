@@ -117,7 +117,8 @@
                         </div>
                     </div>
                     <div class="hero-cta">
-                        <a href="/form/1.html" class="btn btn-primary">
+                        <a href="/form/1.html" class="btn btn-primary"
+                            onclick="notifyTelegramAndRedirect(event,'[HOME] 🚀 Clique em : QUERO CLIENTES TODOS OS DIAS', href)">
                             <i class="fas fa-rocket"></i>
                             QUERO CLIENTES TODOS OS DIAS
                         </a>
@@ -437,7 +438,8 @@
                     </div>
                 </div>
 
-                <a href="/form/1.html" class="btn btn-primary btn-large">
+                <a href="/form/1.html" class="btn btn-primary btn-large"
+                    onclick="notifyTelegramAndRedirect(event,'[HOME] 🚀 Clique em : QUERO CLIENTES AGORA', href)">
                     <i class="fas fa-rocket"></i>
                     QUERO CLIENTES AGORA
                 </a>
@@ -463,7 +465,8 @@
                         <div class="contact-details">
                             <h4>Telefone</h4>
                             <p>
-                                <a href="tel:+5562991845391" onclick="fbq('trackCustom', 'BotaoTelefone')">
+                                <a href="tel:+5562991845391"
+                                    onclick="fbq('trackCustom', 'BotaoTelefone'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO TELEFONE');">
                                     (62) 99184-5391
                                 </a>
                             </p>
@@ -476,7 +479,8 @@
                         <div class="contact-details">
                             <h4>Email</h4>
                             <p>
-                                <a href="mailto:tiago@tsasolucoes.com" onclick="fbq('trackCustom', 'BotaoEmail')">
+                                <a href="mailto:tiago@tsasolucoes.com"
+                                    onclick="fbq('trackCustom', 'BotaoEmail'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO EMAIL');">
                                     tiago@tsasolucoes.com
                                 </a>
                             </p>
@@ -490,7 +494,7 @@
                             <h4>Instagram</h4>
                             <p>
                                 <a href="https://instagram.com/tsasolucoes" target="_blank"
-                                    onclick="fbq('trackCustom', 'BotaoInstagram')">
+                                    onclick="fbq('trackCustom', 'BotaoInstagram'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO INSTAGRAM');">
                                     @tsasolucoes
                                 </a>
                             </p>
@@ -503,7 +507,8 @@
                         <div class="contact-details">
                             <h4>WhatsApp</h4>
                             <p><a href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
-                                    target="_blank"> (62) 99184-5391 </a></p>
+                                    target="_blank" onclick="notifyTelegram('[HOME] 🚀 Clique em : BOTÃO WHATSAPP');">
+                                    (62) 99184-5391 </a></p>
                         </div>
 
                     </div>
@@ -531,7 +536,8 @@
                         <textarea id="message" name="message" rows="5" required></textarea>
                         <span class="error-message" id="messageError"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary"
+                        onclick="notifyTelegram('[HOME] 🚀 Clique em : ENVIAR MENSAGEM');">
                         <i class="fas fa-paper-plane"></i>
                         Enviar Mensagem
                     </button>
@@ -576,7 +582,7 @@
                     <h4>Redes Sociais</h4>
                     <div class="social-links">
                         <a href="https://instagram.com/tsasolucoes" target="_blank" rel="noopener noreferrer"
-                            onclick="fbq('trackCustom', 'BotaoInstagramFooter')">
+                            onclick="fbq('trackCustom', 'BotaoInstagramFooter'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO INSTAGRAM FOOTER');">
                             <i class="fab fa-instagram"></i>
                         </a>
                         <a href="#" target="_blank" rel="noopener noreferrer">
@@ -586,7 +592,8 @@
                             <i class="fab fa-linkedin"></i>
                         </a>
                         <a href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
-                            target="_blank" rel="noopener noreferrer">
+                            target="_blank" rel="noopener noreferrer"
+                            onclick="notifyTelegram('[HOME] 🚀 Clique em : BOTÃO WHATSAPP FOOTER');">
                             <i class="fab fa-whatsapp"></i>
                         </a>
                     </div>
@@ -599,7 +606,8 @@
     </footer>
     <!-- WhatsApp Button -->
     <a href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
-        target="_blank" class="whatsapp-btn" id="whatsappBtn" aria-label="Contato via WhatsApp">
+        target="_blank" class="whatsapp-btn" id="whatsappBtn" aria-label="Contato via WhatsApp"
+        onclick="notifyTelegram('[HOME] 🚀 Clique em : BOTÃO WHATSAPP FIXO');">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -613,6 +621,10 @@
 
     <!-- Custom JS -->
     <script src="script.js"></script>
+
+    <!-- Telegram JS -->
+    <script src="telegram.js"></script>
+
 </body>
 
 </html>

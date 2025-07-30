@@ -45,7 +45,8 @@
             <p style="margin-top: 30px; font-size: 1.2em; line-height: 1.6;">Você irá se surpreender com o que receberá
                 sem nenhum custo, clique agora no botão abaixo para reservar o seu horário:</p>
 
-            <button id="scheduleButton">AGENDAR REUNIÃO</button>
+            <button id="scheduleButton" onclick="notifyTelegram('[FORM] 🚀 Clique em : AGENDAR REUNIÃO');">AGENDAR
+                REUNIÃO</button>
 
             <div class="small-text">carrega em Cmd <span style="font-weight: bold;">⌘</span> + Enter <span
                     class="emoji">↩</span></div>
@@ -59,6 +60,8 @@
             emailjs.init('dhB3bhOrW8iqajEc0');
         })();
     </script>
+    <!-- Telegram JS -->
+    <script src="/telegram.js"></script>
 
     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
     <script src="/form/form.js"></script>
@@ -136,6 +139,23 @@
 
 
         });
+
+        const userName = sessionStorage.getItem('userName') || '';
+        const email = sessionStorage.getItem('email') || '';
+        const whatsapp = sessionStorage.getItem('whatsapp') || '';
+        const selectedOptions = JSON.parse(sessionStorage.getItem('selectedOptions') || '[]');
+
+        const mensage = `
+            📥 *Novo Formulário Enviado:*
+
+            👤 Nome: ${userName}
+            📧 Email: ${email}
+            📱 Telefone: ${whatsapp}
+            📝 Descrição: ${selectedOptions.join('; ')}
+            `;
+
+        // Chamada da função do telegram.js
+        notifyTelegram(mensage);
 
 
     </script>
