@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSA Soluções - WhatsApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1303218897991985');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1303218897991985&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+    <style>
+        /* Color Variables from the provided CSS */
+        :root {
+            --primary-color: #0a0a0a;
+            --secondary-color: #1a1a1a;
+            --tertiary-color: #2d2d2d;
+            --accent-color: #00d4ff;
+            --accent-secondary: #7c3aed;
+            --accent-neon: #39ff14;
+            --dark-bg: #0f0f0f;
+            --light-color: #1e1e1e;
+            --white: #ffffff;
+            --gray-light: #404040;
+            --gray-medium: #808080;
+            --gray-dark: #cccccc;
+            --gradient-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+            --gradient-accent: linear-gradient(135deg, #00d4ff 0%, #7c3aed 100%);
+            --gradient-neon: linear-gradient(135deg, #39ff14 0%, #00d4ff 100%);
+            --shadow-light: 0 4px 20px rgba(0, 212, 255, 0.1);
+            --shadow-medium: 0 8px 30px rgba(0, 212, 255, 0.15);
+            --shadow-heavy: 0 12px 40px rgba(0, 212, 255, 0.2);
+            --shadow-neon: 0 0 20px rgba(57, 255, 20, 0.3);
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            /* Hide scrollbars for full-screen background */
+            font-family: 'Poppins', sans-serif;
+            color: var(--gray-dark);
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--gradient-primary);
+            /* Base dark gradient background */
+            position: relative;
+        }
+
+        /* Background shapes for futuristic effect (from .hero-shapes) */
+        .background-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-radius: 30%;
+            box-shadow: var(--shadow-neon);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            top: 13%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            bottom: 10%;
+            left: 10%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 1s;
+        }
+
+        .shape-3 {
+            top: 60%;
+            right: 20%;
+            width: 100px;
+            height: 100px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        /* Particle effect background (from .particles) */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+            /* Ensures particles are behind content */
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: particle-float 8s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(0vh) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.7;
+            }
+
+            90% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(-120vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: relative;
+            /* Changed from fixed to relative for centering */
+            width: 80px;
+            /* Slightly larger for prominence */
+            height: 80px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            /* Larger icon */
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            animation: whatsapp-pulse 2s infinite, neon-pulse 1.0s infinite alternate;
+            /* Combined animations */
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1) translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.6);
+            background: #20B858;
+        }
+
+        .whatsapp-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #25D366;
+            opacity: 0;
+            transform: scale(1.3);
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn:hover::before {
+            opacity: 0.7;
+            transform: scale(1.5);
+        }
+
+        .whatsapp-btn i {
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Pulse animation for WhatsApp button */
+        @keyframes whatsapp-pulse {
+            0% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 25px rgba(37, 211, 102, 0.6);
+            }
+
+            100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            }
+        }
+
+        /* Neon pulse for the button itself */
+        @keyframes neon-pulse {
+            0% {
+                border-color: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 0 5px rgba(37, 211, 102, 0.4);
+            }
+
+            50% {
+                border-color: rgba(255, 255, 255, 0.5);
+                box-shadow: 0 0 20px rgba(37, 211, 102, 0.8);
+            }
+
+            100% {
+                border-color: rgba(255, 255, 255, 0.2);
+                box-shadow: 0 0 5px rgba(37, 211, 102, 0.4);
+            }
+        }
+
+        .cta-text {
+            position: absolute;
+            top: 30%;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #00d4ff;
+            text-shadow:
+                0 0 5px rgba(0, 212, 255, 0.4),
+                0 0 10px rgba(0, 212, 255, 0.3);
+            animation: neon-fade 3s ease-in-out infinite alternate;
+            z-index: 100;
+        }
+
+        @keyframes neon-fade {
+            0% {
+                opacity: 0.8;
+                text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            }
+
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="particles"></div>
+
+    <div class="cta-text">Entrar em contato pelo <br> WhatsApp</div>
+
+    <a href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
+        class="whatsapp-btn" target="_blank" rel="noopener noreferrer" onclick="fbq('track', 'Contact');">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+<script>
+    const particleContainer = document.querySelector('.particles');
+    const totalParticles = 100;
+
+    for (let i = 0; i < totalParticles; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // Partículas começam embaixo e sobem
+        const left = Math.random() * 100;
+        const delay = Math.random() * 20;
+
+        particle.style.bottom = `-2px`; // começa fora da tela
+        particle.style.left = `${left}%`;
+        particle.style.animationDelay = `${delay}s`;
+
+        particleContainer.appendChild(particle);
+    }
+</script>
+
+</html>
