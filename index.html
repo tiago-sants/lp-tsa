@@ -25,6 +25,12 @@
         content="Especialistas em tráfego pago e marketing digital. Transformamos seu investimento em leads e vendas reais.">
     <meta property="twitter:image" content="">
 
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" as="style">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,6 +42,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="improvements.css">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 
     <!-- Meta Pixel Code -->
@@ -58,6 +65,35 @@
             src="https://www.facebook.com/tr?id=770576805400900&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
 
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "TSA Soluções",
+        "description": "Especialistas em tráfego pago e marketing digital. Transformamos seu investimento em leads e vendas reais.",
+        "url": "https://tsasolucoes.com",
+        "telephone": "+5562991845391",
+        "email": "contato@tsasolucoes.com",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "BR"
+        },
+        "sameAs": [
+            "https://instagram.com/tsasolucoes"
+        ],
+        "serviceArea": {
+            "@type": "Country",
+            "name": "Brasil"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "reviewCount": "50"
+        }
+    }
+    </script>
+
 </head>
 
 <body>
@@ -65,7 +101,9 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <h2>TSA Soluções</h2>
+                <img src="images/brasao-tsa.png" alt="Brasão TSA"
+                    style="height:40px; width:auto; vertical-align:middle; margin-right:10px;">
+                <h2 style="display:inline-block; vertical-align:middle; margin:0;">TSA Soluções</h2>
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Início</a></li>
@@ -96,15 +134,14 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title glitch-text"
-                        data-text="Não é sobre aparecer mais. É sobre atrair as pessoas certas">
-                        Quer vender todos os dias?<br>
-                        <span class="highlight neon-text">A gente sabe como.</span>
+                    <h1 class="hero-title glitch-text" data-text="Transforme seu negócio em uma máquina de vendas">
+                        Transforme seu negócio em uma máquina de vendas<br>
+                        <span class="highlight neon-text">com tráfego pago profissional</span>
                     </h1>
                     <p class="hero-subtitle">
-                        Na TSA Soluções, nós não fazemos mágica — fazemos estratégia.
-                        Somos especialistas em tráfego pago e atraímos clientes reais para seu negócio.
-                        <br>🎁 Receba um Plano Rápido de Tráfego Para Seu Negócio (Grátis!)
+                        Especialistas em Google Ads e Meta Ads. Geramos leads qualificados todos os dias
+                        para empresas que querem crescer de forma previsível.
+                        <br><strong>🎁 Diagnóstico gratuito do seu negócio</strong>
                     </p>
                     <div class="hero-stats">
                         <div class="stat">
@@ -117,15 +154,12 @@
                         </div>
                     </div>
                     <div class="hero-cta">
-                        <a href="/form/1.html" class="btn btn-primary"
-                            onclick="notifyTelegramAndRedirect(event,'[HOME] 🚀 Clique em : QUERO CLIENTES TODOS OS DIAS', href)">
+                        <a href="/form/1.html" class="btn btn-primary btn-pulse"
+                            onclick="notifyTelegramAndRedirect(event,'[HOME] 🚀 Clique em : QUERO MEU DIAGNÓSTICO GRATUITO', href)">
                             <i class="fas fa-rocket"></i>
-                            QUERO CLIENTES TODOS OS DIAS
+                            QUERO MEU DIAGNÓSTICO GRATUITO
                         </a>
-                        <a href="#about" class="btn btn-secondary">
-                            <i class="fas fa-play"></i>
-                            VEJA COMO FUNCIONA
-                        </a>
+                        <p class="cta-disclaimer">100% gratuito • Sem compromisso • Resposta em até 24h</p>
                     </div>
                 </div>
 
@@ -188,6 +222,41 @@
         </div>
     </section>
 
+    <!-- Urgency Banner -->
+    <section class="urgency-banner">
+        <div class="container">
+            <div class="urgency-content">
+                <p><i class="fas fa-fire"></i> <strong>Atenção:</strong> Apenas 5 vagas por mês</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="trust-indicators">
+                <div class="trust-badges">
+                    <div class="badge">
+                        <i class="fab fa-google"></i>
+                        <span>Google Partner</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fab fa-facebook"></i>
+                        <span>Meta Business Partner</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-chart-line"></i>
+                        <span>+3000 projetos entregues</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-users"></i>
+                        <span>+500 clientes atendidos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
@@ -238,6 +307,54 @@
         </div>
     </section>
 
+    <!-- Objections Section -->
+    <section class="objections">
+        <div class="container">
+            <div class="section-header">
+                <h2>Por que escolher a TSA Soluções?</h2>
+                <p>Resolvemos as principais dúvidas dos nossos clientes</p>
+            </div>
+            <div class="objections-grid">
+                <div class="objection-item">
+                    <div class="objection-header">
+                        <h3>❌ "Tráfego pago é muito caro"</h3>
+                    </div>
+                    <div class="objection-solution">
+                        <p>✅ Nossos clientes têm ROI médio de 4x. Cada R$1 investido retorna R$4 em vendas. Trabalhamos
+                            com budgets a partir de R$1.000/mês.</p>
+                    </div>
+                </div>
+                <div class="objection-item">
+                    <div class="objection-header">
+                        <h3>❌ "Já tentei e não funcionou"</h3>
+                    </div>
+                    <div class="objection-solution">
+                        <p>✅ 90% dos anúncios falham por falta de estratégia. Criamos campanhas baseadas em dados e
+                            otimização contínua.</p>
+                    </div>
+                </div>
+                <div class="objection-item">
+                    <div class="objection-header">
+                        <h3>❌ "Não entendo de digital"</h3>
+                    </div>
+                    <div class="objection-solution">
+                        <p>✅ Nossa responsabilidade é cuidar de tudo. Você foca no seu negócio, nós cuidamos dos
+                            anúncios e relatórios.</p>
+                    </div>
+                </div>
+                <div class="objection-item">
+                    <div class="objection-header">
+                        <h3>❌ "Demora muito para ver resultado"</h3>
+                    </div>
+                    <div class="objection-solution">
+                        <p>✅ Primeiros leads aparecem em 7-15 dias. Otimização e escala acontecem nos primeiros 30 dias.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Services Section -->
     <section id="services" class="services">
         <div class="container">
@@ -247,7 +364,7 @@
             </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon neon-glow">
+                    <div class="service-icon">
                         <i class="fas fa-bullhorn"></i>
                     </div>
                     <h3 class="neon-text">Tráfego Pago</h3>
@@ -261,7 +378,7 @@
                     <div class="invest-price">Investimento com anúncios à partir de R$ 1.000/mês*</div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon neon-glow">
+                    <div class="service-icon">
                         <i class="fas fa-share-alt"></i>
                     </div>
                     <h3 class="neon-text">Social Media</h3>
@@ -274,7 +391,7 @@
                     <div class="service-price">R$ 1.500/mês</div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon neon-glow">
+                    <div class="service-icon">
                         <i class="fas fa-laptop-code"></i>
                     </div>
                     <h3 class="neon-text">Landing Pages</h3>
@@ -287,7 +404,7 @@
                     <div class="service-price">À negociar</div>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon neon-glow">
+                    <div class="service-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <h3 class="neon-text">Combo Completo</h3>
@@ -312,7 +429,8 @@
             </div>
             <div class="results-grid">
                 <div class="result-card">
-                    <div class="client-image"> <img src="images/results/client1.png" alt="Cliente 1" /> </div>
+                    <div class="client-image"> <img src="images/results/client1.png" alt="Cliente 1" loading="lazy"
+                            width="300" height="200" /> </div>
                     <div class="result-stats">
                         <div class="result-investment">R$ 24.000 investidos</div>
                         <div class="result-leads">+3.500 leads</div>
@@ -322,7 +440,8 @@
                     </div>
                 </div>
                 <div class="result-card">
-                    <div class="client-image"> <img src="images/results/client4.png" alt="Cliente 4" /> </div>
+                    <div class="client-image"> <img src="images/results/client4.png" alt="Cliente 4" loading="lazy"
+                            width="300" height="200" /> </div>
                     <div class="result-stats">
                         <div class="result-investment">R$ 7.000 investido</div>
                         <div class="result-leads">+1.000 leads</div>
@@ -332,7 +451,8 @@
                     </div>
                 </div>
                 <div class="result-card">
-                    <div class="client-image"> <img src="images/results/client3.png" alt="Cliente 3" /> </div>
+                    <div class="client-image"> <img src="images/results/client3.png" alt="Cliente 3" loading="lazy"
+                            width="300" height="200" /> </div>
                     <div class="result-stats">
                         <div class="result-investment">R$ 7.000 investidos</div>
                         <div class="result-leads">+2.000 leads</div>
@@ -342,7 +462,8 @@
                     </div>
                 </div>
                 <div class="result-card">
-                    <div class="client-image"> <img src="images/results/client2.png" alt="Cliente 2" /> </div>
+                    <div class="client-image"> <img src="images/results/client2.png" alt="Cliente 2" loading="lazy"
+                            width="300" height="200" /> </div>
                     <div class="result-stats">
                         <div class="result-investment">R$ 6.000 investidos</div>
                         <div class="result-leads">+400 leads diretos</div>
@@ -369,7 +490,7 @@
                 <!-- Card 1 -->
                 <div class="testimonial-card">
                     <div class="author-photo">
-                        <img src="images/testimonials/kaio.png" alt="Kaio Zaga">
+                        <img src="images/testimonials/kaio.png" alt="Kaio Zaga" loading="lazy" width="80" height="80">
                     </div>
                     <div class="testimonial-content">
                         <div class="testimonial-stars">
@@ -392,7 +513,8 @@
                 <!-- Card 2 -->
                 <div class="testimonial-card">
                     <div class="author-photo">
-                        <img src="images/testimonials/leandro.png" alt="Leandro Favarete">
+                        <img src="images/testimonials/leandro.png" alt="Leandro Favarete" loading="lazy" width="80"
+                            height="80">
                     </div>
                     <div class="testimonial-content">
                         <div class="testimonial-stars">
@@ -415,6 +537,7 @@
         </div>
     </section>
 
+    <!-- CTA Section -->
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
@@ -621,9 +744,34 @@
 
     <!-- Custom JS -->
     <script src="script.js"></script>
+    <script src="enhanced-script.js"></script>
 
     <!-- Telegram JS -->
     <script src="telegram.js"></script>
+
+    <!-- Enhanced Analytics -->
+    <script>
+        // Tracking de scroll depth
+        let scrollTracked = false;
+        window.addEventListener('scroll', () => {
+            if (!scrollTracked && window.scrollY > document.body.scrollHeight * 0.5) {
+                fbq('trackCustom', 'ScrollDepth50');
+                scrollTracked = true;
+            }
+        });
+
+        // Tracking de tempo na página
+        setTimeout(() => {
+            fbq('trackCustom', 'TimeOnPage30s');
+        }, 30000);
+
+        // Tracking de interesse em serviços
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                fbq('trackCustom', 'ServiceCardHover');
+            });
+        });
+    </script>
 
 </body>
 <script>
