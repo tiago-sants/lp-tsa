@@ -1,0 +1,604 @@
+/* Melhorias CSS para Landing Page TSA Soluções */
+
+/* Urgency Banner */
+.urgency-banner {
+    background: var(--gradient-accent);
+    padding: 1rem 0;
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+.urgency-content p {
+    color: var(--white);
+    font-weight: 600;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.urgency-date {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Social Proof Section */
+.social-proof {
+    background: var(--secondary-color);
+    padding: 2rem 0;
+}
+
+.trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+}
+
+.trust-badges .badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--tertiary-color);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+    font-weight: 600;
+    color: var(--gray-dark);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.trust-badges .badge:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.trust-badges .badge i {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+/* Objections Section */
+.objections {
+    background: var(--gradient-primary);
+    color: var(--gray-dark);
+    padding: 4rem 0;
+    position: relative;
+}
+
+.objections::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.objections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    position: relative;
+    z-index: 1;
+    justify-items: center;
+}
+
+.objection-item {
+    background: var(--tertiary-color);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-light);
+    width: 100%;
+    max-width: 350px;
+}
+
+.objection-item:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-medium);
+}
+
+.objection-header h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-secondary);
+}
+
+.objection-solution p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--accent-neon);
+    font-weight: 500;
+}
+
+/* CTA Section Improvements */
+.cta-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 212, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.benefit i {
+    color: var(--accent-neon);
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.benefit span {
+    font-weight: 500;
+    color: var(--gray-dark);
+}
+
+/* Button Improvements */
+.btn-pulse {
+    animation: pulseButton 2s infinite;
+}
+
+@keyframes pulseButton {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+
+.btn-large {
+    padding: 1.2rem 3rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* Form Improvements */
+.contact-form-simple {
+    max-width: 400px;
+    margin: 0 auto;
+    background: var(--tertiary-color);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+.form-disclaimer {
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .trust-badges {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .trust-badges .badge {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .objections-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-benefits {
+        text-align: left;
+    }
+
+    .urgency-content p {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+/* Desktop Improvements - Centralização corrigida */
+@media (min-width: 769px) {
+
+    /* Centralização da seção de urgência */
+    .urgency-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    /* Centralização dos badges de prova social */
+    .trust-indicators {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .trust-badges {
+        justify-content: center;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    /* Grid de objeções centralizada */
+    .objections-grid {
+        max-width: 1200px;
+        margin: 3rem auto 0;
+        justify-items: center;
+    }
+
+    .objection-item {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    /* Centralização dos benefícios CTA */
+    .cta-benefits {
+        max-width: 700px;
+        margin: 2rem auto;
+    }
+
+    /* Seção header centralizada */
+    .section-header {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+    }
+
+    /* Correção para grids com número ímpar de itens */
+    .objections-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+        justify-content: center;
+    }
+
+    /* Garantir que todos os containers estejam centralizados */
+    .social-proof .container,
+    .objections .container,
+    .urgency-banner .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    /* Centralização específica para elementos flexbox */
+    .trust-badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+    }
+}
+
+/* Service Card Enhancements - Versão mais elegante sem efeito de passagem */
+.service-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Estilo mais sutil para os ícones de serviço */
+.service-card .service-icon {
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-light);
+}
+
+.service-card .service-icon:hover {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.05);
+}
+
+/* Efeito sutil de gradiente no fundo apenas */
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center,
+            rgba(0, 212, 255, 0.02) 0%,
+            transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.service-card:hover::before {
+    opacity: 1;
+}
+
+/* Hover effect principal - limpo e elegante */
+.service-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow:
+        var(--shadow-medium),
+        0 0 30px rgba(0, 212, 255, 0.08),
+        0 0 60px rgba(0, 212, 255, 0.04);
+    border-color: rgba(0, 212, 255, 0.4);
+}
+
+.service-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin: 1rem 0;
+}
+
+.invest-price {
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+    font-style: italic;
+}
+
+/* Loading Animation */
+.loading {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improved hover effects */
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.result-card:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* Better focus states for accessibility */
+.btn:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Improved text contrast */
+.hero-subtitle {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* CTA Disclaimer styling */
+.cta-disclaimer {
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+    text-align: center;
+    margin-top: 1rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Navbar scroll effect */
+.navbar.scrolled {
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-medium);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* WhatsApp button animation */
+.whatsapp-btn.bounce {
+    animation: bounceAnimation 1s ease-in-out;
+}
+
+@keyframes bounceAnimation {
+
+    0%,
+    20%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    80% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Lazy loading placeholder */
+img.lazy {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+img:not(.lazy) {
+    opacity: 1;
+}
+
+/* Form loading state */
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Additional micro-animations */
+.service-card,
+.result-card,
+.testimonial-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Better focus indicators */
+.btn:focus {
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.25);
+}
+
+/* Improved mobile typography */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .objection-header h3 {
+        font-size: 1rem;
+    }
+
+    .objection-solution p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Dark theme specific improvements */
+.section-header h2 {
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Glowing effects for consistency */
+.trust-badges .badge:hover {
+    box-shadow: var(--shadow-medium), 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+.objection-item:hover {
+    box-shadow: var(--shadow-medium), 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+/* Improved visibility for text */
+.urgency-content p strong {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Better contrast for mobile readability */
+@media (max-width: 768px) {
+    .objection-header h3 {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .objection-solution p {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Centralização específica para Missão, Visão e Valores */
+@media (min-width: 769px) {
+    .mission-vision-values {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 350px));
+        gap: 2.5rem;
+        margin: 3rem auto 0;
+        justify-content: center;
+        justify-items: center;
+        max-width: 1200px;
+        padding: 0 2rem;
+    }
+
+    .mvv-item {
+        width: 100%;
+        max-width: 350px;
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+    }
+
+    .mvv-icon {
+        margin-bottom: 1.5rem;
+        flex-shrink: 0;
+    }
+
+    .mvv-item h4 {
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+    }
+
+    .mvv-item p {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        line-height: 1.6;
+        margin: 0;
+    }
+}
+
+/* Melhorias gerais para seção About */
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.about-text {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.about-text h3 {
+    margin-bottom: 2rem;
+}
+
+.about-text p {
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}

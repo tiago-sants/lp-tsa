@@ -485,41 +485,6 @@ function optimizeAnimationsForMobile() {
     }
 }
 
-// Add tech-style cursor effect for desktop
-function addCursorEffect() {
-    if (window.innerWidth > 768) {
-        const cursor = document.createElement('div');
-        cursor.style.cssText = `
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #00d4ff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s;
-            mix-blend-mode: difference;
-        `;
-        document.body.appendChild(cursor);
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = (e.clientX - 10) + 'px';
-            cursor.style.top = (e.clientY - 10) + 'px';
-        });
-
-        // Scale cursor on interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, .service-card, .result-card');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(1.5)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-            });
-        });
-    }
-}
-
 // Initialize page
 document.addEventListener('DOMContentLoaded', () => {
     // Add loading class to body and remove after page load
@@ -532,7 +497,6 @@ document.addEventListener('DOMContentLoaded', () => {
         createParticles();
         addTouchEffects();
         optimizeAnimationsForMobile();
-        addCursorEffect();
 
         // Trigger initial animations
         setTimeout(() => {
