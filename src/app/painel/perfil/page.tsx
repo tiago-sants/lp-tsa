@@ -6,18 +6,17 @@ import { api } from '@/lib/api';
 import { FaSave } from 'react-icons/fa';
 
 interface Profile {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;
   role: string;
-  client?: {
-    id: number;
-    company_name: string;
-    contact_name: string;
-    contact_email: string;
-    contact_phone: string;
-  };
+  whatsapp?: string;
+  cpf_cnpj?: string;
+  city?: string;
+  state?: string;
+  contract_value?: number;
+  status?: string;
 }
 
 export default function PerfilPage() {
@@ -116,14 +115,16 @@ export default function PerfilPage() {
         </div>
 
         {/* Client Info (if client) */}
-        {profile?.client && (
+        {profile?.role === 'client' && (
           <div className="stat-card">
-            <h3 style={{ marginBottom: '1rem' }}>Dados da Empresa</h3>
+            <h3 style={{ marginBottom: '1rem' }}>Dados do Cliente</h3>
             <div style={{ display: 'grid', gap: '0.75rem', color: 'var(--text-secondary)' }}>
-              <div><strong>Empresa:</strong> {profile.client.company_name}</div>
-              <div><strong>Contato:</strong> {profile.client.contact_name}</div>
-              <div><strong>E-mail:</strong> {profile.client.contact_email}</div>
-              <div><strong>Telefone:</strong> {profile.client.contact_phone}</div>
+              <div><strong>WhatsApp:</strong> {profile.whatsapp || '—'}</div>
+              <div><strong>CPF/CNPJ:</strong> {profile.cpf_cnpj || '—'}</div>
+              <div><strong>Cidade:</strong> {profile.city ? `${profile.city}/${profile.state}` : '—'}</div>
+              {profile.contract_value ? (
+                <div><strong>Valor do Contrato:</strong> R$ {profile.contract_value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+              ) : null}
             </div>
           </div>
         )}

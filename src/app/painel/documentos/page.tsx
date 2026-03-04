@@ -9,12 +9,13 @@ interface Document {
   id: number;
   client_id: number;
   client_name?: string;
-  file_name: string;
-  file_type: string;
-  file_size: number;
-  category: string;
-  description: string;
+  uploader_name?: string;
+  name: string;
+  type: string;
+  mime_type: string;
+  size_bytes: number;
   s3_key: string;
+  uploaded_by: number;
   created_at: string;
 }
 
@@ -29,7 +30,7 @@ export default function DocumentosPage() {
 
   const fetchDocuments = () => {
     if (!token || !user) return;
-    const url = user.role === 'admin' ? '/documents' : `/documents?clientId=${user.clientId}`;
+    const url = user.role === 'admin' ? '/documents' : `/documents?clientId=${user.id}`;
     api<{ documents: Document[] }>(url, { token })
       .then((data) => setDocuments(data.documents || []))
       .catch(() => setDocuments([]))
@@ -51,8 +52,8 @@ export default function DocumentosPage() {
       formData.append('file', file);
       formData.append('description', description);
       formData.append('category', category);
-      if (user.clientId) {
-        formData.append('clientId', String(user.clientId));
+      if (user.role === 'client') {
+        formData.append('clientId', String(user.id));
       }
       await apiUpload('/documents', formData, { token });
       setDescription('');
@@ -171,13 +172,13 @@ export default function DocumentosPage() {
             <tbody>
               {documents.map((doc) => (
                 <tr key={doc.id}>
-                  <td>{getFileIcon(doc.file_type)}</td>
+                  <td>{getFileIcon(doc.mime_type || '')}</td>
                   <td>
-                    <div>{doc.file_name}</div>
-                    {doc.description && <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{doc.description}</div>}
+                    <div>{doc.name}</div>
+                    {doc.uploader_name && <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>por {doc.uploader_name}</div>}
                   </td>
-                  <td>{getCategoryLabel(doc.category)}</td>
-                  <td>{formatSize(doc.file_size)}</td>
+                  <td>{getCategoryLabel(doc.type)}</td>
+                  <td>{formatSize(doc.size_bytes)}</td>
                   <td>{new Date(doc.created_at).toLocaleDateString('pt-BR')}</td>
                   <td style={{ display: 'flex', gap: '0.75rem' }}>
                     <button onClick={() => handleDownload(doc)} style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer' }} title="Baixar">

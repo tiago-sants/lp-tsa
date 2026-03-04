@@ -8,23 +8,27 @@ import { FaArrowLeft, FaFileAlt, FaClock, FaMoneyBill } from 'react-icons/fa';
 import Link from 'next/link';
 
 interface ClientDetail {
-  id: number;
-  company_name: string;
-  contact_name: string;
-  contact_email: string;
-  contact_phone: string;
+  id: string;
+  name: string;
+  whatsapp: string;
+  email: string;
+  phone: string;
   status: string;
-  plan: string;
-  monthly_value: number;
+  contract_value: number;
   notes: string;
+  cpf_cnpj: string;
+  address: string;
+  city: string;
+  state: string;
+  complement: string;
+  has_login: boolean;
   created_at: string;
-  services: string[];
 }
 
 interface ReportSummary {
   id: number;
-  month_ref: string;
-  overall_score: number;
+  title: string;
+  performance_score: number;
   status: string;
   created_at: string;
 }
@@ -48,12 +52,12 @@ export default function ClienteDetailPage() {
   useEffect(() => {
     if (!token || !params.id) return;
     Promise.all([
-      api<{ client: ClientDetail }>(`/clients/${params.id}`, { token }),
+      api<ClientDetail>(`/clients/${params.id}`, { token }),
       api<{ reports: ReportSummary[] }>(`/reports?clientId=${params.id}`, { token }).catch(() => ({ reports: [] })),
       api<{ events: TimelineEvent[] }>(`/timeline/${params.id}`, { token }).catch(() => ({ events: [] })),
     ])
       .then(([c, r, t]) => {
-        setClient(c.client);
+        setClient(c);
         setReports(r.reports || []);
         setTimeline(t.events || []);
       })
@@ -65,7 +69,7 @@ export default function ClienteDetailPage() {
   if (loading) return <p style={{ textAlign: 'center', padding: '2rem' }}>Carregando...</p>;
   if (!client) return <p style={{ textAlign: 'center', padding: '2rem' }}>Cliente não encontrado.</p>;
 
-  const statusColors: Record<string, string> = { active: '#22c55e', inactive: '#ef4444', prospect: '#f59e0b', churned: '#6b7280' };
+  const statusColors: Record<string, string> = { active: '#22c55e', inactive: '#ef4444', cancelled: '#6b7280' };
 
   return (
     <>
@@ -74,9 +78,9 @@ export default function ClienteDetailPage() {
           <button onClick={() => router.back()} style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
             <FaArrowLeft /> Voltar
           </button>
-          <h1>{client.company_name}</h1>
+          <h1>{client.name}</h1>
           <span className="badge" style={{ color: statusColors[client.status] || '#fff' }}>
-            {client.status === 'active' ? 'Ativo' : client.status === 'inactive' ? 'Inativo' : client.status === 'prospect' ? 'Prospect' : 'Cancelado'}
+            {client.status === 'active' ? 'Ativo' : client.status === 'inactive' ? 'Inativo' : 'Cancelado'}
           </span>
         </div>
       </div>
@@ -85,31 +89,23 @@ export default function ClienteDetailPage() {
         <div className="stat-card">
           <h3 style={{ marginBottom: '1rem' }}>Informações</h3>
           <div style={{ display: 'grid', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            <p><strong>Contato:</strong> {client.contact_name}</p>
-            <p><strong>E-mail:</strong> {client.contact_email}</p>
-            <p><strong>Telefone:</strong> {client.contact_phone}</p>
-            <p><strong>Plano:</strong> {client.plan}</p>
-            <p><strong>Valor:</strong> R$ {client.monthly_value?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p><strong>WhatsApp:</strong> {client.whatsapp}</p>
+            <p><strong>E-mail:</strong> {client.email}</p>
+            <p><strong>Telefone:</strong> {client.phone}</p>
+            <p><strong>CPF/CNPJ:</strong> {client.cpf_cnpj || '—'}</p>
+            <p><strong>Cidade:</strong> {client.city ? `${client.city}/${client.state}` : '—'}</p>
+            <p><strong>Valor:</strong> R$ {client.contract_value?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p><strong>Login:</strong> {client.has_login ? 'Sim' : 'Não'}</p>
             <p><strong>Cliente desde:</strong> {new Date(client.created_at).toLocaleDateString('pt-BR')}</p>
           </div>
         </div>
 
         <div className="stat-card">
-          <h3 style={{ marginBottom: '1rem' }}>Serviços Contratados</h3>
-          {client.services?.length > 0 ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-              {client.services.map((s, i) => (
-                <span key={i} className="badge badge-info">{s}</span>
-              ))}
-            </div>
+          <h3 style={{ marginBottom: '1rem' }}>Observações</h3>
+          {client.notes ? (
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', whiteSpace: 'pre-wrap' }}>{client.notes}</p>
           ) : (
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Nenhum serviço registrado.</p>
-          )}
-          {client.notes && (
-            <div style={{ marginTop: '1rem' }}>
-              <strong style={{ fontSize: '0.85rem' }}>Notas:</strong>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', whiteSpace: 'pre-wrap' }}>{client.notes}</p>
-            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Nenhuma observação registrada.</p>
           )}
         </div>
       </div>
@@ -128,9 +124,9 @@ export default function ClienteDetailPage() {
           <div style={{ display: 'grid', gap: '0.5rem' }}>
             {reports.slice(0, 5).map((r) => (
               <Link key={r.id} href={`/painel/relatorios/${r.id}`} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem', borderRadius: '6px', background: 'rgba(0,0,0,0.2)', textDecoration: 'none', color: 'inherit' }}>
-                <span>{r.month_ref}</span>
-                <span className={`badge ${r.overall_score >= 80 ? 'badge-success' : r.overall_score >= 50 ? 'badge-warning' : 'badge-danger'}`}>
-                  {r.overall_score}/100
+                <span>{r.title}</span>
+                <span className={`badge ${r.performance_score >= 80 ? 'badge-success' : r.performance_score >= 50 ? 'badge-warning' : 'badge-danger'}`}>
+                  {r.performance_score}/100
                 </span>
               </Link>
             ))}
@@ -160,17 +156,11 @@ export default function ClienteDetailPage() {
       {/* Financial Quick Info */}
       <div className="stat-card">
         <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}><FaMoneyBill color="#22c55e" /> Financeiro</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
           <div style={{ padding: '1rem', borderRadius: '8px', background: 'rgba(34,197,94,0.1)' }}>
             <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Mensalidade</div>
             <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#22c55e' }}>
-              R$ {client.monthly_value?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-            </div>
-          </div>
-          <div style={{ padding: '1rem', borderRadius: '8px', background: 'rgba(139,92,246,0.1)' }}>
-            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Plano</div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 700, color: '#8b5cf6' }}>
-              {client.plan === 'basic' ? 'Básico' : client.plan === 'intermediate' ? 'Intermediário' : client.plan === 'premium' ? 'Premium' : 'Personalizado'}
+              R$ {client.contract_value?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </div>
           </div>
         </div>

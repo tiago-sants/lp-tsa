@@ -7,7 +7,7 @@ import Link from 'next/link';
 import {
   FaHome, FaFileAlt, FaFolder, FaStream, FaHeadset, FaCalendarAlt, FaUser,
   FaUsers, FaPlusCircle, FaColumns, FaDollarSign, FaBullseye, FaCog, FaChartBar,
-  FaSignOutAlt, FaEye
+  FaSignOutAlt, FaEye, FaUsersCog
 } from 'react-icons/fa';
 
 const clientLinks = [
@@ -23,12 +23,12 @@ const clientLinks = [
 const adminLinks = [
   { href: '/painel', label: 'Dashboard', icon: FaHome },
   { href: '/painel/clientes', label: 'Clientes', icon: FaUsers },
+  { href: '/painel/usuarios', label: 'Usuários', icon: FaUsersCog },
   { href: '/painel/relatorios', label: 'Relatórios', icon: FaFileAlt },
   { href: '/painel/relatorios/novo', label: 'Novo Relatório', icon: FaPlusCircle },
-  { href: '/painel/crm', label: 'CRM', icon: FaColumns },
-  { href: '/painel/financeiro', label: 'Financeiro', icon: FaDollarSign },
-  { href: '/painel/metas', label: 'Metas', icon: FaBullseye },
-  { href: '/painel/tickets', label: 'Tickets', icon: FaHeadset },
+  { href: '/painel/documentos', label: 'Documentos', icon: FaFolder },
+  { href: '/painel/timeline', label: 'Timeline', icon: FaStream },
+  { href: '/painel/suporte', label: 'Tickets', icon: FaHeadset },
   { href: '/painel/acessos', label: 'Acessos LP', icon: FaEye },
   { href: '/painel/configuracoes', label: 'Configurações', icon: FaCog },
 ];

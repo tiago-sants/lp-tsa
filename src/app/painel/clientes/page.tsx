@@ -7,14 +7,17 @@ import Link from 'next/link';
 import { FaPlus, FaEye, FaEdit, FaTrash, FaUserPlus } from 'react-icons/fa';
 
 interface Client {
-  id: number;
-  company_name: string;
-  contact_name: string;
-  contact_email: string;
-  contact_phone: string;
+  id: string;
+  name: string;
+  whatsapp: string;
+  email: string;
+  phone: string;
   status: string;
-  plan: string;
-  monthly_value: number;
+  contract_value: number;
+  cpf_cnpj: string;
+  city: string;
+  state: string;
+  has_login: boolean;
   created_at: string;
 }
 
@@ -23,17 +26,17 @@ export default function ClientesPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState({
-    company_name: '',
-    contact_name: '',
-    contact_email: '',
-    contact_phone: '',
-    plan: 'basic',
-    monthly_value: 0,
+    name: '',
+    whatsapp: '',
+    email: '',
+    phone: '',
+    contract_value: 0,
+    status: 'active',
     notes: '',
   });
-  const [createUser, setCreateUser] = useState(true);
+  const [createLogin, setCreateLogin] = useState(true);
   const [userPassword, setUserPassword] = useState('');
 
   const fetchClients = () => {
@@ -50,19 +53,19 @@ export default function ClientesPage() {
   }, [token]);
 
   const resetForm = () => {
-    setForm({ company_name: '', contact_name: '', contact_email: '', contact_phone: '', plan: 'basic', monthly_value: 0, notes: '' });
+    setForm({ name: '', whatsapp: '', email: '', phone: '', contract_value: 0, status: 'active', notes: '' });
     setEditId(null);
-    setCreateUser(true);
+    setCreateLogin(true);
     setUserPassword('');
   };
 
   const handleSubmit = async () => {
-    if (!token || !form.company_name) return;
+    if (!token || !form.name || !form.whatsapp) return;
     try {
       if (editId) {
         await api(`/clients/${editId}`, { token, method: 'PUT', body: form });
       } else {
-        await api('/clients', { token, method: 'POST', body: { ...form, createUser, password: userPassword || undefined } });
+        await api('/clients', { token, method: 'POST', body: { ...form, create_login: createLogin, password: userPassword || undefined } });
       }
       setShowForm(false);
       resetForm();
@@ -74,19 +77,19 @@ export default function ClientesPage() {
 
   const handleEdit = (client: Client) => {
     setForm({
-      company_name: client.company_name,
-      contact_name: client.contact_name,
-      contact_email: client.contact_email,
-      contact_phone: client.contact_phone,
-      plan: client.plan,
-      monthly_value: client.monthly_value,
+      name: client.name,
+      whatsapp: client.whatsapp,
+      email: client.email,
+      phone: client.phone,
+      contract_value: client.contract_value,
+      status: client.status,
       notes: '',
     });
     setEditId(client.id);
     setShowForm(true);
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string) => {
     if (!confirm('Tem certeza que deseja excluir este cliente?')) return;
     if (!token) return;
     try {
@@ -99,16 +102,8 @@ export default function ClientesPage() {
 
   const statusLabels: Record<string, { label: string; class: string }> = {
     active: { label: 'Ativo', class: 'badge-success' },
-    inactive: { label: 'Inativo', class: 'badge-danger' },
-    prospect: { label: 'Prospect', class: 'badge-warning' },
-    churned: { label: 'Cancelado', class: 'badge-danger' },
-  };
-
-  const planLabels: Record<string, string> = {
-    basic: 'Básico',
-    intermediate: 'Intermediário',
-    premium: 'Premium',
-    custom: 'Personalizado',
+    inactive: { label: 'Inativo', class: 'badge-warning' },
+    cancelled: { label: 'Cancelado', class: 'badge-danger' },
   };
 
   if (!user || user.role !== 'admin') return null;
@@ -129,43 +124,45 @@ export default function ClientesPage() {
           <h3 style={{ marginBottom: '1rem' }}>{editId ? 'Editar Cliente' : 'Novo Cliente'}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Nome da Empresa *</label>
-              <input type="text" value={form.company_name} onChange={(e) => setForm({ ...form, company_name: e.target.value })} style={inputStyle} />
+              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Nome / Empresa *</label>
+              <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} style={inputStyle} />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Nome do Contato</label>
-              <input type="text" value={form.contact_name} onChange={(e) => setForm({ ...form, contact_name: e.target.value })} style={inputStyle} />
+              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>WhatsApp *</label>
+              <input type="text" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} placeholder="62999999999" style={inputStyle} />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>E-mail do Contato</label>
-              <input type="email" value={form.contact_email} onChange={(e) => setForm({ ...form, contact_email: e.target.value })} style={inputStyle} />
+              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>E-mail</label>
+              <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} style={inputStyle} />
             </div>
             <div>
               <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Telefone</label>
-              <input type="text" value={form.contact_phone} onChange={(e) => setForm({ ...form, contact_phone: e.target.value })} style={inputStyle} />
+              <input type="text" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} style={inputStyle} />
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Plano</label>
-              <select value={form.plan} onChange={(e) => setForm({ ...form, plan: e.target.value })} style={inputStyle}>
-                <option value="basic">Básico</option>
-                <option value="intermediate">Intermediário</option>
-                <option value="premium">Premium</option>
-                <option value="custom">Personalizado</option>
-              </select>
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Valor Mensal (R$)</label>
-              <input type="number" value={form.monthly_value} onChange={(e) => setForm({ ...form, monthly_value: Number(e.target.value) })} style={inputStyle} />
+              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Valor do Contrato (R$)</label>
+              <input type="number" value={form.contract_value} onChange={(e) => setForm({ ...form, contract_value: Number(e.target.value) })} style={inputStyle} />
             </div>
           </div>
+
+          {editId && (
+            <div style={{ marginTop: '1rem' }}>
+              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Status</label>
+              <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} style={inputStyle}>
+                <option value="active">Ativo</option>
+                <option value="inactive">Inativo</option>
+                <option value="cancelled">Cancelado</option>
+              </select>
+            </div>
+          )}
 
           {!editId && (
             <div style={{ marginTop: '1rem', padding: '1rem', background: 'rgba(59,130,246,0.1)', borderRadius: '8px' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', cursor: 'pointer' }}>
-                <input type="checkbox" checked={createUser} onChange={(e) => setCreateUser(e.target.checked)} />
+                <input type="checkbox" checked={createLogin} onChange={(e) => setCreateLogin(e.target.checked)} />
                 <FaUserPlus /> Criar login para o cliente
               </label>
-              {createUser && (
+              {createLogin && (
                 <div style={{ marginTop: '0.5rem' }}>
                   <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Senha inicial (deixe vazio para gerar automática)</label>
                   <input type="text" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} placeholder="Senha inicial" style={inputStyle} />
@@ -194,10 +191,10 @@ export default function ClientesPage() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Empresa</th>
-                <th>Contato</th>
-                <th>Plano</th>
+                <th>Nome</th>
+                <th>WhatsApp</th>
                 <th>Valor</th>
+                <th>Login</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
@@ -208,12 +205,12 @@ export default function ClientesPage() {
                 return (
                   <tr key={client.id}>
                     <td>
-                      <div><strong>{client.company_name}</strong></div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{client.contact_email}</div>
+                      <div><strong>{client.name}</strong></div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{client.email}</div>
                     </td>
-                    <td>{client.contact_name}</td>
-                    <td>{planLabels[client.plan] || client.plan}</td>
-                    <td>R$ {client.monthly_value?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                    <td>{client.whatsapp}</td>
+                    <td>R$ {client.contract_value?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                    <td><span className={`badge ${client.has_login ? 'badge-success' : 'badge-danger'}`}>{client.has_login ? 'Sim' : 'Não'}</span></td>
                     <td><span className={`badge ${st.class}`}>{st.label}</span></td>
                     <td>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>

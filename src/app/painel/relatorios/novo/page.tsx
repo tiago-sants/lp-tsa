@@ -7,12 +7,87 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { FaRobot, FaPlus, FaTrash, FaSave, FaPaperPlane } from 'react-icons/fa';
 import { Suspense } from 'react';
 
+// Catálogo de métricas por objetivo (espelho do backend)
+type CampaignObjective = 'mensagens' | 'visualizacoes_video' | 'visitas_perfil' | 'seguidores' | 'acesso_site' | 'cliques' | 'outro';
+
+interface MetricDef { key: string; label: string; isCurrency?: boolean }
+
+const METRIC_CATALOG: Record<CampaignObjective, MetricDef[]> = {
+  mensagens: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+    { key: 'mensagensRecebidas', label: 'Mensagens Recebidas' },
+    { key: 'custoPorMensagem', label: 'Custo por Mensagem (R$)', isCurrency: true },
+    { key: 'visualizacoes', label: 'Visualizações' },
+  ],
+  visualizacoes_video: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+    { key: 'visualizacoesVideo', label: 'Visualizações de Vídeo' },
+    { key: 'thruPlays', label: 'ThruPlays (completos)' },
+    { key: 'custoPorVisualizacao', label: 'Custo por Visualização (R$)', isCurrency: true },
+    { key: 'alcance', label: 'Alcance' },
+  ],
+  visitas_perfil: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+    { key: 'visitasPerfil', label: 'Visitas no Perfil' },
+    { key: 'custoPorVisita', label: 'Custo por Visita (R$)', isCurrency: true },
+    { key: 'alcance', label: 'Alcance' },
+    { key: 'impressoes', label: 'Impressões' },
+  ],
+  seguidores: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+    { key: 'novosSeguidores', label: 'Novos Seguidores' },
+    { key: 'custoPorSeguidor', label: 'Custo por Seguidor (R$)', isCurrency: true },
+    { key: 'alcance', label: 'Alcance' },
+    { key: 'impressoes', label: 'Impressões' },
+  ],
+  acesso_site: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+    { key: 'cliquesNoLink', label: 'Cliques no Link' },
+    { key: 'custoPorClique', label: 'CPC (R$)', isCurrency: true },
+    { key: 'impressoes', label: 'Impressões' },
+    { key: 'ctr', label: 'CTR (%)' },
+  ],
+  cliques: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+    { key: 'cliques', label: 'Cliques' },
+    { key: 'custoPorClique', label: 'CPC (R$)', isCurrency: true },
+    { key: 'impressoes', label: 'Impressões' },
+    { key: 'ctr', label: 'CTR (%)' },
+  ],
+  outro: [
+    { key: 'investimento', label: 'Investimento (R$)', isCurrency: true },
+  ],
+};
+
+const OBJECTIVE_LABELS: Record<CampaignObjective, string> = {
+  mensagens: 'Mensagens',
+  visualizacoes_video: 'Visualizações de Vídeo',
+  visitas_perfil: 'Visitas no Perfil',
+  seguidores: 'Seguidores',
+  acesso_site: 'Acesso ao Site',
+  cliques: 'Cliques',
+  outro: 'Outro',
+};
+
+// Métricas auto-calculadas: costKey = investimento / resultKey
+const AUTO_CALC_RULES: Record<CampaignObjective, { costKey: string; resultKey: string }[]> = {
+  mensagens: [{ costKey: 'custoPorMensagem', resultKey: 'mensagensRecebidas' }],
+  visualizacoes_video: [{ costKey: 'custoPorVisualizacao', resultKey: 'visualizacoesVideo' }],
+  visitas_perfil: [{ costKey: 'custoPorVisita', resultKey: 'visitasPerfil' }],
+  seguidores: [{ costKey: 'custoPorSeguidor', resultKey: 'novosSeguidores' }],
+  acesso_site: [{ costKey: 'custoPorClique', resultKey: 'cliquesNoLink' }],
+  cliques: [{ costKey: 'custoPorClique', resultKey: 'cliques' }],
+  outro: [],
+};
+
+// Chaves que são auto-calculadas (readonly no form)
+const getAutoCalcKeys = (obj: CampaignObjective): Set<string> => {
+  return new Set(AUTO_CALC_RULES[obj].map(r => r.costKey));
+};
+
 interface MonthForm {
   mes: string;
-  investimento: string;
-  mensagensRecebidas: string;
-  custoPorMensagem: string;
-  visualizacoes: string;
+  metricas: Record<string, string>;
 }
 
 function NovoRelatorioContent() {
@@ -21,7 +96,7 @@ function NovoRelatorioContent() {
   const searchParams = useSearchParams();
   const preselectedClientId = searchParams.get('clientId');
 
-  const [clients, setClients] = useState<{ id: number; company_name: string }[]>([]);
+  const [clients, setClients] = useState<{ id: string; name: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [step, setStep] = useState(1);
@@ -29,25 +104,27 @@ function NovoRelatorioContent() {
   const [form, setForm] = useState({
     clientId: preselectedClientId || '',
     title: 'Relatório Estratégico Mensal',
+    objective: 'mensagens' as CampaignObjective,
   });
 
-  const [months, setMonths] = useState<MonthForm[]>([{
+  const currentMetrics = METRIC_CATALOG[form.objective];
+
+  const createEmptyMonth = (): MonthForm => ({
     mes: new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }),
-    investimento: '',
-    mensagensRecebidas: '',
-    custoPorMensagem: '',
-    visualizacoes: '',
-  }]);
+    metricas: {},
+  });
+
+  const [months, setMonths] = useState<MonthForm[]>([createEmptyMonth()]);
 
   const [result, setResult] = useState<{
-    reportId: number;
+    reportId: string;
     aiAnalysis: string;
     performanceScore: number;
   } | null>(null);
 
   const fetchClients = useCallback(() => {
     if (!token) return;
-    api<{ clients: { id: number; company_name: string }[] }>('/clients', { token })
+    api<{ clients: { id: string; name: string }[] }>('/clients', { token })
       .then((data) => setClients(data.clients || []))
       .catch(() => setClients([]));
   }, [token]);
@@ -55,13 +132,7 @@ function NovoRelatorioContent() {
   useEffect(() => { fetchClients(); }, [fetchClients]);
 
   const addMonth = () => {
-    setMonths([...months, {
-      mes: '',
-      investimento: '',
-      mensagensRecebidas: '',
-      custoPorMensagem: '',
-      visualizacoes: '',
-    }]);
+    setMonths([...months, { mes: '', metricas: {} }]);
   };
 
   const removeMonth = (idx: number) => {
@@ -69,9 +140,45 @@ function NovoRelatorioContent() {
     setMonths(months.filter((_, i) => i !== idx));
   };
 
-  const updateMonth = (idx: number, field: keyof MonthForm, value: string) => {
+  const updateMonthName = (idx: number, value: string) => {
     const updated = [...months];
-    updated[idx][field] = value;
+    updated[idx] = { ...updated[idx], mes: value };
+    setMonths(updated);
+  };
+
+  const updateMonthMetric = (idx: number, key: string, value: string) => {
+    const updated = [...months];
+    const newMetricas = { ...updated[idx].metricas, [key]: value };
+
+    // Auto-calcular custos por resultado
+    const rules = AUTO_CALC_RULES[form.objective];
+    for (const rule of rules) {
+      if (key === 'investimento' || key === rule.resultKey) {
+        const inv = parseFloat(key === 'investimento' ? value : (newMetricas.investimento || ''));
+        const res = parseFloat(key === rule.resultKey ? value : (newMetricas[rule.resultKey] || ''));
+        if (inv > 0 && res > 0) {
+          newMetricas[rule.costKey] = (inv / res).toFixed(2);
+        } else {
+          newMetricas[rule.costKey] = '';
+        }
+      }
+    }
+
+    // Auto-calcular CTR para acesso_site e cliques
+    if (form.objective === 'acesso_site' || form.objective === 'cliques') {
+      if (key === 'impressoes' || key === 'cliquesNoLink' || key === 'cliques') {
+        const cliquesKey = form.objective === 'acesso_site' ? 'cliquesNoLink' : 'cliques';
+        const cliquesVal = parseFloat(key === cliquesKey ? value : (newMetricas[cliquesKey] || ''));
+        const impressoesVal = parseFloat(key === 'impressoes' ? value : (newMetricas.impressoes || ''));
+        if (cliquesVal > 0 && impressoesVal > 0) {
+          newMetricas.ctr = ((cliquesVal / impressoesVal) * 100).toFixed(2);
+        } else {
+          newMetricas.ctr = '';
+        }
+      }
+    }
+
+    updated[idx] = { ...updated[idx], metricas: newMetricas };
     setMonths(updated);
   };
 
@@ -80,17 +187,18 @@ function NovoRelatorioContent() {
     setGenerating(true);
 
     try {
-      const meses = months.map((m) => ({
-        mes: m.mes,
-        investimento: m.investimento ? Number(m.investimento) : null,
-        mensagensRecebidas: m.mensagensRecebidas ? Number(m.mensagensRecebidas) : null,
-        custoPorMensagem: m.custoPorMensagem ? Number(m.custoPorMensagem) : null,
-        visualizacoes: m.visualizacoes ? Number(m.visualizacoes) : null,
-      }));
+      const meses = months.map((m) => {
+        const metricas: Record<string, number | null> = {};
+        for (const def of currentMetrics) {
+          const raw = m.metricas[def.key];
+          metricas[def.key] = raw ? Number(raw) : null;
+        }
+        return { mes: m.mes, metricas };
+      });
 
       const data = await api<{
         report: {
-          id: number;
+          id: string;
           ai_analysis: string;
           performance_score: number;
         };
@@ -98,8 +206,9 @@ function NovoRelatorioContent() {
         token,
         method: 'POST',
         body: {
-          clientId: Number(form.clientId),
+          clientId: form.clientId,
           title: form.title,
+          objective: form.objective,
           meses,
         },
       });
@@ -121,10 +230,9 @@ function NovoRelatorioContent() {
     if (!token || !result) return;
     setLoading(true);
     try {
-      await api(`/reports/${result.reportId}`, {
+      await api(`/reports/${result.reportId}/approve`, {
         token,
         method: 'PUT',
-        body: { status: 'published' },
       });
       router.push(`/painel/relatorios/${result.reportId}`);
     } catch {
@@ -170,7 +278,19 @@ function NovoRelatorioContent() {
               <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cliente *</label>
               <select value={form.clientId} onChange={(e) => setForm({ ...form, clientId: e.target.value })} style={inputStyle}>
                 <option value="">Selecione um cliente</option>
-                {clients.map((c) => <option key={c.id} value={c.id}>{c.company_name}</option>)}
+                {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Objetivo da Campanha *</label>
+              <select value={form.objective} onChange={(e) => {
+                setForm({ ...form, objective: e.target.value as CampaignObjective });
+                // Limpa métricas ao trocar objetivo
+                setMonths(months.map(m => ({ ...m, metricas: {} })));
+              }} style={inputStyle}>
+                {Object.entries(OBJECTIVE_LABELS).map(([key, label]) => (
+                  <option key={key} value={key}>{label}</option>
+                ))}
               </select>
             </div>
             <div>
@@ -187,12 +307,18 @@ function NovoRelatorioContent() {
       {/* Step 2: Metrics */}
       {step === 2 && (
         <>
+          <div style={{ marginBottom: '1rem', padding: '0.75rem 1rem', background: 'var(--bg-tertiary)', borderRadius: '8px', borderLeft: '3px solid var(--accent-color)' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              Objetivo: <strong style={{ color: 'var(--accent-color)' }}>{OBJECTIVE_LABELS[form.objective]}</strong>
+            </span>
+          </div>
+
           {months.map((month, monthIdx) => (
             <div key={monthIdx} className="stat-card" style={{ marginBottom: '1.5rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                 <div style={{ flex: 1, marginRight: '1rem' }}>
                   <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Período (mês)</label>
-                  <input type="text" value={month.mes} onChange={(e) => updateMonth(monthIdx, 'mes', e.target.value)} placeholder="Ex: Janeiro 2025" style={inputStyle} />
+                  <input type="text" value={month.mes} onChange={(e) => updateMonthName(monthIdx, e.target.value)} placeholder="Ex: Janeiro 2025" style={inputStyle} />
                 </div>
                 {months.length > 1 && (
                   <button onClick={() => removeMonth(monthIdx)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '0.5rem' }} title="Remover mês">
@@ -202,22 +328,29 @@ function NovoRelatorioContent() {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                <div>
-                  <label style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Investimento (R$)</label>
-                  <input type="number" step="0.01" value={month.investimento} onChange={(e) => updateMonth(monthIdx, 'investimento', e.target.value)} placeholder="0.00" style={inputStyle} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Mensagens Recebidas</label>
-                  <input type="number" value={month.mensagensRecebidas} onChange={(e) => updateMonth(monthIdx, 'mensagensRecebidas', e.target.value)} placeholder="0" style={inputStyle} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Custo por Mensagem (R$)</label>
-                  <input type="number" step="0.01" value={month.custoPorMensagem} onChange={(e) => updateMonth(monthIdx, 'custoPorMensagem', e.target.value)} placeholder="0.00" style={inputStyle} />
-                </div>
-                <div>
-                  <label style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Visualizações</label>
-                  <input type="number" value={month.visualizacoes} onChange={(e) => updateMonth(monthIdx, 'visualizacoes', e.target.value)} placeholder="0" style={inputStyle} />
-                </div>
+                {currentMetrics.map((def) => {
+                  const autoCalcKeys = getAutoCalcKeys(form.objective);
+                  const isAutoCalc = autoCalcKeys.has(def.key) || (def.key === 'ctr' && (form.objective === 'acesso_site' || form.objective === 'cliques'));
+                  return (
+                    <div key={def.key}>
+                      <label style={{ display: 'block', marginBottom: '0.2rem', fontSize: '0.8rem', color: isAutoCalc ? 'var(--accent-color)' : 'var(--text-secondary)' }}>
+                        {def.label} {isAutoCalc && <span style={{ fontSize: '0.7rem' }}>(auto)</span>}
+                      </label>
+                      <input
+                        type="number"
+                        step={def.isCurrency || def.key === 'ctr' ? '0.01' : '1'}
+                        value={month.metricas[def.key] || ''}
+                        onChange={(e) => updateMonthMetric(monthIdx, def.key, e.target.value)}
+                        placeholder={def.isCurrency ? '0.00' : '0'}
+                        readOnly={isAutoCalc}
+                        style={{
+                          ...inputStyle,
+                          ...(isAutoCalc ? { background: 'var(--bg-secondary)', borderColor: 'var(--accent-color)', opacity: 0.85, cursor: 'default' } : {}),
+                        }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

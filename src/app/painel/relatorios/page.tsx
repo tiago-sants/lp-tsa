@@ -23,7 +23,7 @@ export default function RelatoriosPage() {
 
   useEffect(() => {
     if (!token || !user) return;
-    const url = user.role === 'admin' ? '/reports' : `/reports?clientId=${user.clientId}`;
+    const url = user.role === 'admin' ? '/reports' : `/reports/client/${user.id}`;
     api<{ reports: Report[] }>(url, { token })
       .then((data) => setReports(data.reports || []))
       .catch(() => setReports([]))

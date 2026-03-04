@@ -22,6 +22,10 @@
   --shadow-medium: 0 8px 30px rgba(0, 212, 255, 0.15);
   --shadow-heavy: 0 12px 40px rgba(0, 212, 255, 0.2);
   --shadow-neon: 0 0 20px rgba(57, 255, 20, 0.3);
+  --bg-tertiary: #2d2d2d;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --text-primary: #ffffff;
+  --text-secondary: #808080;
 }
 
 /* ===== RESET ===== */

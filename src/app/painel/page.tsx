@@ -29,12 +29,12 @@ export default function PainelPage() {
   useEffect(() => {
     if (!token || !user) return;
 
-    if (user.role === 'client' && user.clientId) {
+    if (user.role === 'client') {
       Promise.all([
-        api<{ reports: Array<unknown> }>(`/reports?clientId=${user.clientId}`, { token }).catch(() => ({ reports: [] })),
-        api<{ documents: Array<unknown> }>(`/documents?clientId=${user.clientId}`, { token }).catch(() => ({ documents: [] })),
+        api<{ reports: Array<unknown> }>(`/reports/client/${user.id}`, { token }).catch(() => ({ reports: [] })),
+        api<{ documents: Array<unknown> }>(`/documents?clientId=${user.id}`, { token }).catch(() => ({ documents: [] })),
         api<{ tickets: Array<unknown> }>('/tickets/my', { token }).catch(() => ({ tickets: [] })),
-        api<{ events: Array<unknown> }>(`/timeline/${user.clientId}`, { token }).catch(() => ({ events: [] })),
+        api<{ events: Array<unknown> }>(`/timeline/client/${user.id}`, { token }).catch(() => ({ events: [] })),
       ]).then(([r, d, t, e]) => {
         setClientStats({
           reports: (r as { reports: Array<unknown> }).reports?.length || 0,
@@ -48,18 +48,19 @@ export default function PainelPage() {
     if (user.role === 'admin') {
       Promise.all([
         api<{ clients: Array<unknown> }>('/clients', { token }).catch(() => ({ clients: [] })),
-        api<{ dashboard: { mrr: number } }>('/financial/dashboard', { token }).catch(() => ({ dashboard: { mrr: 0 } })),
+        api<{ mrr: number }>('/financial/dashboard', { token }).catch(() => ({ mrr: 0 })),
         api<{ tickets: Array<unknown> }>('/tickets', { token }).catch(() => ({ tickets: [] })),
-        api<{ stats: { total: number } }>('/crm/stats', { token }).catch(() => ({ stats: { total: 0 } })),
-      ]).then(([c, f, t, crm]) => {
+        api<{ total: number }>('/crm/stats', { token }).catch(() => ({ total: 0 })),
+        api<{ reports: Array<unknown> }>('/reports', { token }).catch(() => ({ reports: [] })),
+      ]).then(([c, f, t, crm, r]) => {
         const clients = (c as { clients: Array<{ status: string }> }).clients || [];
         setAdminStats({
           totalClients: clients.length,
           activeClients: clients.filter((cl: { status: string }) => cl.status === 'active').length,
-          totalReports: 0,
-          mrr: (f as { dashboard: { mrr: number } }).dashboard?.mrr || 0,
+          totalReports: (r as { reports: Array<unknown> }).reports?.length || 0,
+          mrr: (f as { mrr: number }).mrr || 0,
           openTickets: (t as { tickets: Array<{ status: string }> }).tickets?.filter((tk: { status: string }) => tk.status !== 'closed').length || 0,
-          crmProspects: (crm as { stats: { total: number } }).stats?.total || 0,
+          crmProspects: (crm as { total: number }).total || 0,
         });
       });
     }
@@ -104,6 +105,10 @@ export default function PainelPage() {
           <div className="stat-card">
             <div className="stat-label">Clientes Ativos</div>
             <div className="stat-value">{adminStats.activeClients}/{adminStats.totalClients}</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Relatórios</div>
+            <div className="stat-value">{adminStats.totalReports}</div>
           </div>
           <div className="stat-card">
             <div className="stat-label">MRR</div>

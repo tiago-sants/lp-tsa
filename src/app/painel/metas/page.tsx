@@ -25,7 +25,7 @@ export default function MetasPage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
-  const [clients, setClients] = useState<{ id: number; company_name: string }[]>([]);
+  const [clients, setClients] = useState<{ id: string; name: string }[]>([]);
   const [form, setForm] = useState({
     client_id: '', title: '', description: '', target_value: 0, current_value: 0, unit: 'leads', deadline: '',
   });
@@ -34,7 +34,7 @@ export default function MetasPage() {
     if (!token) return;
     Promise.all([
       api<{ goals: Goal[] }>('/goals', { token }),
-      api<{ clients: { id: number; company_name: string }[] }>('/clients', { token }),
+      api<{ clients: { id: string; name: string }[] }>('/clients', { token }),
     ])
       .then(([g, c]) => {
         setGoals(g.goals || []);
@@ -119,7 +119,7 @@ export default function MetasPage() {
               <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cliente *</label>
               <select value={form.client_id} onChange={(e) => setForm({ ...form, client_id: e.target.value })} style={inputStyle}>
                 <option value="">Selecione</option>
-                {clients.map((c) => <option key={c.id} value={c.id}>{c.company_name}</option>)}
+                {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
             </div>
             <div>

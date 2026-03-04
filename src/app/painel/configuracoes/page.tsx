@@ -8,7 +8,7 @@ export default function ConfiguracoesPage() {
   const { user } = useAuth();
   const [saved, setSaved] = useState(false);
 
-  const [settings, setSettings] = useState({
+  const defaultSettings = {
     notifyNewTicket: true,
     notifyNewAccess: false,
     notifyPaymentDue: true,
@@ -17,6 +17,16 @@ export default function ConfiguracoesPage() {
     defaultPlan: 'basic',
     companyName: 'TSA Soluções',
     companyEmail: 'contato@tsasolucoes.com',
+  };
+
+  const [settings, setSettings] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('tsa_settings');
+      if (saved) {
+        try { return { ...defaultSettings, ...JSON.parse(saved) }; } catch { /* ignore */ }
+      }
+    }
+    return defaultSettings;
   });
 
   const handleSave = () => {

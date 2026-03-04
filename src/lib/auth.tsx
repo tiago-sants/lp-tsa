@@ -8,7 +8,10 @@ export interface User {
   email: string;
   name: string;
   role: 'admin' | 'client';
-  clientId?: string;
+  whatsapp?: string;
+  phone?: string;
+  status?: string;
+  contract_value?: number;
 }
 
 interface AuthContextType {

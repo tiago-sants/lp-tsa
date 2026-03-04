@@ -32,7 +32,7 @@ export default function FinanceiroPage() {
   const [dashboard, setDashboard] = useState<FinancialDashboard | null>(null);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [clients, setClients] = useState<{ id: number; company_name: string }[]>([]);
+  const [clients, setClients] = useState<{ id: string; name: string }[]>([]);
   const [form, setForm] = useState({
     client_id: '', type: 'income', category: 'mensalidade', amount: 0, description: '', reference_month: new Date().toISOString().slice(0, 7), due_date: '', status: 'pending',
   });
@@ -42,7 +42,7 @@ export default function FinanceiroPage() {
     Promise.all([
       api<{ entries: FinancialEntry[] }>('/financial', { token }),
       api<{ dashboard: FinancialDashboard }>('/financial/dashboard', { token }),
-      api<{ clients: { id: number; company_name: string }[] }>('/clients', { token }),
+      api<{ clients: { id: string; name: string }[] }>('/clients', { token }),
     ])
       .then(([e, d, c]) => {
         setEntries(e.entries || []);
@@ -142,7 +142,7 @@ export default function FinanceiroPage() {
               <label style={{ display: 'block', marginBottom: '0.3rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cliente</label>
               <select value={form.client_id} onChange={(e) => setForm({ ...form, client_id: e.target.value })} style={inputStyle}>
                 <option value="">Sem vínculo</option>
-                {clients.map((c) => <option key={c.id} value={c.id}>{c.company_name}</option>)}
+                {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
             </div>
             <div>
