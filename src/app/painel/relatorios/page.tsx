@@ -4,7 +4,7 @@ import { useAuth } from '@/lib/auth';
 import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
 import Link from 'next/link';
-import { FaEye, FaPlus } from 'react-icons/fa';
+import { FaEye, FaPlus, FaFilePdf } from 'react-icons/fa';
 
 interface Report {
   id: number;
@@ -90,9 +90,14 @@ export default function RelatoriosPage() {
                   <td>{getStatusLabel(report.status)}</td>
                   <td>{new Date(report.created_at).toLocaleDateString('pt-BR')}</td>
                   <td>
-                    <Link href={`/painel/relatorios/${report.id}`} style={{ color: 'var(--accent-color)' }}>
-                      <FaEye />
-                    </Link>
+                    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                      <Link href={`/painel/relatorios/${report.id}`} style={{ color: 'var(--accent-color)' }} title="Ver relatório">
+                        <FaEye />
+                      </Link>
+                      <Link href={`/painel/relatorios/${report.id}?download=true`} style={{ color: '#dc2626' }} title="Baixar PDF">
+                        <FaFilePdf />
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ))}

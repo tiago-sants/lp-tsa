@@ -3,7 +3,7 @@
 import { useAuth } from '@/lib/auth';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { api } from '@/lib/api';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { FaArrowLeft, FaCheckCircle, FaFilePdf, FaEye, FaTimes } from 'react-icons/fa';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -183,6 +183,9 @@ export default function ReportDetailPage() {
   const [showPreview, setShowPreview] = useState(false);
   const [generatingPdf, setGeneratingPdf] = useState(false);
   const pdfRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const autoDownload = searchParams.get('download') === 'true';
+  const downloadTriggered = useRef(false);
 
   useEffect(() => {
     if (!token || !params.id) return;
@@ -223,6 +226,16 @@ export default function ReportDetailPage() {
       setGeneratingPdf(false);
     }
   }, [report]);
+
+  // Auto-download quando vem da lista de relatórios com ?download=true
+  useEffect(() => {
+    if (autoDownload && report && !loading && !downloadTriggered.current) {
+      downloadTriggered.current = true;
+      // Pequeno delay para garantir que o componente PDF renderizou
+      const timer = setTimeout(() => handleDownloadPdf(), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [autoDownload, report, loading, handleDownloadPdf]);
 
   // Componente de relatório renderizável (usado para PDF e preview do cliente)
   const ReportPrintView = ({ forPdf }: { forPdf?: boolean }) => {
@@ -308,7 +321,7 @@ export default function ReportDetailPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                     <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} />
                     <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                    <Bar dataKey={investKey} fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey={investKey} fill="#3b82f6" radius={[4, 4, 0, 0]} isAnimationActive={false} />
                   </BarChart>
                 ) : (
                   <ResponsiveContainer width="100%" height={180}>
@@ -330,7 +343,7 @@ export default function ReportDetailPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
                     <XAxis dataKey="name" tick={{ fill: '#94a3b8', fontSize: 11 }} />
                     <YAxis tick={{ fill: '#94a3b8', fontSize: 11 }} />
-                    <Bar dataKey={mainResultKey} fill="#22c55e" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey={mainResultKey} fill="#22c55e" radius={[4, 4, 0, 0]} isAnimationActive={false} />
                   </BarChart>
                 ) : (
                   <ResponsiveContainer width="100%" height={180}>
@@ -359,6 +372,7 @@ export default function ReportDetailPage() {
                     data={resultKeys.filter(k => chartData[0][k] != null && Number(chartData[0][k]) > 0).map((k, i) => ({ name: formatKeyLabel(k), value: Number(chartData[0][k]), fill: CHART_COLORS[i % CHART_COLORS.length] }))}
                     cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={3} dataKey="value"
                     label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    isAnimationActive={false}
                   >
                     {resultKeys.map((_, i) => (
                       <Cell key={`cell-${i}`} fill={CHART_COLORS[i % CHART_COLORS.length]} />
@@ -540,6 +554,15 @@ export default function ReportDetailPage() {
               <FaEye /> Preview Cliente
             </button>
           </div>
+        )}
+        {user.role === 'client' && (
+          <button
+            onClick={handleDownloadPdf}
+            disabled={generatingPdf}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', padding: '0.5rem 1rem', background: '#dc2626', border: 'none', borderRadius: '6px', color: '#fff', cursor: 'pointer', fontSize: '0.85rem' }}
+          >
+            <FaFilePdf /> {generatingPdf ? 'Gerando...' : 'Baixar PDF'}
+          </button>
         )}
       </div>
 
