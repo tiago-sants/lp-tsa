@@ -371,7 +371,7 @@ export default function ReportDetailPage() {
                   <Pie
                     data={resultKeys.filter(k => chartData[0][k] != null && Number(chartData[0][k]) > 0).map((k, i) => ({ name: formatKeyLabel(k), value: Number(chartData[0][k]), fill: CHART_COLORS[i % CHART_COLORS.length] }))}
                     cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={3} dataKey="value"
-                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    label={({ name, percent }: { name?: string; percent?: number }) => `${name ?? ''} (${((percent ?? 0) * 100).toFixed(0)}%)`}
                     isAnimationActive={false}
                   >
                     {resultKeys.map((_, i) => (
@@ -386,7 +386,7 @@ export default function ReportDetailPage() {
                     <Pie
                       data={resultKeys.filter(k => chartData[0][k] != null && Number(chartData[0][k]) > 0).map((k, i) => ({ name: formatKeyLabel(k), value: Number(chartData[0][k]), fill: CHART_COLORS[i % CHART_COLORS.length] }))}
                       cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={3} dataKey="value"
-                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                      label={({ name, percent }: { name?: string; percent?: number }) => `${name ?? ''} (${((percent ?? 0) * 100).toFixed(0)}%)`}
                     >
                       {resultKeys.map((_, i) => (
                         <Cell key={`cell-${i}`} fill={CHART_COLORS[i % CHART_COLORS.length]} />
@@ -647,7 +647,7 @@ export default function ReportDetailPage() {
                       <Pie
                         data={resultKeys.filter(k => chartData[0][k] != null && Number(chartData[0][k]) > 0).map((k, i) => ({ name: formatKeyLabel(k), value: Number(chartData[0][k]), fill: CHART_COLORS[i % CHART_COLORS.length] }))}
                         cx="50%" cy="50%" innerRadius={55} outerRadius={85} paddingAngle={3} dataKey="value"
-                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                        label={({ name, percent }: { name?: string; percent?: number }) => `${name ?? ''} (${((percent ?? 0) * 100).toFixed(0)}%)`}
                       >
                         {resultKeys.map((_, i) => (
                           <Cell key={`cell-${i}`} fill={CHART_COLORS[i % CHART_COLORS.length]} />
