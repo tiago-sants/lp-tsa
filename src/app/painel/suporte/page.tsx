@@ -74,9 +74,17 @@ export default function SuportePage() {
   const handleReply = async () => {
     if (!token || !selectedTicket || !reply.trim()) return;
     try {
-      await api(`/tickets/${selectedTicket.id}/messages`, { token, method: 'POST', body: { message: reply } });
+      const data = await api<{ ticketMessage?: TicketMessage }>(`/tickets/${selectedTicket.id}/messages`, { token, method: 'POST', body: { message: reply } });
       setReply('');
-      openTicketDetail(selectedTicket);
+      // Adicionar mensagem localmente para feedback instantâneo
+      if (data.ticketMessage) {
+        setSelectedTicket({
+          ...selectedTicket,
+          messages: [...(selectedTicket.messages || []), data.ticketMessage],
+        });
+      } else {
+        openTicketDetail(selectedTicket);
+      }
     } catch {
       alert('Erro ao enviar resposta');
     }
@@ -138,13 +146,6 @@ export default function SuportePage() {
               </select>
             </div>
           )}
-        </div>
-
-        <div className="stat-card" style={{ marginBottom: '1rem' }}>
-          <p style={{ color: 'var(--text-secondary)', whiteSpace: 'pre-wrap' }}>{selectedTicket.description}</p>
-          <small style={{ color: 'var(--text-secondary)' }}>
-            Criado em {new Date(selectedTicket.created_at).toLocaleString('pt-BR')}
-          </small>
         </div>
 
         {/* Messages */}
