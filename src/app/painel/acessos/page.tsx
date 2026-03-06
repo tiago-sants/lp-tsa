@@ -28,7 +28,7 @@ export default function AcessosPage() {
   useEffect(() => {
     if (!token) return;
     setLoading(true);
-    api<{ logs: AccessLog[]; total: number }>(`/access/logs?page=${page}&limit=${perPage}`, { token })
+    api<{ logs: AccessLog[]; total: number }>(`/access-logs?page=${page}&limit=${perPage}`, { token })
       .then((data) => {
         setLogs(data.logs || []);
         setTotal(data.total || 0);
