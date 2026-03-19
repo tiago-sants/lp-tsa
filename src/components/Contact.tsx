@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
-import { FaPhone, FaEnvelope, FaWhatsapp, FaPaperPlane, FaCheckCircle, FaSpinner } from 'react-icons/fa';
-import { FaInstagram } from 'react-icons/fa';
+import Link from 'next/link';
 import { notifyTelegram } from '@/lib/telegram';
 
 declare global {
@@ -10,6 +9,19 @@ declare global {
     fbq?: (...args: unknown[]) => void;
   }
 }
+
+const testimonials = [
+  {
+    text: 'Depois que comecei com a TSA, meu faturamento simplesmente virou outro. O tráfego tá muito bem feito, tudo otimizado... finalmente senti que meu dinheiro tava trabalhando de verdade.',
+    name: 'Kaio Zaga',
+    result: '+1M em vendas',
+  },
+  {
+    text: 'Eu já tinha tentado anunciar antes, mas nunca tive resultado de verdade. Com a TSA foi diferente. Em menos de 1 mês já começou a entrar lead todo dia no WhatsApp.',
+    name: 'Leandro Favarete',
+    result: '+500k em vendas',
+  },
+];
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
@@ -43,7 +55,7 @@ export default function Contact() {
     if (!validate()) return;
 
     setLoading(true);
-    notifyTelegram('[HOME] 🚀 Clique em : ENVIAR MENSAGEM');
+    notifyTelegram('[HOME] Clique em: ENVIAR MENSAGEM');
 
     try {
       const emailjs = (await import('@emailjs/browser')).default;
@@ -66,92 +78,120 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="contact">
-      <div className="container">
-        <div className="section-header">
-          <h2>Entre em Contato</h2>
-          <p>Pronto para transformar seu negócio? Vamos conversar!</p>
-        </div>
-        <div className="contact-content">
-          <div className="contact-info">
-            <h3>Fale Conosco</h3>
-            <div className="contact-item">
-              <div className="contact-icon"><FaPhone color="#fff" /></div>
-              <div className="contact-details">
-                <h4>Telefone</h4>
-                <p>
-                  <a href="tel:+5562991845391" onClick={() => { window.fbq?.('trackCustom', 'BotaoTelefone'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO TELEFONE'); }}>
-                    (62) 99184-5391
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="contact-item">
-              <div className="contact-icon"><FaEnvelope color="#fff" /></div>
-              <div className="contact-details">
-                <h4>Email</h4>
-                <p>
-                  <a href="mailto:tiago@tsasolucoes.com" onClick={() => { window.fbq?.('trackCustom', 'BotaoEmail'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO EMAIL'); }}>
-                    tiago@tsasolucoes.com
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="contact-item">
-              <div className="contact-icon"><FaInstagram color="#fff" /></div>
-              <div className="contact-details">
-                <h4>Instagram</h4>
-                <p>
-                  <a href="https://instagram.com/tsasolucoes" target="_blank" rel="noopener noreferrer" onClick={() => { window.fbq?.('trackCustom', 'BotaoInstagram'); notifyTelegram('[HOME] 🚀 Clique em : BOTÃO INSTAGRAM'); }}>
-                    @tsasolucoes
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div className="contact-item">
-              <div className="contact-icon"><FaWhatsapp color="#fff" /></div>
-              <div className="contact-details">
-                <h4>WhatsApp</h4>
-                <p>
-                  <a href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções." target="_blank" rel="noopener noreferrer" onClick={() => notifyTelegram('[HOME] 🚀 Clique em : BOTÃO WHATSAPP')}>
-                    (62) 99184-5391
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
+    <section id="contact" className="contact-brutalist fade-in-section">
+      <span className="section-label">/ CANAL ABERTO / p. 006</span>
 
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="name">Nome *</label>
-              <input type="text" id="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-              {errors.name && <span className="error-message show">{errors.name}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email *</label>
-              <input type="email" id="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-              {errors.email && <span className="error-message show">{errors.email}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="phone">Telefone *</label>
-              <input type="tel" id="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: formatPhone(e.target.value) })} />
-              {errors.phone && <span className="error-message show">{errors.phone}</span>}
-            </div>
-            <div className="form-group">
-              <label htmlFor="message">Mensagem *</label>
-              <textarea id="message" rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
-              {errors.message && <span className="error-message show">{errors.message}</span>}
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? <><FaSpinner className="animate-spin" /> Enviando...</> : <><FaPaperPlane /> Enviar Mensagem</>}
-            </button>
-            {success && (
-              <div className="success-message show">
-                <FaCheckCircle /> Mensagem enviada com sucesso! Entraremos em contato em breve.
-              </div>
-            )}
-          </form>
+      <p className="text-micro" style={{ color: 'var(--primary)', letterSpacing: '3px', marginTop: '2vw' }}>
+        VAMOS FAZER SEU NEGÓCIO DECOLAR.
+      </p>
+
+      <a
+        href="mailto:contato@tsasolucoes.com"
+        className="title-contact-email"
+        style={{ display: 'block', marginTop: '2vw' }}
+        onClick={() => {
+          window.fbq?.('trackCustom', 'BotaoEmail');
+          notifyTelegram('[HOME] Clique em: EMAIL');
+        }}
+      >
+        contato@tsasolucoes.com
+      </a>
+
+      <form className="contact-form-brutalist" onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label htmlFor="name">NOME</label>
+          <input
+            type="text"
+            id="name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            placeholder="Seu nome"
+          />
+          {errors.name && <span className="contact-error">{errors.name}</span>}
         </div>
+        <div className="form-field">
+          <label htmlFor="email">EMAIL</label>
+          <input
+            type="email"
+            id="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="seu@email.com"
+          />
+          {errors.email && <span className="contact-error">{errors.email}</span>}
+        </div>
+        <div className="form-field">
+          <label htmlFor="phone">TELEFONE</label>
+          <input
+            type="tel"
+            id="phone"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: formatPhone(e.target.value) })}
+            placeholder="(00) 00000-0000"
+          />
+          {errors.phone && <span className="contact-error">{errors.phone}</span>}
+        </div>
+        <div className="form-field full-width">
+          <label htmlFor="message">MENSAGEM</label>
+          <textarea
+            id="message"
+            rows={4}
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            placeholder="Como podemos ajudar?"
+          />
+          {errors.message && <span className="contact-error">{errors.message}</span>}
+        </div>
+        <div className="submit-btn">
+          <button type="submit" className="action-link" disabled={loading}>
+            {loading ? 'ENVIANDO...' : 'ENVIAR MENSAGEM →'}
+          </button>
+          {success && (
+            <p className="contact-success">Mensagem enviada com sucesso! Entraremos em contato em breve.</p>
+          )}
+        </div>
+      </form>
+
+      <div className="contact-social-row">
+        <a
+          href="https://instagram.com/tsasolucoes"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="social-link"
+          onClick={() => {
+            window.fbq?.('trackCustom', 'BotaoInstagram');
+            notifyTelegram('[HOME] Clique em: INSTAGRAM');
+          }}
+        >
+          INSTAGRAM ↗
+        </a>
+        <a
+          href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="social-link"
+          onClick={() => notifyTelegram('[HOME] Clique em: WHATSAPP')}
+        >
+          WHATSAPP ↗
+        </a>
+        <a
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="social-link"
+          onClick={() => notifyTelegram('[HOME] Clique em: LINKEDIN')}
+        >
+          LINKEDIN ↗
+        </a>
+      </div>
+
+      <div className="contact-footer">
+        <span className="text-micro-italic" style={{ fontStyle: 'normal' }}>
+          tsasolucoes.com / 2026
+        </span>
+        <Link href="/login" className="social-link" style={{ fontSize: '10px' }}>
+          ÁREA DO CLIENTE ↗
+        </Link>
       </div>
     </section>
   );
