@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body style={{ cursor: 'none' }}>
+      <body>
         <AuthProvider>
           {children}
         </AuthProvider>

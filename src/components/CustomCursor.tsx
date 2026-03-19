@@ -12,9 +12,11 @@ export default function CustomCursor() {
     // Skip on touch devices
     if ('ontouchstart' in window) {
       dot.style.display = 'none';
-      document.body.style.cursor = 'auto';
       return;
     }
+
+    // Hide default cursor only on this page
+    document.body.style.cursor = 'none';
 
     let mouseX = 0;
     let mouseY = 0;
@@ -49,6 +51,7 @@ export default function CustomCursor() {
     requestAnimationFrame(animate);
 
     return () => {
+      document.body.style.cursor = 'auto';
       window.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseover', onMouseOver);
       document.removeEventListener('mouseout', onMouseOut);
