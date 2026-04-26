@@ -257,6 +257,18 @@ body {
   transition: color 0.3s ease;
 }
 
+.manifesto-line {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+}
+.manifesto-line > .manifesto-lang {
+  grid-column: 1;
+  grid-row: 1;
+  display: block;
+  will-change: opacity, transform;
+}
+
 .manifesto-tagline {
   font-family: var(--font-mono);
   font-weight: 700;

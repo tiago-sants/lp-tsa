@@ -835,17 +835,11 @@ section.cream .crest-mini-inner .layer img.light-bg,
     height:auto;min-height:46vh;
     padding:30px 14px;
     border-top:1px solid var(--rule-strong);
+    overflow:visible !important;
   }
   /* Hide grid pattern background on mobile — combined with the cropped
      drop-shadow it was producing a square halo around the crest. */
   body.is-mobile .cover-r::before{display:none}
-  /* Vignette overlay that fades the rectangular drop-shadow into the
-     surrounding ink. Pseudo-element (not mask) so children — palette-picker,
-     moons, crest — keep rendering normally. */
-  body.is-mobile .cover-r::after{
-    content:'';position:absolute;inset:0;pointer-events:none;z-index:4;
-    background:radial-gradient(ellipse 75% 75% at 50% 50%, transparent 50%, var(--ink) 95%);
-  }
   body.is-mobile .palette-picker{z-index:10000 !important}
   body.is-mobile .cover-r .crest{width:55%}
   body.is-mobile .cover-r .ring,
@@ -859,18 +853,23 @@ section.cream .crest-mini-inner .layer img.light-bg,
   body.is-mobile .cover-r .orbit.o3{width:68%;height:68%}
   body.is-mobile .cover-r .moon{width:14px;height:14px}
 
-  /* Palette picker — small chip bottom-right */
+  /* Palette picker — sits inline next to the "Ver sumário" button on mobile.
+     JS wraps both into .cover-l-cta-row inside .cover-l. */
+  body.is-mobile .cover-l-cta-row{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    align-self:flex-start;margin-top:6px;
+  }
+  body.is-mobile .cover-l-cta-row .sum-trigger{margin-top:0}
   body.is-mobile .palette-picker{
-    position:fixed !important;
-    bottom:14px;right:14px;left:auto;top:auto;
-    background:rgba(13,13,13,.88);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-    padding:8px 10px;border-radius:30px;border:1px solid var(--rule-strong);
-    z-index:9000;
+    position:static !important;
+    inset:auto !important;
     transform:none !important;
+    margin:0 !important;
+    flex-direction:row;
+    gap:0;
   }
   body.is-mobile .palette-picker .pp-label{display:none}
-  body.is-mobile .palette-swatches{gap:6px}
+  body.is-mobile .palette-swatches{gap:6px;padding:6px 10px}
   body.is-mobile .palette-picker .swatch{width:18px;height:18px}
 
   /* ---------- SLIDE 02 SOBRE ---------- */
@@ -1839,9 +1838,37 @@ section.cream .crest-mini-inner .layer img.light-bg,
     sr.appendChild(st);
   }
 
+  // On mobile, group the "Ver sumário" button and the palette-picker into a
+  // flex-row wrapper so they sit side by side at the end of .cover-l.
+  // On desktop, restore: sum-trigger back into .cover-l, picker back into .cover-r.
+  var picker=document.getElementById('palettePicker');
+  var pickerHome=picker?picker.parentNode:null;
+  var sumTrigger=document.getElementById('sumTrigger');
+  var sumHome=sumTrigger?sumTrigger.parentNode:null;
+  var ctaRow=null;
+  function movePicker(toMobile){
+    if(!picker||!sumTrigger) return;
+    if(toMobile){
+      if(!ctaRow){
+        ctaRow=document.createElement('div');
+        ctaRow.className='cover-l-cta-row';
+      }
+      if(ctaRow.parentNode!==sumHome){
+        sumHome.appendChild(ctaRow);
+      }
+      if(sumTrigger.parentNode!==ctaRow) ctaRow.appendChild(sumTrigger);
+      if(picker.parentNode!==ctaRow) ctaRow.appendChild(picker);
+    } else {
+      if(sumHome && sumTrigger.parentNode!==sumHome) sumHome.appendChild(sumTrigger);
+      if(pickerHome && picker.parentNode!==pickerHome) pickerHome.appendChild(picker);
+      if(ctaRow && ctaRow.parentNode) ctaRow.parentNode.removeChild(ctaRow);
+    }
+  }
+
   function apply(){
     var isMobile=MQ.matches;
     document.body.classList.toggle('is-mobile',isMobile);
+    movePicker(isMobile);
     if(isMobile){
       var tryInject=function(){
         if(deck.shadowRoot){injectShadowMobile();}

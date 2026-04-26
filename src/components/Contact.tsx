@@ -166,7 +166,7 @@ export default function Contact() {
           INSTAGRAM ↗
         </a>
         <a
-          href="https://wa.me/5562991845391?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
+          href="https://wa.me/5562982359902?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20os%20serviços%20da%20TSA%20Soluções."
           target="_blank"
           rel="noopener noreferrer"
           className="social-link"

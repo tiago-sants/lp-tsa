@@ -2,11 +2,19 @@
 
 import { useEffect, useRef } from 'react';
 
-const lines = ['TRANSFORMAÇÃO.', 'SOLUÇÕES.', 'ALCANCE.'];
+const lines: { en: string; pt: string }[] = [
+  { en: 'TECH.', pt: 'TECNOLOGIA.' },
+  { en: 'STRATEGY.', pt: 'ESTRATÉGIA.' },
+  { en: 'ACCELERATION.', pt: 'ACELERAÇÃO.' },
+];
+
+const TAGLINE = 'CRIANDO ENVOLVIMENTO, GERANDO RESULTADOS';
 
 export default function Manifesto() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const wordsRef = useRef<HTMLElement[]>([]);
+  const enRefs = useRef<HTMLSpanElement[]>([]);
+  const ptRefs = useRef<HTMLSpanElement[]>([]);
+  const taglineRefs = useRef<HTMLElement[]>([]);
 
   useEffect(() => {
     let ctx: ReturnType<typeof import('gsap')['gsap']['context']> | undefined;
@@ -18,11 +26,12 @@ export default function Manifesto() {
 
       if (!sectionRef.current) return;
 
-      const words = wordsRef.current.filter(Boolean);
-      if (words.length === 0) return;
+      const ens = enRefs.current.filter(Boolean);
+      const pts = ptRefs.current.filter(Boolean);
+      const tagChars = taglineRefs.current.filter(Boolean);
+      if (ens.length === 0 || pts.length === 0) return;
 
       ctx = gsap.context(() => {
-        // Create a single timeline pinned to the section scroll progress
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -33,15 +42,20 @@ export default function Manifesto() {
           },
         });
 
-        // Each word reveals sequentially across the full scroll of the section
-        words.forEach((word, i) => {
-          tl.fromTo(
-            word,
-            { color: '#1a1a1a' },
-            { color: '#f0ebe0', duration: 1 },
-            i * 0.5 // stagger: each word starts slightly after the previous
-          );
+        ens.forEach((en, i) => {
+          const at = i * 0.5;
+          tl.to(en, { opacity: 0, y: '-0.4em', duration: 0.5 }, at);
+          tl.to(pts[i], { opacity: 1, y: '0em', duration: 0.5 }, at);
         });
+
+        if (tagChars.length) {
+          tl.fromTo(
+            tagChars,
+            { color: '#1a1a1a' },
+            { color: '#f0ebe0', duration: 1, stagger: 0.02 },
+            ens.length * 0.5,
+          );
+        }
       }, sectionRef.current);
     };
 
@@ -52,7 +66,7 @@ export default function Manifesto() {
     };
   }, []);
 
-  let wordIndex = 0;
+  let tagIdx = 0;
 
   return (
     <section
@@ -74,32 +88,36 @@ export default function Manifesto() {
         </div>
 
         <div className="manifesto-inner">
-          {lines.map((line, i) => (
-            <div key={i} className="title-manifesto" style={{ marginBottom: '0.5vw' }}>
-              {line.split('').map((char, ci) => {
-                if (char === ' ') return <span key={`s-${ci}`}>&nbsp;</span>;
-                const idx = wordIndex++;
-                return (
-                  <span
-                    key={idx}
-                    ref={(el) => { if (el) wordsRef.current[idx] = el; }}
-                    className="manifesto-word"
-                    style={{ color: '#1a1a1a' }}
-                  >
-                    {char}
-                  </span>
-                );
-              })}
+          {lines.map((pair, i) => (
+            <div
+              key={i}
+              className="title-manifesto manifesto-line"
+              style={{ marginBottom: '0.5vw' }}
+            >
+              <span
+                ref={(el) => { if (el) enRefs.current[i] = el; }}
+                className="manifesto-lang"
+                style={{ color: '#f0ebe0' }}
+              >
+                {pair.en}
+              </span>
+              <span
+                ref={(el) => { if (el) ptRefs.current[i] = el; }}
+                className="manifesto-lang"
+                style={{ color: '#f0ebe0', opacity: 0, transform: 'translateY(0.4em)' }}
+              >
+                {pair.pt}
+              </span>
             </div>
           ))}
           <div className="manifesto-tagline" style={{ color: '#1a1a1a' }}>
-            {'CRIANDO ENVOLVIMENTO, GERANDO RESULTADOS'.split('').map((char, ci) => {
+            {TAGLINE.split('').map((char, ci) => {
               if (char === ' ') return <span key={`t-${ci}`}>&nbsp;</span>;
-              const idx = wordIndex++;
+              const idx = tagIdx++;
               return (
                 <span
-                  key={idx}
-                  ref={(el) => { if (el) wordsRef.current[idx] = el; }}
+                  key={ci}
+                  ref={(el) => { if (el) taglineRefs.current[idx] = el; }}
                   className="manifesto-word"
                   style={{ color: '#1a1a1a' }}
                 >
