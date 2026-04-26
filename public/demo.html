@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TSA Soluções · Apresentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  /* Sophisticated palette: deep ink, warm cream, electric accent */
+  --ink:#0E0E0E;
+  --ink-2:#1A1A1A;
+  --ink-soft:#252525;
+  --cream:#F4EFE6;
+  --cream-warm:#EDE5D3;
+  --paper:#FAF6EE;
+  --rule:rgba(244,239,230,.12);
+  --rule-strong:rgba(244,239,230,.22);
+  --muted:#9A938A;
+  --muted-2:#6E665E;
+  --accent:#E6FF3D;       /* electric chartreuse — sophisticated, not cliché */
+  --accent-deep:#B9D200;
+  --accent-rgb:230,255,61; /* rgb form for rgba() — synced with --accent */
+  --signal:#FF5B2E;       /* burnt orange */
+  --signal-soft:#F2A9A9;
+  --serif:'Instrument Serif', 'Times New Roman', serif;
+  --sans:'Manrope', system-ui, sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#000;font-family:var(--sans);color:var(--cream);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+deck-stage{ --slide-bg: var(--ink); }
+
+/* Base slide */
+section{
+  position:relative;
+  background:var(--ink);
+  color:var(--cream);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  padding:72px 96px;
+  font-feature-settings:"ss01","cv11";
+}
+section.paper{background:var(--paper);color:var(--ink)}
+section.cream{background:var(--cream);color:var(--ink)}
+
+/* Subtle film-grain texture across all dark slides */
+section:not(.paper):not(.cream)::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 .96 0 0 0 0 .9 0 0 0 .04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+section > *{position:relative;z-index:2}
+
+/* ---------- Slide chrome (consistent header/footer rail) ---------- */
+.rail{
+  position:absolute;left:0;right:0;display:flex;align-items:center;justify-content:space-between;
+  padding:0 96px;font-family:var(--mono);font-size:15px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);z-index:3;
+}
+.rail.top{top:36px}
+.rail.bottom{bottom:36px}
+.rail .slot{display:flex;align-items:center;gap:14px}
+.rail .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(var(--accent-rgb),.6)}
+.rail .mark{display:flex;align-items:center;gap:12px;color:var(--cream)}
+.rail .mark img{height:24px;opacity:.95}
+.rail .mark b{font-family:var(--sans);font-weight:600;letter-spacing:.04em;font-size:15px}
+section.paper .rail,section.cream .rail{color:var(--muted-2)}
+section.paper .rail .mark,section.cream .rail .mark{color:var(--ink)}
+section.paper .rail .mark img,section.cream .rail .mark img{filter:invert(1)}
+
+.rail .pageno{font-variant-numeric:tabular-nums}
+.rail .pageno b{color:var(--cream);font-weight:500}
+section.paper .rail .pageno b,section.cream .rail .pageno b{color:var(--ink)}
+
+/* Editorial type system */
+.h-display{font-family:var(--serif);font-weight:400;line-height:.96;letter-spacing:-.02em}
+.h-display em{font-style:italic;color:var(--accent)}
+section.paper .h-display em,section.cream .h-display em{color:var(--signal)}
+.h-sans{font-family:var(--sans);font-weight:600;letter-spacing:-.015em;line-height:1.05}
+.eyebrow{font-family:var(--mono);font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+section.paper .eyebrow,section.cream .eyebrow{color:var(--muted-2)}
+.body-lead{font-size:1.55rem;line-height:1.55;color:var(--cream);text-wrap:pretty;font-weight:400}
+section.paper .body-lead,section.cream .body-lead{color:var(--ink-soft)}
+.body{font-size:1.35rem;line-height:1.6;color:var(--cream);text-wrap:pretty;font-weight:400;opacity:.92}
+section.paper .body,section.cream .body{color:var(--ink-soft);opacity:1}
+
+.tag-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:50px;
+  font-family:var(--mono);font-size:14px;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(var(--accent-rgb),.1);color:var(--accent);border:1px solid rgba(var(--accent-rgb),.25);
+}
+.tag-pill.signal{background:rgba(255,91,46,.1);color:var(--signal);border-color:rgba(255,91,46,.3)}
+section.paper .tag-pill,section.cream .tag-pill{background:rgba(255,91,46,.08);color:var(--signal);border-color:rgba(255,91,46,.25)}
+
+/* ============================================================
+   SLIDE 1 — COVER (editorial split, asymmetric)
+   ============================================================ */
+.cover{padding:0}
+.cover-inner{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;position:relative}
+.cover-l{
+  padding:120px 96px 96px;display:flex;flex-direction:column;justify-content:space-between;
+  border-right:1px solid var(--rule-strong);
+  position:relative;
+}
+.cover-l .meta{display:flex;flex-direction:column;gap:16px}
+.cover-l .meta-row{display:flex;align-items:center;gap:16px}
+.cover-l .lockup{display:flex;align-items:center;gap:14px}
+.cover-l .lockup img{height:54px}
+.cover-l .lockup-text{font-family:var(--serif);font-size:2rem;line-height:1;letter-spacing:-.01em}
+.cover-l .lockup-text small{display:block;font-family:var(--sans);font-size:.95rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-top:8px;font-weight:500}
+
+.cover-l h1{font-size:clamp(4rem, 7.5vw, 6.6rem);margin-top:auto}
+.cover-l h1 .stack{display:block;line-height:.96}
+.cover-l h1 .ind{display:inline-block;width:80px;height:1px;background:var(--accent);vertical-align:middle;margin:0 24px 18px 0}
+
+.cover-l .footnote{
+  margin-top:50px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;
+  padding-top:30px;border-top:1px solid var(--rule);
+}
+.cover-l .footnote .col{flex:1}
+.cover-l .footnote .num{font-family:var(--serif);font-size:2.6rem;line-height:1;color:var(--accent)}
+.cover-l .footnote .lab{font-family:var(--mono);font-size:14px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+
+.cover-r{
+  position:relative;
+  background:radial-gradient(60% 60% at 50% 45%, #1c1c1c 0%, #0E0E0E 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.cover-r::before{
+  content:'';position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 79px, rgba(244,239,230,.04) 79px 80px),
+    repeating-linear-gradient(90deg, transparent 0 79px, rgba(244,239,230,.04) 79px 80px);
+}
+.cover-r .crest{
+  position:relative;width:62%;aspect-ratio:1;
+  display:flex;align-items:center;justify-content:center;
+  perspective:1400px;
+  cursor:grab;
+  touch-action:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.cover-r .crest:active{cursor:grabbing}
+.crest-3d{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .9s cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+.crest-3d.dragging{transition:none}
+.crest-3d.spinning{animation:crestSpin 22s linear infinite}
+@keyframes crestSpin{
+  from{transform:rotateY(0deg) rotateX(8deg)}
+  to{transform:rotateY(360deg) rotateX(8deg)}
+}
+.crest-3d .layer{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.crest-3d .layer img{
+  width:100%;height:auto;display:block;
+  -webkit-user-drag:none;-webkit-user-select:none;user-select:none;
+}
+/* Stack 14 layers along Z to fake extruded depth */
+.crest-3d .layer.l0  img{filter:brightness(.35) blur(.4px)}
+.crest-3d .layer.l1  img{filter:brightness(.42)}
+.crest-3d .layer.l2  img{filter:brightness(.50)}
+.crest-3d .layer.l3  img{filter:brightness(.58)}
+.crest-3d .layer.l4  img{filter:brightness(.66)}
+.crest-3d .layer.l5  img{filter:brightness(.74)}
+.crest-3d .layer.l6  img{filter:brightness(.82)}
+.crest-3d .layer.l7  img{filter:brightness(.90)}
+.crest-3d .layer.l8  img{filter:brightness(.95)}
+.crest-3d .layer.l9  img{filter:brightness(1)}
+.crest-3d .layer.l10 img{filter:brightness(1) drop-shadow(0 0 18px rgba(var(--accent-rgb),.35))}
+.crest-3d .layer.l11 img{filter:brightness(1.05) drop-shadow(0 0 22px rgba(var(--accent-rgb),.45))}
+.crest-3d .layer.l12 img{filter:brightness(1.08) drop-shadow(0 0 26px rgba(var(--accent-rgb),.55))}
+.crest-3d .layer.l13 img{filter:brightness(1.1) drop-shadow(0 0 32px rgba(var(--accent-rgb),.7)) drop-shadow(0 0 60px rgba(124,58,237,.25))}
+.cover-r .ring{position:absolute;border:1px solid var(--rule-strong);border-radius:50%;pointer-events:none}
+.cover-r .ring.r1{inset:8%}
+.cover-r .ring.r2{inset:18%;border-color:rgba(var(--accent-rgb),.25)}
+
+/* === Orbital moons === */
+.orbit{
+  position:absolute;border-radius:50%;pointer-events:none;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:orbitSpin linear infinite;
+}
+.orbit.o1{width:84%;height:84%;animation-duration:26s}
+.orbit.o2{width:64%;height:64%;animation-duration:18s;animation-direction:reverse}
+.orbit.o3{width:96%;height:96%;animation-duration:38s}
+.orbit.paused{animation-play-state:paused}
+@keyframes orbitSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.moon{
+  position:absolute;top:50%;left:0;
+  transform:translate(-50%,-50%);
+  width:24px;height:24px;border-radius:50%;
+  pointer-events:auto;
+  cursor:grab;
+  touch-action:none;
+  background:radial-gradient(circle at 32% 30%, #f7f3e6 0%, #c9c2b3 45%, #5a564d 100%);
+  box-shadow:
+    inset -4px -4px 8px rgba(0,0,0,.45),
+    inset 3px 3px 6px rgba(255,255,255,.18),
+    0 0 18px rgba(var(--accent-rgb),.35),
+    0 4px 14px rgba(0,0,0,.5);
+  transition:transform .25s ease, box-shadow .3s ease;
+}
+.moon::after{
+  content:'';position:absolute;inset:18%;border-radius:50%;
+  background:
+    radial-gradient(circle at 60% 40%, rgba(0,0,0,.18) 6%, transparent 8%),
+    radial-gradient(circle at 30% 70%, rgba(0,0,0,.22) 4%, transparent 6%),
+    radial-gradient(circle at 70% 75%, rgba(0,0,0,.15) 3%, transparent 5%);
+}
+.moon.m1{width:18px;height:18px;left:50%;top:0}
+.moon.m2{width:32px;height:32px;left:100%;top:50%;
+  background:radial-gradient(circle at 30% 28%, color-mix(in srgb, var(--accent) 30%, #fff) 0%, var(--accent) 38%, var(--accent-deep) 100%);
+  box-shadow:inset -5px -5px 10px rgba(0,0,0,.4),inset 3px 3px 7px rgba(255,255,255,.3),0 0 26px rgba(var(--accent-rgb),.7),0 4px 16px rgba(0,0,0,.5);
+}
+.moon.m3{width:14px;height:14px;left:50%;top:100%;
+  background:radial-gradient(circle at 30% 28%, #ffd6c2 0%, #ff5b2e 50%, #4a1a0c 100%);
+  box-shadow:inset -3px -3px 6px rgba(0,0,0,.45),inset 2px 2px 4px rgba(255,255,255,.2),0 0 18px rgba(255,91,46,.6),0 3px 10px rgba(0,0,0,.5);
+}
+.moon.dragging{cursor:grabbing;transform:translate(-50%,-50%) scale(1.25);box-shadow:0 0 30px rgba(var(--accent-rgb),.9),0 6px 20px rgba(0,0,0,.6)}
+.cover-r .arc-num{
+  position:absolute;top:50px;right:50px;
+  font-family:var(--mono);font-size:15px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;
+}
+.cover-r .arc-num b{color:var(--accent);font-weight:500}
+.cover-r .stamp{
+  position:absolute;bottom:60px;left:60px;
+  font-family:var(--serif);font-style:italic;font-size:1.95rem;color:var(--cream);max-width:340px;line-height:1.2;
+}
+.cover-r .stamp .underline{
+  display:block;width:60px;height:1px;background:var(--accent);margin-top:14px;
+}
+
+/* === Mini crest (flat 2D, slow spin) === */
+.crest-mini{
+  display:inline-block;position:relative;
+  width:var(--mini-size,32px);height:var(--mini-size,32px);
+  flex-shrink:0;vertical-align:middle;
+  pointer-events:none;
+}
+.crest-mini-inner{
+  position:relative;width:100%;height:100%;
+  animation:miniSpin 16s linear infinite;
+}
+.crest-mini-inner .layer{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.crest-mini-inner .layer img{
+  width:88%;height:88%;object-fit:contain;
+}
+.crest-mini-inner .layer img.dark-bg{display:block}
+.crest-mini-inner .layer img.light-bg{display:none}
+section.paper .crest-mini-inner .layer img.dark-bg,
+section.cream .crest-mini-inner .layer img.dark-bg,
+.close-r .crest-mini-inner .layer img.dark-bg{display:none}
+section.paper .crest-mini-inner .layer img.light-bg,
+section.cream .crest-mini-inner .layer img.light-bg,
+.close-r .crest-mini-inner .layer img.light-bg{display:block}
+@keyframes miniSpin{
+  0%  {transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+.lockup .crest-mini{--mini-size:54px}
+.close-r .lockup .crest-mini{--mini-size:54px}
+.rail .crest-mini{--mini-size:24px}
+
+/* === Palette picker === */
+.palette-picker{
+  position:absolute;bottom:60px;right:50px;z-index:20;
+  display:flex;flex-direction:column;gap:14px;align-items:flex-end;
+}
+.palette-picker .pp-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--muted);
+  text-transform:uppercase;font-weight:500;display:flex;align-items:center;gap:10px;
+}
+.palette-picker .pp-label::before{
+  content:'';width:18px;height:1px;background:var(--rule-strong);
+}
+.palette-swatches{
+  display:flex;gap:10px;padding:10px 12px;
+  background:rgba(14,14,14,.6);backdrop-filter:blur(8px);
+  border:1px solid var(--rule);border-radius:50px;
+}
+.swatch{
+  width:26px;height:26px;border-radius:50%;cursor:pointer;
+  border:1.5px solid rgba(244,239,230,.15);
+  transition:transform .25s cubic-bezier(.2,.8,.2,1), border-color .2s ease, box-shadow .25s ease;
+  position:relative;
+}
+.swatch:hover{transform:scale(1.15);border-color:rgba(244,239,230,.5)}
+.swatch.active{
+  border-color:var(--cream);
+  box-shadow:0 0 0 2px var(--ink), 0 0 0 3px var(--cream), 0 0 14px var(--swatch-glow,rgba(255,255,255,.4));
+  transform:scale(1.1);
+}
+
+/* ============================================================
+   SUMÁRIO MODAL (triggered from cover)
+   ============================================================ */
+.sum-trigger{
+  display:inline-flex;align-items:center;gap:14px;align-self:flex-start;
+  margin-top:18px;
+  padding:14px 22px 14px 18px;
+  background:transparent;border:1px solid var(--rule-strong);border-radius:50px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cream);cursor:pointer;
+  transition:all .3s ease;
+}
+.sum-trigger:hover{background:var(--accent);color:var(--ink);border-color:var(--accent);padding-left:24px}
+.sum-trigger .ic{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--accent);color:var(--ink);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:18px;font-style:italic;line-height:1;
+  transition:all .3s ease;
+}
+.sum-trigger:hover .ic{background:var(--ink);color:var(--accent)}
+
+.sum-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(13,13,13,.75);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:none;align-items:center;justify-content:center;
+  padding:40px;
+  opacity:0;transition:opacity .35s ease;
+}
+.sum-overlay.open{display:flex;opacity:1}
+.sum-modal{
+  position:relative;
+  width:min(960px,100%);max-height:88vh;overflow-y:auto;
+  background:var(--ink);border:1px solid var(--rule-strong);border-radius:24px;
+  padding:64px 64px 56px;
+  transform:translateY(20px) scale(.97);transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 40px 120px rgba(0,0,0,.6), 0 0 0 1px rgba(var(--accent-rgb),.08);
+}
+.sum-overlay.open .sum-modal{transform:translateY(0) scale(1)}
+.sum-modal::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent) 30%,var(--accent) 70%,transparent);
+  border-radius:24px 24px 0 0;
+}
+.sum-close{
+  position:absolute;top:24px;right:24px;
+  width:42px;height:42px;border-radius:50%;
+  background:transparent;border:1px solid var(--rule-strong);
+  color:var(--cream);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-size:22px;
+  transition:all .25s ease;
+}
+.sum-close:hover{background:var(--accent);color:var(--ink);border-color:var(--accent);transform:rotate(90deg)}
+.sum-eyebrow{
+  font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:18px;display:flex;align-items:center;gap:14px;
+}
+.sum-eyebrow::before{content:"";width:32px;height:1px;background:var(--accent)}
+.sum-modal h2{font-family:var(--serif);font-size:3.2rem;line-height:1;letter-spacing:-.02em;margin-bottom:14px}
+.sum-modal h2 em{font-style:italic;color:var(--accent)}
+.sum-modal .intro{font-size:1.1rem;line-height:1.55;color:var(--muted);max-width:620px;font-weight:400;margin-bottom:36px}
+.sum-modal .intro b{color:var(--cream);font-weight:500}
+.sum-list{border-top:1px solid var(--rule-strong)}
+.sum-row{
+  display:grid;grid-template-columns:64px 1fr auto;gap:32px;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid var(--rule);
+  transition:padding .25s ease, color .25s ease;
+}
+.sum-row:hover{padding-left:12px;color:var(--accent)}
+.sum-row .num{font-family:var(--mono);font-size:14px;color:var(--muted);letter-spacing:.1em}
+.sum-row:hover .num{color:var(--accent)}
+.sum-row .title{font-family:var(--serif);font-size:1.55rem;line-height:1.05;letter-spacing:-.01em}
+.sum-row .desc{font-family:var(--sans);font-size:.95rem;color:var(--muted);font-weight:400;text-align:right;max-width:340px}
+@media (max-width:1100px){
+  .sum-modal{padding:48px 36px 40px}
+  .sum-row{grid-template-columns:50px 1fr;gap:20px}
+  .sum-row .desc{display:none}
+}
+
+/* ============================================================
+   SLIDE 2 — ABOUT (asymmetric editorial)
+   ============================================================ */
+.about{display:grid;grid-template-columns:1.15fr 1fr;gap:80px;flex:1;padding-top:96px;padding-bottom:96px}
+.about-l{display:flex;flex-direction:column;justify-content:center;gap:28px}
+.about-l .stamp{
+  display:inline-block;align-self:flex-start;
+  font-family:var(--serif);font-style:italic;font-size:1.4rem;
+  padding:8px 18px;border:1px solid var(--rule-strong);border-radius:50px;
+  color:var(--muted);
+}
+.about-l h2{font-size:clamp(2.6rem,4.2vw,4rem)}
+.about-l p{font-size:1.4rem;line-height:1.55;color:var(--cream);font-weight:400;text-wrap:pretty;opacity:.92}
+.about-l .signature{
+  margin-top:14px;display:flex;align-items:center;gap:18px;
+  padding-top:24px;border-top:1px solid var(--rule);
+}
+.about-l .signature .av{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink);font-family:var(--serif);font-size:1.25rem;font-weight:600;
+}
+.about-l .signature .nm{font-family:var(--serif);font-size:1.6rem;line-height:1}
+.about-l .signature .nm small{display:block;font-family:var(--sans);font-size:1.05rem;color:var(--muted);margin-top:8px;letter-spacing:.04em;font-weight:400}
+
+/* TSA acronym block (sits at top of left column) */
+.tsa-acro{
+  display:flex;flex-direction:column;gap:12px;
+  padding-bottom:28px;border-bottom:1px solid var(--rule);
+  margin-bottom:6px;
+}
+.tsa-acro .letters{
+  display:flex;align-items:baseline;gap:8px;
+  font-family:var(--serif);font-size:clamp(4.2rem,7.5vw,6.4rem);line-height:.85;
+  letter-spacing:-.04em;font-weight:500;color:var(--cream);
+}
+.tsa-acro .letters span{display:inline-block;position:relative}
+.tsa-acro .letters span em{
+  font-style:italic;color:var(--accent);
+}
+.tsa-acro .letters .sep{
+  font-family:var(--mono);font-size:1.5rem;color:var(--muted);font-weight:400;
+  align-self:center;margin:0 4px;letter-spacing:0;
+}
+.tsa-typewriter{
+  font-family:var(--mono);font-size:1.05rem;letter-spacing:.06em;
+  color:var(--accent);min-height:1.5em;line-height:1.4;
+  display:flex;align-items:center;gap:2px;
+  text-transform:none;
+}
+.tsa-typewriter .caret{
+  display:inline-block;width:9px;height:1.05em;
+  background:var(--accent);margin-left:3px;
+  animation:tsaCaret 1s steps(1) infinite;
+  vertical-align:-2px;
+}
+@keyframes tsaCaret{50%{opacity:0}}
+.tsa-acro p.why{
+  font-family:var(--sans);font-size:1.02rem;line-height:1.5;
+  color:var(--muted);font-weight:400;max-width:540px;
+  margin-top:4px;
+}
+.tsa-acro p.why b{color:var(--cream);font-weight:500}
+
+.about-r{position:relative;display:flex;flex-direction:column;justify-content:center;gap:14px}
+.fact-card{
+  background:var(--ink-2);border:1px solid var(--rule);border-radius:18px;
+  padding:28px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;
+  transition:all .3s ease;
+}
+.fact-card:hover{border-color:var(--accent);background:#1F1F1F}
+.fact-card .v{font-family:var(--serif);font-size:3.8rem;line-height:.9;letter-spacing:-.02em;color:var(--cream);min-width:160px}
+.fact-card .v em{font-style:italic;color:var(--accent)}
+.fact-card .meta .lab{font-family:var(--sans);font-size:1.2rem;color:var(--cream);font-weight:500}
+.fact-card .meta .lab small{display:block;font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px;font-weight:400}
+
+/* ============================================================
+   SLIDE 3 — MVV (numbered editorial trio)
+   ============================================================ */
+.mvv{flex:1;padding-top:120px;padding-bottom:96px;display:flex;flex-direction:column;gap:60px}
+.mvv .hd{display:grid;grid-template-columns:auto 1fr;gap:60px;align-items:end}
+.mvv .hd h2{font-size:clamp(2.8rem,4.8vw,4.4rem)}
+.mvv .hd .lede{font-size:1.4rem;line-height:1.55;color:var(--muted);font-weight:400;max-width:480px;justify-self:end}
+.mvv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;border-top:1px solid var(--rule-strong);padding-top:50px}
+.mvv-card{display:flex;flex-direction:column;gap:24px}
+.mvv-card .pre{display:flex;align-items:center;gap:14px}
+.mvv-card .pre .n{font-family:var(--serif);font-size:3.6rem;line-height:.85;color:var(--accent)}
+.mvv-card.b .pre .n{color:var(--signal)}
+.mvv-card.c .pre .n{color:var(--cream)}
+.mvv-card .pre .lab{font-family:var(--mono);font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.mvv-card h3{font-family:var(--serif);font-size:2.2rem;line-height:1.1;letter-spacing:-.01em}
+.mvv-card p{font-size:1.3rem;line-height:1.55;color:var(--cream);opacity:.85;font-weight:400}
+.mvv-card .rule{height:1px;background:var(--rule-strong);margin-top:auto}
+
+/* ============================================================
+   SLIDE 4 — PROBLEMA / SOLUÇÃO (split, editorial contrast)
+   ============================================================ */
+.ps{padding:0;flex-direction:row;display:flex;flex:1}
+.ps-half{flex:1;padding:120px 80px;display:flex;flex-direction:column;justify-content:center;gap:30px;position:relative}
+.ps-half.l{background:var(--ink);border-right:1px solid var(--rule-strong)}
+.ps-half.r{background:var(--paper);color:var(--ink)}
+.ps-half .stamp{
+  display:inline-flex;align-items:center;gap:10px;align-self:flex-start;
+  font-family:var(--mono);font-size:15px;letter-spacing:.22em;text-transform:uppercase;
+  padding:9px 18px;border-radius:50px;
+}
+.ps-half.l .stamp{background:rgba(255,91,46,.1);color:var(--signal);border:1px solid rgba(255,91,46,.3)}
+.ps-half.r .stamp{background:var(--ink);color:var(--accent);border:1px solid var(--ink)}
+.ps-half h3{font-family:var(--serif);font-size:clamp(2.4rem,3.6vw,3.2rem);line-height:1;letter-spacing:-.01em}
+.ps-half h3 em{font-style:italic}
+.ps-half.l h3 em{color:var(--signal)}
+.ps-half.r h3 em{color:var(--signal)}
+.ps-list{display:flex;flex-direction:column;gap:0;border-top:1px solid;margin-top:8px}
+.ps-half.l .ps-list{border-color:var(--rule-strong)}
+.ps-half.r .ps-list{border-color:rgba(14,14,14,.12)}
+.ps-list li{
+  display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:flex-start;
+  padding:20px 0;border-bottom:1px solid;
+  font-size:1.3rem;line-height:1.5;font-weight:400;
+}
+.ps-half.l .ps-list li{border-color:var(--rule);color:var(--cream)}
+.ps-half.r .ps-list li{border-color:rgba(14,14,14,.1);color:var(--ink-soft)}
+.ps-list li .mk{font-family:var(--mono);font-size:16px;line-height:1.4;letter-spacing:.05em;font-weight:600}
+.ps-half.l .ps-list .mk{color:var(--signal)}
+.ps-half.r .ps-list .mk{color:var(--ink);font-weight:600}
+.ps-half b{font-weight:600}
+.ps-half.l b{color:var(--cream)}
+.ps-half.r b{color:var(--ink)}
+
+.ps-divider{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
+  width:110px;height:110px;border-radius:50%;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;font-size:1.45rem;color:var(--ink);
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  text-align:center;line-height:1.1;
+}
+
+/* ============================================================
+   SLIDE 5 — PORTFOLIO (magazine spread)
+   ============================================================ */
+.port{padding:96px 96px 80px;flex:1;display:flex;flex-direction:column;gap:40px}
+.port .hd{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:end}
+.port .hd h2{font-size:clamp(2.6rem,4.4vw,4rem)}
+.port .hd .lede{font-size:1.4rem;color:var(--muted);font-weight:400;max-width:460px;line-height:1.5}
+.cases{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;flex:1}
+.case{
+  background:var(--ink-2);border:1px solid var(--rule);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .3s ease;
+}
+.case:hover{border-color:var(--accent);transform:translateY(-4px)}
+.case .ph{
+  position:relative;aspect-ratio:1.05/1;overflow:hidden;
+  background:#0a0a0a;
+}
+.case .ph img{width:100%;height:100%;object-fit:cover;filter:saturate(.95)}
+.case .ph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.7) 100%)}
+.case .num{
+  position:absolute;top:16px;left:16px;z-index:2;
+  font-family:var(--mono);font-size:14px;color:var(--accent);letter-spacing:.18em;font-weight:500;
+}
+.case .seg{
+  position:absolute;bottom:16px;left:16px;right:16px;z-index:2;
+  font-family:var(--mono);font-size:13px;color:var(--cream);letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+}
+.case .body{padding:24px 24px 26px;display:flex;flex-direction:column;gap:16px;flex:1}
+.case h3{font-family:var(--serif);font-size:1.7rem;line-height:1.05;letter-spacing:-.005em}
+.case h3 em{font-style:italic;color:var(--accent)}
+.case .stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  margin-top:auto;padding-top:14px;border-top:1px solid var(--rule);
+}
+.case .st .v{font-family:var(--serif);font-size:1.7rem;line-height:1;color:var(--cream)}
+.case .st .l{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+/* ============================================================
+   SLIDE 6 — RESULTS (huge editorial figures)
+   ============================================================ */
+.gr{padding:96px;flex:1;display:flex;flex-direction:column;gap:54px}
+.gr .hd{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end}
+.gr .hd .stamp{font-family:var(--mono);font-size:15px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.gr .hd h2{font-size:clamp(2.6rem,4.4vw,4rem)}
+.gr .hd .lede{font-size:1.4rem;color:var(--muted);font-weight:400;line-height:1.55;justify-self:end;max-width:460px}
+.gr-figs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--rule-strong);padding-top:30px;gap:0;flex:1}
+.gr-fig{padding:30px 50px 30px 0;border-right:1px solid var(--rule-strong);display:flex;flex-direction:column;justify-content:center;gap:24px;position:relative}
+.gr-fig:last-child{border-right:none;padding-left:50px;padding-right:0}
+.gr-fig .pre{font-family:var(--mono);font-size:15px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.gr-fig .num{font-family:var(--serif);font-size:clamp(7rem,11vw,10.5rem);line-height:1;letter-spacing:-.04em;margin-bottom:8px}
+.gr-fig .num em{font-style:italic;color:var(--accent)}
+.gr-fig.b .num em{color:var(--signal)}
+.gr-fig .cap{font-size:1.4rem;color:var(--cream);font-weight:400;line-height:1.55;max-width:420px;opacity:.92}
+.gr-fig .cap b{font-weight:600;color:var(--cream)}
+
+/* ============================================================
+   SLIDE 7 — TESTIMONIALS (editorial pull-quotes)
+   ============================================================ */
+.test{padding:96px;flex:1;display:flex;flex-direction:column;gap:50px}
+.test .hd{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:end}
+.test .hd h2{font-size:clamp(2.6rem,4.4vw,4rem)}
+.test .hd .lede{font-size:1.4rem;color:var(--muted);font-weight:400;line-height:1.55;max-width:460px;justify-self:end}
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1}
+.t-card{
+  display:flex;flex-direction:column;gap:30px;
+  padding:44px;border:1px solid var(--rule-strong);border-radius:18px;
+  background:linear-gradient(160deg, rgba(244,239,230,.025), transparent);
+  position:relative;
+}
+.t-card::before{
+  content:'\201C';position:absolute;top:24px;right:36px;
+  font-family:var(--serif);font-size:7rem;color:var(--accent);opacity:.18;line-height:1;font-style:italic;
+}
+.t-card.b::before{color:var(--signal)}
+.t-card .stars{font-family:var(--mono);font-size:15px;letter-spacing:.2em;color:var(--muted);display:flex;gap:10px;align-items:center}
+.t-card .stars i{color:var(--accent);font-size:1.05rem;letter-spacing:0}
+.t-card.b .stars i{color:var(--signal)}
+.t-card blockquote{
+  font-family:var(--serif);font-size:1.85rem;line-height:1.3;color:var(--cream);font-weight:400;
+  letter-spacing:-.005em;text-wrap:pretty;
+}
+.t-card blockquote em{font-style:italic;color:var(--accent)}
+.t-card.b blockquote em{color:var(--signal)}
+.t-card .who{display:flex;align-items:center;gap:18px;margin-top:auto;padding-top:24px;border-top:1px solid var(--rule)}
+.t-card .ph{width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--rule-strong)}
+.t-card .ph img{width:100%;height:100%;object-fit:cover}
+.t-card .nm{font-family:var(--serif);font-size:1.5rem;line-height:1}
+.t-card .res{font-family:var(--mono);font-size:13px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin-top:10px;font-weight:500}
+.t-card.b .res{color:var(--signal)}
+
+/* ============================================================
+   SLIDE 8 — SERVICES (typographic, editorial-grid)
+   ============================================================ */
+.serv{padding:96px;flex:1;display:flex;flex-direction:column;gap:46px}
+.serv .hd{display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:end}
+.serv .hd h2{font-size:clamp(2.6rem,4.4vw,4rem)}
+.serv .hd .lede{font-size:1.4rem;color:var(--muted);font-weight:400;line-height:1.55;max-width:440px}
+.serv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;flex:1;border-top:1px solid var(--rule-strong)}
+.serv-card{
+  padding:34px 30px;border-right:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:18px;
+  position:relative;transition:background .3s ease;
+}
+.serv-card:last-child{border-right:none}
+.serv-card:hover{background:rgba(244,239,230,.025)}
+.serv-card .pre{display:flex;align-items:center;justify-content:space-between}
+.serv-card .pre .n{font-family:var(--serif);font-style:italic;font-size:2.6rem;line-height:.85;color:var(--accent)}
+.serv-card.b .pre .n{color:var(--signal)}
+.serv-card .pre i{color:var(--muted);font-size:1rem}
+.serv-card h3{font-family:var(--serif);font-size:1.95rem;line-height:1.05;letter-spacing:-.005em}
+.serv-card p{font-size:1.15rem;line-height:1.55;color:var(--cream);opacity:.82;font-weight:400}
+.serv-card ul{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:18px;border-top:1px solid var(--rule)}
+.serv-card li{font-family:var(--sans);font-size:.98rem;color:var(--cream);letter-spacing:.005em;display:flex;gap:10px;line-height:1.4;font-weight:400}
+.serv-card li::before{content:'/';color:var(--accent);flex-shrink:0;font-family:var(--mono);font-weight:600}
+.serv-card.b li::before{color:var(--signal)}
+
+/* ============================================================
+   SLIDE 9 — METHODOLOGY (timeline, editorial)
+   ============================================================ */
+.meth{padding:96px;flex:1;display:flex;flex-direction:column;gap:60px}
+.meth .hd{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:end}
+.meth .hd h2{font-size:clamp(2.6rem,4.4vw,4rem)}
+.meth .hd .lede{font-size:1.4rem;color:var(--muted);font-weight:400;line-height:1.55;max-width:460px;justify-self:end}
+.meth-track{position:relative;padding-top:24px}
+.meth-track::before{
+  content:'';position:absolute;top:60px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, var(--accent) 0%, var(--accent) 25%, var(--signal) 50%, var(--cream) 75%, var(--cream) 100%);
+  opacity:.4;
+}
+.meth-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.meth-step{display:flex;flex-direction:column;gap:18px}
+.meth-step .marker{
+  width:18px;height:18px;border-radius:50%;background:var(--accent);
+  border:4px solid var(--ink);box-shadow:0 0 0 1px var(--accent);
+  margin-bottom:30px;
+}
+.meth-step:nth-child(2) .marker{background:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.meth-step:nth-child(3) .marker{background:var(--signal);box-shadow:0 0 0 1px var(--signal)}
+.meth-step:nth-child(4) .marker{background:var(--cream);box-shadow:0 0 0 1px var(--cream)}
+.meth-step .ph{font-family:var(--mono);font-size:14px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+.meth-step .ph b{color:var(--cream);font-weight:500}
+.meth-step h4{font-family:var(--serif);font-size:2.3rem;line-height:1;letter-spacing:-.01em}
+.meth-step p{font-size:1.2rem;line-height:1.55;color:var(--cream);opacity:.85;font-weight:400}
+
+/* ============================================================
+   SLIDE 10 — CONTACT (editorial closing)
+   ============================================================ */
+.ct{padding:96px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ct-l h2{font-size:clamp(3rem,5.5vw,5rem)}
+.ct-l h2 em{font-style:italic;color:var(--accent)}
+.ct-l .lede{font-size:1.5rem;line-height:1.5;color:var(--cream);opacity:.88;font-weight:400;margin-top:30px;max-width:520px}
+.ct-l .stamp{display:inline-block;margin-bottom:24px;font-family:var(--mono);font-size:15px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;font-weight:500}
+.ct-r{display:flex;flex-direction:column;gap:14px}
+.channel{
+  display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
+  padding:22px 26px;border:1px solid var(--rule-strong);border-radius:14px;
+  transition:all .3s ease;background:rgba(244,239,230,.02);
+}
+.channel:hover{background:rgba(var(--accent-rgb),.05);border-color:var(--accent);transform:translateX(4px)}
+.channel .ico{
+  width:56px;height:56px;border-radius:50%;border:1px solid var(--rule-strong);
+  display:flex;align-items:center;justify-content:center;color:var(--cream);font-size:1.3rem;
+}
+.channel:hover .ico{border-color:var(--accent);color:var(--accent)}
+.channel .lab{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;font-weight:500}
+.channel .val{font-family:var(--serif);font-size:1.7rem;line-height:1.1;margin-top:6px}
+.channel i.arrow{color:var(--muted);font-size:1.1rem;transition:transform .3s ease}
+.channel:hover i.arrow{color:var(--accent);transform:translateX(4px)}
+
+/* ============================================================
+   SLIDE 11 — CLOSE (editorial outro)
+   ============================================================ */
+.close{padding:0;justify-content:flex-end;align-items:flex-start;flex-direction:column}
+.close-frame{flex:1;width:100%;display:grid;grid-template-columns:1.3fr 1fr;align-items:stretch}
+.close-l{padding:120px 96px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--rule-strong)}
+.close-l .stamp{font-family:var(--mono);font-size:15px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;display:flex;align-items:center;gap:14px;font-weight:500}
+.close-l .stamp .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(var(--accent-rgb),.6)}
+.close-l h1{font-family:var(--serif);font-size:clamp(5rem,11vw,11rem);line-height:.92;letter-spacing:-.03em;margin-top:auto}
+.close-l h1 em{font-style:italic;color:var(--accent)}
+.close-l .footnote{margin-top:50px;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;padding-top:28px;border-top:1px solid var(--rule)}
+.close-l .footnote .col{flex:1}
+.close-l .footnote .lab{font-family:var(--mono);font-size:13px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;font-weight:500}
+.close-l .footnote .val{font-family:var(--serif);font-size:1.7rem;margin-top:10px;line-height:1.1}
+.close-l .footnote .val em{font-style:italic;color:var(--accent)}
+
+.close-r{
+  background:var(--cream);color:var(--ink);
+  padding:96px 80px;display:flex;flex-direction:column;justify-content:center;gap:34px;position:relative;
+}
+.close-r::before{
+  content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");pointer-events:none;
+}
+.close-r .lockup{display:flex;align-items:center;gap:14px}
+.close-r .lockup img{height:44px;filter:invert(1)}
+.close-r .lockup b{font-family:var(--serif);font-size:1.85rem;letter-spacing:-.01em;font-weight:400;line-height:1}
+.close-r .lockup b small{display:block;font-family:var(--sans);font-size:.95rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted-2);margin-top:8px;font-weight:500}
+.close-r p.lede{font-family:var(--serif);font-size:2rem;line-height:1.3;color:var(--ink-soft);max-width:440px;font-weight:400;text-wrap:pretty}
+.close-r p.lede em{font-style:italic;color:var(--signal)}
+.close-r .cta{
+  display:inline-flex;align-items:center;gap:14px;align-self:flex-start;
+  padding:22px 32px;background:var(--ink);color:var(--cream);border-radius:50px;
+  font-family:var(--sans);font-size:1.15rem;font-weight:600;
+  transition:all .3s ease;
+}
+.close-r .cta:hover{background:var(--signal);transform:translateY(-2px)}
+.close-r .cta i{font-size:1.3rem}
+.close-r .meta-row{
+  display:flex;align-items:center;gap:24px;
+  font-family:var(--mono);font-size:14px;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase;
+  padding-top:24px;border-top:1px solid rgba(14,14,14,.12);margin-top:14px;font-weight:500;
+}
+.close-r .meta-row span b{color:var(--ink);font-weight:600}
+
+@media print{section{break-after:page}}
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     SLIDE 1 — COVER
+============================================================ -->
+<section class="cover" data-screen-label="01 Capa">
+  <div class="cover-inner">
+    <div class="cover-l">
+      <div class="meta">
+        <div class="lockup"><span class="crest-mini" data-mini-crest></span><div class="lockup-text">TSA Soluções<small>Performance · Tráfego · Software</small></div>
+        </div>
+      </div>
+
+      <h1 class="h-display">
+        <span class="stack"><span class="ind"></span>Mais clientes.</span>
+        <span class="stack">Menos <em>achismo.</em></span>
+        <span class="stack"><em>Todo dia.</em></span>
+      </h1>
+
+      <div class="footnote">
+        <div class="col">
+          <div class="num">2026</div>
+          <div class="lab">Apresentação</div>
+        </div>
+        <div class="col">
+          <div class="num">VOL. <em style="font-style:italic;color:var(--accent)">01</em></div>
+          <div class="lab">Institucional</div>
+        </div>
+        <div class="col">
+          <div class="num">11<span style="font-size:1.2rem;color:var(--muted)">/11</span></div>
+          <div class="lab">Slides</div>
+        </div>
+      </div>
+
+      <button class="sum-trigger" id="sumTrigger" aria-label="Abrir sumário">
+        <span class="ic">§</span>
+        <span>Ver sumário</span>
+      </button>
+    </div>
+
+    <div class="cover-r">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="orbit o1"><div class="moon m1" data-moon="1"></div></div>
+      <div class="orbit o2"><div class="moon m2" data-moon="2"></div></div>
+      <div class="orbit o3"><div class="moon m3" data-moon="3"></div></div>
+      <div class="arc-num">N.º <b>001</b> · TSA · MMXXVI</div>
+      <div class="crest" id="crest3d">
+        <div class="crest-3d spinning" id="crestInner"></div>
+      </div>
+      <div class="stamp">"Performance que se mede em vendas." <span class="underline"></span></div>
+
+      <div class="palette-picker" id="palettePicker">
+        <div class="pp-label">Paleta</div>
+        <div class="palette-swatches">
+          <div class="swatch active" data-accent="#E6FF3D" data-accent-deep="#B9D200" data-accent-rgb="230,255,61" style="background:radial-gradient(circle at 30% 28%, #fff5b8 0%, #E6FF3D 50%, #B9D200 100%);--swatch-glow:rgba(230,255,61,.6)" title="Chartreuse"></div>
+          <div class="swatch" data-accent="#FF5B2E" data-accent-deep="#C73C13" data-accent-rgb="255,91,46" style="background:radial-gradient(circle at 30% 28%, #ffc8b3 0%, #FF5B2E 50%, #C73C13 100%);--swatch-glow:rgba(255,91,46,.6)" title="Laranja Queimado"></div>
+          <div class="swatch" data-accent="#7FB3FF" data-accent-deep="#3D7DD9" data-accent-rgb="127,179,255" style="background:radial-gradient(circle at 30% 28%, #d4e6ff 0%, #7FB3FF 50%, #3D7DD9 100%);--swatch-glow:rgba(127,179,255,.6)" title="Azul Elétrico"></div>
+          <div class="swatch" data-accent="#C8A36A" data-accent-deep="#8F6F3A" data-accent-rgb="200,163,106" style="background:radial-gradient(circle at 30% 28%, #f0dcb5 0%, #C8A36A 50%, #8F6F3A 100%);--swatch-glow:rgba(200,163,106,.6)" title="Dourado"></div>
+          <div class="swatch" data-accent="#7CFFB2" data-accent-deep="#2EB377" data-accent-rgb="124,255,178" style="background:radial-gradient(circle at 30% 28%, #d4ffe6 0%, #7CFFB2 50%, #2EB377 100%);--swatch-glow:rgba(124,255,178,.6)" title="Verde Menta"></div>
+          <div class="swatch" data-accent="#E879F9" data-accent-deep="#A21CAF" data-accent-rgb="232,121,249" style="background:radial-gradient(circle at 30% 28%, #f5c6fc 0%, #E879F9 50%, #A21CAF 100%);--swatch-glow:rgba(232,121,249,.6)" title="Magenta"></div>
+          <div class="swatch" data-accent="#F4EFE6" data-accent-deep="#9A938A" data-accent-rgb="244,239,230" style="background:radial-gradient(circle at 30% 28%, #ffffff 0%, #F4EFE6 50%, #9A938A 100%);--swatch-glow:rgba(244,239,230,.6)" title="Creme Monocromático"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — ABOUT (was 03)
+============================================================ -->
+<section data-screen-label="02 Sobre">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>02 · Sobre</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">02 / <b>11</b></div>
+  </div>
+  <div class="about">
+    <div class="about-l">
+      <div class="tsa-acro">
+        <div class="letters" aria-label="TSA">
+          <span><em>T</em></span><span class="sep">/</span><span><em>S</em></span><span class="sep">/</span><span><em>A</em></span>
+        </div>
+        <div class="tsa-typewriter" id="tsaTypewriter" aria-live="polite">
+          <span id="tsaText"></span><span class="caret"></span>
+        </div>
+        <p class="why">Mais que tráfego: somos um time de <b>tecnologia, estratégia e aceleração</b>. Cada projeto combina ferramenta certa, plano sob medida e velocidade para fazer o resultado chegar antes.</p>
+      </div>
+      <span class="stamp">Atuando <i style="font-style:italic;color:var(--accent)">desde 2020</i></span>
+      <h2 class="h-display">A gente não vende anúncio. <em>Vende crescimento.</em></h2>
+      <p>A TSA transforma investimento em tráfego pago em <b style="color:var(--accent);font-weight:500">vendas reais e previsíveis</b>. Nada de métrica de vaidade. Aqui cada real tem destino, métrica e responsável.</p>
+      <p>Se o seu negócio é bom mas a agenda anda vazia, o problema não é o produto. É como ele aparece para quem precisa dele.</p>
+      <div class="signature">
+        <div class="av">TS</div>
+        <div class="nm">Tiago Santos<small>Fundador · Gestor de Tráfego</small></div>
+      </div>
+    </div>
+    <div class="about-r">
+      <div class="fact-card">
+        <div class="v">+<em>500</em></div>
+        <div class="meta"><div class="lab"><small>Confiança</small>Clientes atendidos</div></div>
+      </div>
+      <div class="fact-card">
+        <div class="v">+<em>3K</em></div>
+        <div class="meta"><div class="lab"><small>Entrega</small>Projetos concluídos</div></div>
+      </div>
+      <div class="fact-card">
+        <div class="v"><em>5</em></div>
+        <div class="meta"><div class="lab"><small>Trajetória</small>Anos de mercado</div></div>
+      </div>
+      <div class="fact-card">
+        <div class="v"><em>24</em>h</div>
+        <div class="meta"><div class="lab"><small>Operação</small>Resposta garantida</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — MVV
+============================================================ -->
+<section data-screen-label="03 Missão Visão Valores">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>03 · Essência</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">03 / <b>11</b></div>
+  </div>
+  <div class="mvv">
+    <div class="hd">
+      <h2 class="h-display">O que está por trás <em>de cada campanha.</em></h2>
+      <p class="lede">Não é discurso de parede. São os três compromissos que a gente assume com você no primeiro dia, e cumpre até o último.</p>
+    </div>
+    <div class="mvv-grid">
+      <div class="mvv-card a">
+        <div class="pre"><div class="n">i.</div><div class="lab">Missão</div></div>
+        <h3>Fazer seu negócio crescer com método, não com sorte.</h3>
+        <p>Conectamos sua empresa às pessoas que estão procurando o que você vende, no exato momento da decisão. Investimento vira venda.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="mvv-card b">
+        <div class="pre"><div class="n">ii.</div><div class="lab">Visão</div></div>
+        <h3>Ser o time que pequenas e médias empresas chamam quando querem escalar.</h3>
+        <p>Resultado consistente, mês após mês. Sem fórmula mágica, sem promessa milagrosa. Só estratégia testada e dados na mesa.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="mvv-card c">
+        <div class="pre"><div class="n">iii.</div><div class="lab">Valores</div></div>
+        <h3>Transparência total. Foco em ROI. Evolução todo mês.</h3>
+        <p>Você sabe onde cada centavo foi investido e o que ele trouxe de volta. Relatório claro, conversa direta, zero enrolação.</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — PROBLEMA / SOLUÇÃO
+============================================================ -->
+<section class="ps" data-screen-label="04 Problema Solução">
+  <div class="rail top" style="z-index:6">
+    <div class="slot"><span class="dot"></span><span>04 · Antes & Depois</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">04 / <b>11</b></div>
+  </div>
+
+  <div class="ps-half l">
+    <span class="stamp">Onde a maioria está</span>
+    <h3 class="h-display">Talvez <em>você se reconheça aqui.</em></h3>
+    <p class="body" style="opacity:.92">9 em cada 10 empresas que nos procuram chegam exatamente neste cenário. E a boa notícia: tem saída.</p>
+    <ul class="ps-list">
+      <li><span class="mk">01</span><span>Você tem <b>um bom produto e equipe pronta</b>, mas a agenda continua vazia</span></li>
+      <li><span class="mk">02</span><span>Depende de indicação e <b>posta nas redes sem ver resultado</b></span></li>
+      <li><span class="mk">03</span><span>Um mês fatura bem, no outro o caixa aperta. <b>Zero previsibilidade</b></span></li>
+      <li><span class="mk">04</span><span>Já investiu em marketing antes e <b>não conseguiu medir o retorno</b></span></li>
+    </ul>
+  </div>
+
+  <div class="ps-divider">vira</div>
+
+  <div class="ps-half r">
+    <span class="stamp">Para onde a TSA leva</span>
+    <h3 class="h-display">Em <em>30 dias</em>, a história muda.</h3>
+    <p class="body" style="opacity:1;color:var(--ink-soft)">Tráfego gerido com método, criativo afiado e operação que fala a linguagem do seu negócio. Olha só o que muda:</p>
+    <ul class="ps-list">
+      <li><span class="mk">→</span><span><b>Lead novo todo dia no WhatsApp</b>. Você acorda com a agenda preenchendo</span></li>
+      <li><span class="mk">→</span><span>Boca a boca vira o bônus, não a base. <b>O motor passa a ser tráfego pago</b></span></li>
+      <li><span class="mk">→</span><span>Relatório semanal claro: quanto investiu, quanto vendeu, <b>qual o lucro</b></span></li>
+      <li><span class="mk">→</span><span>Cada R$ 1 investido sabe <b>quanto deve voltar</b>. Chega de adivinhação</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — PORTFOLIO
+============================================================ -->
+<section data-screen-label="05 Portfólio">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>05 · Portfólio</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">05 / <b>11</b></div>
+  </div>
+
+  <div class="port">
+    <div class="hd">
+      <h2 class="h-display">Não é teoria. <em>É histórico.</em></h2>
+      <p class="lede">Quatro casos reais, com investimento real e retorno medido. Os mesmos métodos aplicados ao seu negócio a partir do <b style="color:var(--cream);font-weight:500">primeiro mês</b>.</p>
+    </div>
+
+    <div class="cases">
+      <div class="case">
+        <div class="ph">
+          <span class="num">/ 01</span>
+          <img src="/images/results/client1.png" alt="">
+          <span class="seg">Beleza · Alto Padrão</span>
+        </div>
+        <div class="body">
+          <h3>+5.500 leads com <em>R$ 35k</em> de mídia</h3>
+          <div class="stats">
+            <div class="st"><div class="v">5.500+</div><div class="l">Leads</div></div>
+            <div class="st"><div class="v">~R$ 6,00</div><div class="l">CPL médio</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="ph">
+          <span class="num">/ 02</span>
+          <img src="/images/results/client4.png" alt="">
+          <span class="seg">Estética · Saúde</span>
+        </div>
+        <div class="body">
+          <h3>+1.500 leads <em>locais</em>, qualificados</h3>
+          <div class="stats">
+            <div class="st"><div class="v">1.500+</div><div class="l">Leads</div></div>
+            <div class="st"><div class="v">R$ 10k</div><div class="l">Investimento</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="ph">
+          <span class="num">/ 03</span>
+          <img src="/images/results/client3.png" alt="">
+          <span class="seg">Moda · E-commerce</span>
+        </div>
+        <div class="body">
+          <h3>+2.000 leads e <em>ROI</em> escalável</h3>
+          <div class="stats">
+            <div class="st"><div class="v">2.000+</div><div class="l">Leads</div></div>
+            <div class="st"><div class="v">Meta+Google</div><div class="l">Mídia</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="ph">
+          <span class="num">/ 04</span>
+          <img src="/images/results/client2.png" alt="">
+          <span class="seg">Beleza · Especialização</span>
+        </div>
+        <div class="body">
+          <h3>400 leads + <em>400k</em> de alcance</h3>
+          <div class="stats">
+            <div class="st"><div class="v">400+</div><div class="l">Leads diretos</div></div>
+            <div class="st"><div class="v">400k+</div><div class="l">Alcance total</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — RESULTS
+============================================================ -->
+<section data-screen-label="06 Resultados">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>06 · Resultados</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">06 / <b>11</b></div>
+  </div>
+  <div class="gr">
+    <div class="hd">
+      <div>
+        <div class="stamp">Cinco anos. Centenas de campanhas.</div>
+        <h2 class="h-display">A soma de quem <em>já confiou na gente.</em></h2>
+      </div>
+      <p class="lede">Estes números não são só nossos. São <b style="color:var(--cream);font-weight:500">de cada cliente</b> que escolheu a TSA entre 2020 e 2025. Se conseguimos por eles, conseguimos pela sua empresa.</p>
+    </div>
+    <div class="gr-figs">
+      <div class="gr-fig a">
+        <div class="pre">i. Em vendas</div>
+        <div class="num">+R$<em>3M</em></div>
+        <div class="cap"><b>Gerados em vendas reais</b> para clientes. Não em "alcance" ou curtidas. Dinheiro entrando no caixa.</div>
+      </div>
+      <div class="gr-fig b">
+        <div class="pre">ii. Em alcance</div>
+        <div class="num">+<em>12M</em></div>
+        <div class="cap"><b>Em leads e tráfego qualificado</b> entregues. Pessoas certas, na hora certa, prontas para comprar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — TESTIMONIALS
+============================================================ -->
+<section data-screen-label="07 Depoimentos">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>07 · Depoimentos</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">07 / <b>11</b></div>
+  </div>
+  <div class="test">
+    <div class="hd">
+      <h2 class="h-display">Não acredite na gente. <em>Escuta quem sentou aqui antes.</em></h2>
+      <p class="lede">Clientes reais, faturamentos reais. <b style="color:var(--cream);font-weight:500">Você pode falar com eles</b> antes de fechar com a gente. É só pedir.</p>
+    </div>
+
+    <div class="t-grid">
+      <div class="t-card a">
+        <div class="stars">Cliente desde <b style="color:var(--cream);font-weight:500">2022</b><span style="margin-left:auto"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        <blockquote>"Depois que comecei com a TSA, meu faturamento <em>simplesmente virou outro.</em> Tudo otimizado. Finalmente senti que meu dinheiro tava trabalhando de verdade."</blockquote>
+        <div class="who">
+          <div class="ph"><img src="/images/testimonials/kaio.png" alt="Kaio Zaga"></div>
+          <div><div class="nm">Kaio Zaga</div><div class="res">+ R$ 1M em vendas</div></div>
+        </div>
+      </div>
+
+      <div class="t-card b">
+        <div class="stars">Cliente desde <b style="color:var(--cream);font-weight:500">2023</b><span style="margin-left:auto"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></div>
+        <blockquote>"Eu já tinha tentado anunciar antes, mas <em>nunca tive resultado de verdade.</em> Com a TSA foi diferente. Em menos de 1 mês, lead todo dia no WhatsApp."</blockquote>
+        <div class="who">
+          <div class="ph"><img src="/images/testimonials/leandro.png" alt="Leandro Favarete"></div>
+          <div><div class="nm">Leandro Favarete</div><div class="res">+ R$ 500k em vendas</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — SERVICES
+============================================================ -->
+<section data-screen-label="08 Serviços">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>08 · Serviços</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">08 / <b>11</b></div>
+  </div>
+  <div class="serv">
+    <div class="hd">
+      <h2 class="h-display">Tudo o que sua operação precisa <em>num só lugar.</em></h2>
+      <p class="lede">Quatro serviços que se complementam. Contrate um, dois, ou os quatro. Você decide até onde quer escalar.</p>
+    </div>
+
+    <div class="serv-grid">
+      <div class="serv-card a">
+        <div class="pre"><div class="n">i.</div><i class="fas fa-bullhorn"></i></div>
+        <h3>Tráfego pago</h3>
+        <p>Campanhas otimizadas que geram leads e vendas todos os dias com investimento mensurável.</p>
+        <ul>
+          <li>Google Ads (Search, Display, YouTube)</li>
+          <li>Meta Ads (Facebook & Instagram)</li>
+          <li>Estrutura de funil & segmentação</li>
+          <li>Otimização contínua</li>
+        </ul>
+      </div>
+
+      <div class="serv-card b">
+        <div class="pre"><div class="n">ii.</div><i class="fas fa-share-alt"></i></div>
+        <h3>Social media</h3>
+        <p>Gestão estratégica das redes para construir autoridade e amplificar a performance dos anúncios.</p>
+        <ul>
+          <li>Linha editorial mensal</li>
+          <li>Criação de posts & reels</li>
+          <li>Engajamento & comunidade</li>
+          <li>Integração com tráfego</li>
+        </ul>
+      </div>
+
+      <div class="serv-card a">
+        <div class="pre"><div class="n">iii.</div><i class="fas fa-laptop-code"></i></div>
+        <h3>Landing page</h3>
+        <p>Páginas de conversão que transformam o clique do anúncio em lead qualificado de verdade.</p>
+        <ul>
+          <li>Design responsivo, mobile-first</li>
+          <li>Otimização CRO & copy persuasiva</li>
+          <li>Integração WhatsApp & CRM</li>
+          <li>Pixel, eventos & tracking</li>
+        </ul>
+      </div>
+
+      <div class="serv-card b">
+        <div class="pre"><div class="n">iv.</div><i class="fas fa-code"></i></div>
+        <h3>Software sob medida</h3>
+        <p>Sistemas, ERPs, CRMs e automações desenvolvidos para destravar a operação do seu negócio.</p>
+        <ul>
+          <li>Sistemas web & dashboards</li>
+          <li>Integrações & APIs</li>
+          <li>Automações de processos</li>
+          <li>Manutenção contínua</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — METHODOLOGY
+============================================================ -->
+<section data-screen-label="09 Metodologia">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>09 · Metodologia</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">09 / <b>11</b></div>
+  </div>
+  <div class="meth">
+    <div class="hd">
+      <h2 class="h-display">Em <em>30 dias</em> seu primeiro lead no WhatsApp.</h2>
+      <p class="lede">Quatro etapas, sem mistério. Você sabe exatamente o que acontece em cada semana, e quando os resultados começam a aparecer.</p>
+    </div>
+
+    <div class="meth-track">
+      <div class="meth-grid">
+        <div class="meth-step">
+          <div class="marker"></div>
+          <div class="ph">Etapa <b>01</b> · Semana 1</div>
+          <h4>Diagnóstico</h4>
+          <p>Mergulhamos no seu negócio: público, ticket, concorrência e onde está travando. Antes do anúncio, vem a clareza.</p>
+        </div>
+        <div class="meth-step">
+          <div class="marker"></div>
+          <div class="ph">Etapa <b>02</b> · Semana 2</div>
+          <h4>Estratégia</h4>
+          <p>Plano de mídia, criativos, segmentações e funil sob medida. Desenhado para o seu cliente, não para o vizinho.</p>
+        </div>
+        <div class="meth-step">
+          <div class="marker"></div>
+          <div class="ph">Etapa <b>03</b> · Semana 3+</div>
+          <h4>Execução</h4>
+          <p>Campanhas no ar em Google, Meta e YouTube. Otimização diária para empurrar o custo por lead pra baixo.</p>
+        </div>
+        <div class="meth-step">
+          <div class="marker"></div>
+          <div class="ph">Etapa <b>04</b> · Mensal</div>
+          <h4>Escala</h4>
+          <p>O que funciona, a gente multiplica. Relatório claro toda semana. Você acompanha cada centavo virando venda.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — CONTACT
+============================================================ -->
+<section data-screen-label="10 Contato">
+  <div class="rail top">
+    <div class="slot"><span class="dot"></span><span>10 · Contato</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">10 / <b>11</b></div>
+  </div>
+
+  <div class="ct">
+    <div class="ct-l">
+      <div class="stamp">Diagnóstico gratuito · 20 min</div>
+      <h2 class="h-display">A primeira reunião <em>já vale o investimento.</em></h2>
+      <p class="lede">Em 20 minutos a gente identifica o que está travando seus resultados e te entrega um <b style="color:var(--cream);font-weight:500">plano de ação claro</b>. Você sai com clareza, com ou sem fechamento.</p>
+    </div>
+    <div class="ct-r">
+      <a class="channel" href="https://wa.me/5562982359902?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20da%20TSA%20e%20gostaria%20de%20conversar." target="_blank" rel="noopener">
+        <div class="ico"><i class="fab fa-whatsapp"></i></div>
+        <div><div class="lab">WhatsApp · Direto com nosso time</div><div class="val">(62) 98235-9902</div></div>
+        <i class="fas fa-arrow-right arrow"></i>
+      </a>
+      <a class="channel" href="mailto:contato@tsasolucoes.com">
+        <div class="ico"><i class="fas fa-envelope"></i></div>
+        <div><div class="lab">E-mail · Comercial</div><div class="val">contato@tsasolucoes.com</div></div>
+        <i class="fas fa-arrow-right arrow"></i>
+      </a>
+      <a class="channel" href="https://instagram.com/tsasolucoes" target="_blank" rel="noopener">
+        <div class="ico"><i class="fab fa-instagram"></i></div>
+        <div><div class="lab">Instagram · Bastidores & cases</div><div class="val">@tsasolucoes</div></div>
+        <i class="fas fa-arrow-right arrow"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — CLOSE
+============================================================ -->
+<section class="close" data-screen-label="11 Encerramento">
+  <div class="rail top" style="z-index:6">
+    <div class="slot"><span class="dot"></span><span>11 · Fim</span></div>
+    <div class="slot mark"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções</b></div>
+    <div class="slot pageno">11 / <b>11</b></div>
+  </div>
+  <div class="close-frame">
+    <div class="close-l">
+      <div class="stamp"><span class="dot"></span>FIM · MMXXVI</div>
+      <h1>O <em>próximo</em><br>case <em>pode ser</em><br>o seu.</h1>
+      <div class="footnote">
+        <div class="col">
+          <div class="lab">Atendendo</div>
+          <div class="val">Brasil <em>todo</em></div>
+        </div>
+        <div class="col">
+          <div class="lab">Operação</div>
+          <div class="val">Goiânia · <em>GO</em></div>
+        </div>
+        <div class="col">
+          <div class="lab">Desde</div>
+          <div class="val"><em>2020</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="close-r">
+      <div class="lockup"><span class="crest-mini" data-mini-crest></span><b>TSA Soluções<small>Performance · Tráfego · Software</small></b>
+      </div>
+      <p class="lede">Você chegou até aqui. Agora falta um clique. <em>Vamos transformar</em> seus próximos 30 dias.</p>
+      <a class="cta" href="https://wa.me/5562982359902?text=Ol%C3%A1!%20Vi%20a%20apresenta%C3%A7%C3%A3o%20da%20TSA%20e%20quero%20conversar." target="_blank" rel="noopener">
+        <i class="fab fa-whatsapp"></i> Falar no WhatsApp agora
+      </a>
+      <div class="meta-row">
+        <span>62 · <b>98235-9902</b></span>
+        <span>·</span>
+        <span>@<b>tsasolucoes</b></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</deck-stage>
+
+<!-- ============================================================
+     SUMÁRIO MODAL (overlay, triggered from cover)
+============================================================ -->
+<div class="sum-overlay" id="sumOverlay" role="dialog" aria-modal="true" aria-labelledby="sumTitle">
+  <div class="sum-modal">
+    <button class="sum-close" id="sumClose" aria-label="Fechar sumário">×</button>
+    <div class="sum-eyebrow">No sumário · 9 capítulos</div>
+    <h2 id="sumTitle">Como vamos <em>te mostrar</em></h2>
+    <p class="intro">Em 9 capítulos você vai entender exatamente como a TSA gera <b>leads e vendas todos os dias</b> para empresas como a sua, e como podemos fazer o mesmo pela sua.</p>
+    <div class="sum-list">
+      <div class="sum-row"><div class="num">/ 02</div><div class="title">Sobre nós</div><div class="desc">Quem somos e como atuamos desde 2020</div></div>
+      <div class="sum-row"><div class="num">/ 03</div><div class="title">Missão, visão & valores</div><div class="desc">A essência por trás do trabalho</div></div>
+      <div class="sum-row"><div class="num">/ 04</div><div class="title">Problema → Solução</div><div class="desc">Por que empresas nos procuram</div></div>
+      <div class="sum-row"><div class="num">/ 05</div><div class="title">Portfólio</div><div class="desc">Quatro cases de clientes reais</div></div>
+      <div class="sum-row"><div class="num">/ 06</div><div class="title">Resultados agregados</div><div class="desc">Cinco anos somados em números</div></div>
+      <div class="sum-row"><div class="num">/ 07</div><div class="title">Depoimentos</div><div class="desc">A confiança de quem vê resultado</div></div>
+      <div class="sum-row"><div class="num">/ 08</div><div class="title">Serviços</div><div class="desc">Quatro frentes de atuação</div></div>
+      <div class="sum-row"><div class="num">/ 09</div><div class="title">Metodologia</div><div class="desc">Do briefing à escala em quatro etapas</div></div>
+      <div class="sum-row"><div class="num">/ 10</div><div class="title">Contato</div><div class="desc">Por onde falar com a gente</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="/demo-deck-stage.js"></script>
+<script>
+(function(){
+  var inner=document.getElementById('crestInner');
+  var holder=document.getElementById('crest3d');
+  if(!inner||!holder) return;
+  // Dense volumetric stack — many tightly-packed layers w/ depth shading
+  var LAYERS=60, STEP=0.85;
+  var html='';
+  for(var i=0;i<LAYERS;i++){
+    var t=i/(LAYERS-1);
+    var z=(i-(LAYERS-1)/2)*STEP;
+    // back layers darker/desaturated, front layers bright; subtle accent rim near front
+    var bright=0.45 + t*0.75;
+    var rim='';
+    if(i>=LAYERS-3) rim=' drop-shadow(0 0 18px rgba(var(--accent-rgb),.55)) drop-shadow(0 0 36px rgba(var(--accent-rgb),.25))';
+    else if(i>=LAYERS-6) rim=' drop-shadow(0 0 8px rgba(var(--accent-rgb),.3))';
+    var s='filter:brightness('+bright.toFixed(3)+')'+rim+';';
+    html+='<div class="layer l'+i+'" style="transform:translateZ('+z.toFixed(2)+'px)"><img src="/images/logo-2.0/brasao-branco.png" alt="" draggable="false" style="'+s+'"></div>';
+  }
+  inner.innerHTML=html;
+
+  var dragging=false, startX=0, startY=0, baseRY=0, baseRX=8, curRY=0, curRX=8;
+  function setRot(rx,ry){ inner.style.transform='rotateY('+ry+'deg) rotateX('+rx+'deg)'; }
+  function down(e){
+    dragging=true;
+    inner.classList.remove('spinning');
+    inner.classList.add('dragging');
+    var p=e.touches?e.touches[0]:e;
+    startX=p.clientX; startY=p.clientY;
+    // capture current rotation from running animation
+    var m=getComputedStyle(inner).transform;
+    if(m && m!=='none'){
+      var v=m.match(/matrix3d\(([^)]+)\)/);
+      if(v){
+        var a=v[1].split(',').map(parseFloat);
+        // approx extract Y rotation
+        baseRY=Math.atan2(-a[2],a[0])*180/Math.PI;
+      }
+    }
+    baseRX=curRX;
+    setRot(baseRX, baseRY);
+    e.preventDefault();
+  }
+  function move(e){
+    if(!dragging) return;
+    var p=e.touches?e.touches[0]:e;
+    var dx=p.clientX-startX, dy=p.clientY-startY;
+    curRY=baseRY+dx*0.6;
+    curRX=Math.max(-45, Math.min(60, baseRX-dy*0.5));
+    setRot(curRX,curRY);
+    e.preventDefault();
+  }
+  function up(){
+    if(!dragging) return;
+    dragging=false;
+    inner.classList.remove('dragging');
+    // smooth return to default, then resume spin from 0
+    setRot(8, 0);
+    setTimeout(function(){
+      inner.style.transform='';
+      inner.classList.add('spinning');
+      curRX=8; curRY=0;
+    }, 950);
+  }
+  holder.addEventListener('mousedown',down);
+  window.addEventListener('mousemove',move);
+  window.addEventListener('mouseup',up);
+  holder.addEventListener('touchstart',down,{passive:false});
+  window.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('touchend',up);
+  window.addEventListener('touchcancel',up);
+
+  // === Orbital moons drag ===
+  document.querySelectorAll('.moon').forEach(function(moon){
+    var orbit=moon.parentElement;
+    var dragMoon=false, mStartX=0, mStartY=0, mBaseAngle=0, mCurAngle=0, returnTimer=null;
+    function getOrbitAngle(){
+      var t=getComputedStyle(orbit).transform;
+      if(t==='none') return 0;
+      var v=t.match(/matrix\(([^)]+)\)/);
+      if(!v) return 0;
+      var a=v[1].split(',').map(parseFloat);
+      return Math.atan2(a[1],a[0])*180/Math.PI;
+    }
+    function setManual(angle){
+      orbit.classList.add('paused');
+      orbit.style.transform='translate(-50%,-50%) rotate('+angle+'deg)';
+    }
+    function mDown(e){
+      e.stopPropagation();
+      dragMoon=true;
+      moon.classList.add('dragging');
+      if(returnTimer){clearTimeout(returnTimer);returnTimer=null;}
+      mBaseAngle=getOrbitAngle();
+      setManual(mBaseAngle);
+      var p=e.touches?e.touches[0]:e;
+      mStartX=p.clientX; mStartY=p.clientY;
+      var r=orbit.getBoundingClientRect();
+      mCx=r.left+r.width/2; mCy=r.top+r.height/2;
+      mStartAngle=Math.atan2(mStartY-mCy, mStartX-mCx)*180/Math.PI;
+      e.preventDefault();
+    }
+    var mCx,mCy,mStartAngle;
+    function mMove(e){
+      if(!dragMoon) return;
+      var p=e.touches?e.touches[0]:e;
+      var ang=Math.atan2(p.clientY-mCy, p.clientX-mCx)*180/Math.PI;
+      var delta=ang-mStartAngle;
+      mCurAngle=mBaseAngle+delta;
+      setManual(mCurAngle);
+      e.preventDefault();
+    }
+    function mUp(){
+      if(!dragMoon) return;
+      dragMoon=false;
+      moon.classList.remove('dragging');
+      orbit.style.transition='transform 1.2s cubic-bezier(.22,1,.36,1)';
+      returnTimer=setTimeout(function(){
+        orbit.style.transition='';
+        orbit.style.transform='';
+        orbit.classList.remove('paused');
+        returnTimer=null;
+      },1250);
+    }
+    moon.addEventListener('mousedown',mDown);
+    moon.addEventListener('touchstart',mDown,{passive:false});
+    window.addEventListener('mousemove',mMove);
+    window.addEventListener('mouseup',mUp);
+    window.addEventListener('touchmove',mMove,{passive:false});
+    window.addEventListener('touchend',mUp);
+    window.addEventListener('touchcancel',mUp);
+  });
+})();
+
+/* === Palette picker === */
+(function(){
+  var picker=document.getElementById('palettePicker');
+  if(!picker) return;
+  var swatches=picker.querySelectorAll('.swatch');
+  var root=document.documentElement;
+  swatches.forEach(function(sw){
+    sw.addEventListener('click',function(){
+      swatches.forEach(function(s){s.classList.remove('active');});
+      sw.classList.add('active');
+      var accent=sw.getAttribute('data-accent');
+      var accentDeep=sw.getAttribute('data-accent-deep');
+      var accentRgb=sw.getAttribute('data-accent-rgb');
+      root.style.setProperty('--accent',accent);
+      root.style.setProperty('--accent-deep',accentDeep);
+      root.style.setProperty('--accent-rgb',accentRgb);
+    });
+  });
+})();
+
+/* === TSA acronym typewriter (loops EN ↔ PT) === */
+(function(){
+  var el=document.getElementById('tsaText');
+  if(!el) return;
+  var phrases=[
+    'Tech, Strategy & Acceleration',
+    'Tecnologia, Estratégia & Aceleração'
+  ];
+  var idx=0, sub=0, deleting=false;
+  var TYPE_MS=55, DEL_MS=28, HOLD_MS=1800, EMPTY_MS=400;
+
+  function tick(){
+    var full=phrases[idx];
+    if(!deleting){
+      sub++;
+      el.textContent=full.slice(0,sub);
+      if(sub===full.length){
+        deleting=true;
+        return setTimeout(tick, HOLD_MS);
+      }
+      return setTimeout(tick, TYPE_MS + Math.random()*40);
+    } else {
+      sub--;
+      el.textContent=full.slice(0,sub);
+      if(sub===0){
+        deleting=false;
+        idx=(idx+1)%phrases.length;
+        return setTimeout(tick, EMPTY_MS);
+      }
+      return setTimeout(tick, DEL_MS);
+    }
+  }
+  tick();
+})();
+
+/* === Sumário modal === */
+(function(){
+  var trigger=document.getElementById('sumTrigger');
+  var overlay=document.getElementById('sumOverlay');
+  var closeBtn=document.getElementById('sumClose');
+  if(!trigger||!overlay) return;
+  function open(e){
+    if(e){e.preventDefault();e.stopPropagation();}
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function close(){
+    overlay.classList.remove('open');
+    document.body.style.overflow='';
+  }
+  trigger.addEventListener('click',open);
+  closeBtn&&closeBtn.addEventListener('click',close);
+  overlay.addEventListener('click',function(e){if(e.target===overlay) close();});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&overlay.classList.contains('open')) close();
+  });
+  // Clicking a row also closes — visually links to "going to that section"
+  overlay.querySelectorAll('.sum-row').forEach(function(row){
+    row.addEventListener('click',close);
+  });
+})();
+
+/* === Mini 3D crests (non-interactive, slow spin) === */
+(function(){
+  var minis=document.querySelectorAll('[data-mini-crest]');
+  if(!minis.length) return;
+  // Flat 2D crest — single layer, just spinning
+  var SRC_DARK='/images/logo-2.0/simbolo-branco.png';
+  var SRC_LIGHT='/images/logo-2.0/simbolo-preto.png';
+  var html='<div class="layer">'+
+    '<img class="dark-bg" src="'+SRC_DARK+'" alt="" draggable="false">'+
+    '<img class="light-bg" src="'+SRC_LIGHT+'" alt="" draggable="false">'+
+    '</div>';
+  minis.forEach(function(m,idx){
+    var inner=document.createElement('div');
+    inner.className='crest-mini-inner';
+    inner.innerHTML=html;
+    inner.style.animationDelay=(-(idx%5)*1.9)+'s';
+    m.appendChild(inner);
+  });
+})();
+</script>
+</body>
+</html>
