@@ -835,7 +835,12 @@ section.cream .crest-mini-inner .layer img.light-bg,
     height:auto;min-height:46vh;
     padding:30px 14px;
     border-top:1px solid var(--rule-strong);
+    -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, #000 55%, transparent 100%);
+            mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, #000 55%, transparent 100%);
   }
+  /* Hide grid pattern background on mobile — combined with the cropped
+     drop-shadow it was producing a square halo around the crest. */
+  body.is-mobile .cover-r::before{display:none}
   body.is-mobile .cover-r .crest{width:55%}
   body.is-mobile .cover-r .ring,
   body.is-mobile .cover-r .arc-num,
